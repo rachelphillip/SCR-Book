@@ -1,0 +1,92 @@
+\chapter{Example chapter}
+\label{chap:example}
+
+\abstract{This is an example abstract for the example chapter. It is
+  modified from the \texttt{chapter.Rnw} template in the Springer
+  style files directory.}
+
+\section{Including chapters in the book}
+\label{sec:example-intro}
+
+To include a chapter, add 
+\texttt{\textbackslash Sexpr\{knit\_child('chapters\slash file.Rnw')\}}
+to the main
+\texttt{scr-book.Rnw} source file.
+
+\section{Code to fit models}
+\label{sec:example-code}
+
+We wish to include figures and tables based on a fitted model. The
+code should be saved in \texttt{analysis\slash code\slash }, and the final line
+should save a \texttt{.RData} file to \texttt{analysis\slash objects}. It
+may load data from \texttt{analysis\slash data}. See
+\texttt{analysis\slash code\slash example.R} for a simple example. It loads in
+data, fits a model, and saves the results to file
+\texttt{analysis\slash objects\slash example.RData}. 
+
+Add any new packages to the package list in
+\texttt{analysis\slash code\slash packages.R} if they are not already there. Also,
+for each code file, add test(s) to \texttt{analysis\slash code\slash tests.R} (see
+this file for examples).
+
+\section{Using fitted model objects}
+\label{sec:example-fitted}
+
+To display code in the book without running it, we can set
+\texttt{eval = FALSE} argument in the \texttt{knitr} chunk. For
+example, the command to fit the example model is
+<<example-fit, eval = FALSE>>=
+example.fit <- secr.fit(detections, buffer = 100)
+@ 
+
+You can set \texttt{include = FALSE} and \texttt{echo = FALSE} to do
+things in R behind the scenes without printing or plotting
+anything. For example, we can load the object containing model results
+in its own chunk. The code below will only show up in the source
+document. Make sure you load object with a path specification relative
+to the \texttt{chapters/} directory in the book's repository. The two
+dots (\texttt{..}) mean to go up one level in the directory structure
+(in this case, to the main directory of the book's repository).
+<<example-load, include = FALSE, echo = FALSE>>=
+load("../analysis/objects/example.RData")
+@ 
+
+Now that we have loaded in the model object, we will plot the
+detection function without showing the code we used to make the plot.
+<<example-detfn, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textheight, out.width = add.in(textwidth), out.height = add.in(0.4*textheight), fig.pos = "tb", fig.cap = "The detection function estimated from the example data.">>=
+par(mar =  c(4.1, 4.1, 0.1, 0.1))
+plot(example.fit, xval = seq(0, 100, length.out = 500))
+@ 
+
+If we write code and leave \texttt{include} at its default
+\texttt{TRUE} value, any output will be shown in the book. For
+example, we can see the model's estimated parameters as follows:
+<<example-output>>=
+predict(example.fit)
+@ 
+
+At the moment this is ugly because the output goes into the
+margins. We'll have to figure out what do do about this sort of thing
+at some stage.
+
+Remember we can print values from R code in-text using
+\texttt{\textbackslash Sexpr\{\}}. For example, the estimated animal
+density from the above model is \Sexpr{round(predict(example.fit)[1,
+  2], 2)} animals per hectare. The associated confidence interval is
+(\Sexpr{paste(format(round(predict(example.fit)[1, 4:5], 2), nsmall =
+  2), collapse = ", ")}).
+
+\section{Including figures not generated from code}
+\label{sec:example-figures}
+
+We can use standard \LaTeX\ commands to include figures that are not
+produced by R code. Make sure that any figures are kept in
+\texttt{keepfigure/}; those in \texttt{figure/} are for files
+generated automatically with \texttt{knitr}. In this chapter I have
+used an example that displays a picture of a frog.
+
+\begin{figure}[t]
+\includegraphics[width=\textwidth]{keepfigure/frog}
+\caption{A frog.}
+\label{fig:example-frog}
+\end{figure}
