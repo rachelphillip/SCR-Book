@@ -3,4 +3,5 @@
 *.log
 *.gz
 *.out
+*.toc
 figure/
