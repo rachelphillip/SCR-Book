@@ -2,8 +2,8 @@
 
 <<knitr-setup, include = FALSE>>=
 ## Text width and height.
-textwidth <- 6.90134
-textheight <- 10.12009
+textwidth <- 6.50127
+textheight <- 9.72632
 ## Size of font in plots.
 pointsize <- 10
 add.in <- function(x){
@@ -25,6 +25,10 @@ opts_chunk$set(dev = "pdf", fig.align = "center", comment = "#",
 \begin{document}
 
 \maketitle
+
+%% Printing width and height of text. Should match vaules in knitr-setup.
+%%\printinunitsof{in}\prntlen{\textwidth}
+%%\printinunitsof{in}\prntlen{\textheight}
 
 \section{Overview}
 \label{sec:overview}
