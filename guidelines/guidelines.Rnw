@@ -449,4 +449,12 @@ Quick notes to be expanded upon:
   fixed vs random in the same way).
 \end{enumerate}
 
+\section{A simple example}
+\label{sec:example}
+
+Ben has put together a simple example of how to include a chapter that
+makes a plot from a model fitted to an example data set in
+\texttt{analysis/data/} with code in \texttt{analysis/code/}. See the
+file \texttt{chapters/example.Rnw}.
+
 \end{document}
