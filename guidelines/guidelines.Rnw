@@ -424,6 +424,10 @@ Quick notes to be expanded upon:
     near as comprehensive as the book), which sketches a few style
     recommendations that seem to roughly follow Eric's notes.
   \end{itemize}
+\item There are some writing style guidelines in
+  \texttt{SpringerStyleFiles/}; see the \texttt{instruct.pdf}
+  document, along with other PDFs and templates (e.g.,
+  \texttt{chapter.Rnw} in the \texttt{templates} directory).
 \end{enumerate}
 
 \section{Notation}
