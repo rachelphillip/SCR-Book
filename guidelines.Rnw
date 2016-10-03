@@ -47,9 +47,13 @@ The source file for this document (\texttt{guidelines.Rnw}) uses many
 of these tools. It is worth comparing to the compiled PDF
 (\texttt{guidelines.pdf}) to understand what some of the code is
 doing. Feel free to make minor modifications and see what effects
-these have upon recompiling the document. Compiling a document under
-this framework is straightforward in RStudio: simply open the
-\texttt{.Rnw} file and click ``Compile PDF''.
+these have upon recompiling the document. 
+
+Compiling a document under this framework is straightforward in
+RStudio: first, ensure \texttt{knitr} is set to weave \texttt{.Rnw}
+files (Click \texttt{Tools} $>$ \texttt{Sweave} $>$ \texttt{Weave Rnw
+  files using: knitr}), then simply open the \texttt{.Rnw} file and click
+``Compile PDF''.
 
 This document also provides various guidelines to aid consistency
 throughout the book, for example, by setting out some rules for
