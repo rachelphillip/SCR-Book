@@ -1,6 +1,5 @@
 #!/bin/bash
-DATE=`date +%Y-%m-%d`
-OUTFILE="/home/ben/GitHub/SCR-Book/analysis/test-results/out-$DATE.log"
+echo -e "$(date)\n"
 echo -e "Deleting .RData objects..."
 cd /home/ben/GitHub/SCR-Book/analysis/objects
 rm -rfv *
