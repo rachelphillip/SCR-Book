@@ -1,4 +1,6 @@
+*.aux
 *.tex
 *.log
 *.gz
+*.out
 figure/
