@@ -3,9 +3,9 @@
 ## Loading all packages (and install any that are not yet installed).
 source("packages.R")
 
-## Tests for example model fit.
-context("Chapter: Example")
-test_that("Testing example model fit",
+## Tests for example chapter.
+context("Example")
+test_that("Example chapter tests",
 {
     ## Load example fit.
     load("../objects/example.RData")
@@ -15,5 +15,13 @@ test_that("Testing example model fit",
     estimates <- predict(example.fit)[, 2]
     ## We expect them to be equal (testing "equality" with a some tolerance for numerical error).
     expect_equal(estimates, expected = true.estimates, tolerance = 0.0001)
+    ## We expect model fit to be an S3 class.
+    expect_s3_class(example.fit, "secr")
 })
 
+## Tests for detector types chapter.
+context("Detector types")
+test_that("Detector types chapter test",
+{
+    ## Tests in here.
+})
