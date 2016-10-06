@@ -72,7 +72,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\printinunitsof{in}\prntlen{\textheight}
 
 \author{David Borchers, Eric Rexstad, Ben Stevenson, Eric Howe and Greg Distiller}
-\title{Spatial Capture-Recapture Concepts and Methods, with R}
+\title{Spatial Capture-Recapture by Maximum Likelihood, with R}
 %\subtitle{-- Monograph --}
 \maketitle
 
