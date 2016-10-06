@@ -1,10 +1,10 @@
 \chapter{Spatial encounter rates and detection probabilities}
 \label{chap:ER+detfun}
 
-\abstract{This chapter concerns models for spatial encounter rates and detection probabilities, and how they are related. It includes details of how encounter rates and detection probabilities can be made to depend on individual-level variables, detector-specific variables, survey- or occasion-specific variables, survey effort, and habitat or environmental variables. A key concept for all of these is the expected encounter rate.}
+\abstract{This chapter concerns models for spatial encounter rates and detection probabilities, and how they are related. It includes details of how encounter rates and detection probabilities can be made to depend on survey effort, individual-level variables, detector-specific variables, occasion-specific variables, and habitat or environmental variables. A key concept for all of these is the expected encounter rate.}
 
 \section{A simple spatial encounter rate model}
-\label{sec:simple.ER.model}
+\label{sec:ER+detfun.simple.ER.model}
 
 If an individual's activity centre is far from you, you are less likely to encounter it than if it is near you. This simple fact is central to all SCR models and incorporating it into capture-recapture models is what turns them from non-spatial into \textit{spatial} capture-recapture models. In this chapter we explain how this is done. 
 
@@ -22,14 +22,14 @@ We will deal with each of these sources of difference in expected encounter rate
 
 Firstly, and importantly, by ``encounter'' we mean an interaction between individual and detector that results in a detection. So if an individual walks in front of a camera trap but is not photographed, no encounter occurred. Or if an individual makes a noise that is not detected by a microphone on an acoustic survey, no encounter occurred. 
 
-Figures~\ref{fig:detfuns_habitat} and \ref{fig:detfuns_habitat_encrate} illustrate schematically how expected encounter rate varies in space. Figure~\ref{fig:detfuns_habitat} shows the location of five camera traps at various distances from an individual's activity centre. The shading shows some spatial variable (a habitat variable, for example) that affects encounter rate, with lower values being associated with higher encounter rates. Figures~\ref{fig:detfuns_habitat_encrate} is a map of hypothetical encounter rate at all points in space for this individual. This rate is a combination of the individual's habitat usage (it tends to use habitat with low values of the spatial variable more than those with higher values) and distance from its activity centre (the farther a point is, the less it is used). For simplicity, we assume in this figure that all detectors are equally effective.
+Figures~\ref{fig:ER+detfun_habitat} and \ref{fig:ER+detfun_habitat_encrate} illustrate schematically how expected encounter rate varies in space. Figure~\ref{fig:ER+detfun_habitat} shows the location of five camera traps at various distances from an individual's activity centre. The shading shows some spatial variable (a habitat variable, for example) that affects encounter rate, with lower values being associated with higher encounter rates. Figure~\ref{fig:ER+detfun_habitat_encrate} is a map of hypothetical encounter rate at all points in space for this individual. This rate is a combination of the individual's habitat usage (it tends to use habitat with low values of the spatial variable more than those with higher values) and distance from its activity centre (the farther a point is, the less it is used). For simplicity, we assume in this figure that all detectors are equally effective.
 
 \begin{figure}[ht]
 \caption{\small Five detectors placed at various distances from an animal's activity centre. The shading represents habitat type.}
 \centering
 \vspace{-24pt}
 \includegraphics[width=12cm]{keepfigure/habitat.pdf}
-\label{fig:detfuns_habitat}
+\label{fig:ER+detfun_habitat}
 \end{figure}
 
 \begin{figure}[ht]
@@ -37,15 +37,15 @@ Figures~\ref{fig:detfuns_habitat} and \ref{fig:detfuns_habitat_encrate} illustra
 \centering
 \vspace{-24pt}
 \includegraphics[width=12cm]{keepfigure/usage.pdf}
-\label{fig:detfuns_habitat_encrate}
+\label{fig:ER+detfun_habitat_encrate}
 \end{figure}
 
-We don't get to see maps like that in Figure~\ref{fig:detfuns_habitat_encrate} on a survey, all we see are the detections at each detector, and from these we try to reconstruct something like the map, in addition to estimating animal density. We are going to focus on estimation the expected number of encounters as a function of distance from activity centre and leave density estimation aside until Section~\ref{sec:detfuns_integrating}. And to keep things simple, we're initially going to consider expected encounter rate as a function of distance only, and to work in one distance dimension rather than two. 
+We don't get to see maps like that in Figure~\ref{fig:ER+detfun_habitat_encrate} on a survey, all we see are the detections at each detector, and from these we try to reconstruct something like the map, in addition to estimating animal density. In this chapter we focus on estimation the expected number of encounters as a function of distance from activity centre and leave density estimation aside until Chapter~\ref{sec:ch_spdetfn_integrating}. And to keep things simple, we're initially going to (a) ignore habitat and consider expected encounter rate as a function of distance only, and (b) work in one distance dimension rather than two. 
 
-\subsection{Encounter rates in one dimension}
-\label{subsec:1DER}
+\subsection{Spatial capture histories and encounter functions}
+\label{subsec:ER+detfun.spatialCH}
 
-In one dimension, detectors are located at points along a line rather than points in space. Figure~\ref{fig:detfuns_enc} shows the five detectors of Figure~\ref{fig:detfuns_habitat_encrate} in one dimension, together with the number of times individual $i$ was detected at each detector. Data like this (albeit in two dimensions, not one) is all you get from each individual on a camera trap survey.
+In one dimension, detectors are located at points along a line rather than points on a plane. Figure~\ref{fig:ER+detfun_enc} shows the five detectors of Figure~\ref{fig:ER+detfun_habitat_encrate} in one dimension, together with the number of times individual $i$ was detected at each detector. These data comprise a spatial capture history for individual $i$, which we can write as $\bm{\omega}_i=(n_{i1},n_{i2},n_{i3},n_{i4},n_{i5})=(11,5,2,1,0)$. Spatial capture histories like this (albeit with locations in two dimensions, not one) are all you get from a camera trap survey. Everything we estimate is based on these spatial capture histories.
 
 
 \begin{figure}[ht]
@@ -53,33 +53,144 @@ In one dimension, detectors are located at points along a line rather than point
 \centering
 \vspace{-24pt}
 \includegraphics[width=10cm]{keepfigure/ObsN.pdf}
-\label{fig:detfuns_enc}
+\label{fig:ER+detfun_enc}
 \end{figure}
 
-Although it is nothing like a map of expected encounters, Figure~\ref{fig:detfuns_enc} actually tells us quite a bit about the expected number of encounters of this individual at any point along the line. Firstly, it tells us something about the location of the individual's activity centre: this is likely nearer detectors 1 and 2 than detector 3 (because there were more encounters with 1 and 2 than with 3). So the activity centre is likely between detectors 1 and 3, and closer to 1 than to 3. Secondly, it suggests that the individual does not range as far as the distance from detector 1 to detector 5 (because we estimate that it is close to 1 and it had no encounters with detector 5). 
+Although it is nothing like a map of expected encounters, Figure~\ref{fig:ER+detfun_enc} actually tells us quite a bit about the expected number of encounters of this individual at any point along the line. Firstly, it tells us something about the location of the individual's activity centre: this is likely nearer detectors 1 and 2 than detector 3, because there were more encounters with 1 and 2 than with 3. So the activity centre is likely between detectors 1 and 3, and closer to 1 than to 3. Secondly, it suggests that the individual does not range as far as the distance from detector 1 to detector 5 (because we estimate that it is close to 1 and it had no encounters with detector 5). 
 
-We can formalise these observations by fitting an encounter rate function to the data of Figure~\ref{fig:detfuns_enc}. To do this, lets assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre $\bm{s}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{x}$ that is a distance $d=||\bm{x}-\bm{s}_i||$ from $\bm{s}_i$ is
+We can formalise these observations by fitting an encounter rate function to the spatial capture history data shown in Figure~\ref{fig:ER+detfun_enc}. To do this, lets assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre at $\bm{x}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{s}$ that is a distance $d=||\bm{s}-\bm{x}_i||$ from $\bm{x}_i$ is
 
 \begin{eqnarray}
 \lambda(d)&=&\lambda_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}.
+\label{eq:ER+detfun.lambda.hn}
 \end{eqnarray}
 
-We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:detfuns_enc}. But to do this we need to take account of the survey duration since $\lambda(d)$ is a \textit{rate} per unit time, and the longer the survey, the higher the number of encounters will be. This is very easily done, since the expected number of encounters is proportional to the time spent surveying and hence the expected \textit{number} of encounters on a survey of duration $T$ is just $\lambda(d)T$. This is shown in Figure~\ref{fig:detfuns_ENwithdists}.
+We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:ER+detfun_enc}. However, we need to take account of the survey duration to do this since the longer the survey, the higher the number of encounters will be. (Recall that $\lambda(d)$ is an encounter \textit{rate}, i.e. number of encounters \textit{per unit time}.) This is very easily done, since the expected number of encounters is proportional to the time spent surveying: if you survey for twice as long, you expect twice as many encounters. So the expected \textit{number} of encounters on a survey of duration $T$ time units is just $\lambda(d)T$. This is shown in Figure~\ref{fig:ER+detfun_ENwithdists}.
 
 \begin{figure}[ht]
 \caption{\small The encounter rate function $\lambda(d)$ scaled by survey duration $T$ and centred at $\bm{x}_i$. Distances from $\bm{x}_i$ to each camera trap are shown below the curve and the expected number of encounters at each camera trap ($\lambda(d_{ij})T$ to camera trap $j=1,\ldots,5$) is marked on the curve.}
 \centering
 \vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/ENwithdists.pdf}
-\label{fig:detfuns_ENwithdists}
+\includegraphics[width=11cm]{keepfigure/ENwithdists.pdf}
+\label{fig:ER+detfun_ENwithdists}
 \end{figure}
 
-If we fit this function to the observed numbers of encounters shown in Figure~\ref{fig:detfuns_enc}, we get Figure~\ref{fig:detfuns_ENwithdists}.  
+If we fit this function to the observed numbers of encounters shown in Figure~\ref{fig:ER+detfun_enc}, we get Figure~\ref{fig:ER+detfun_ENwithdists}. In summayr, given the locations of detectors and an expected encounter rate model with unknown intercept and range, we can use spatial capture histories to estimate the expected number of encounters of individuals at any distance from their activity centres. This also allows us to estimate the probability of detecting an individual at all, since the probability of detection is just the probability of getting more than zero encounters -- see Section~\ref{sec:ER+detfun.binary}
 
 \begin{figure}[ht]
-\caption{\small The encounter rate function $\lambda(d)$ fitted to the data in Figure~\ref{fig:detfuns_enc}. The black dot is the estimated activity centre location.}
+\caption{\small The time-scaled encounter rate function $\lambda(d)T$ fitted to the data in Figure~\ref{fig:ER+detfun_enc}. The black dot is the estimated activity centre location.}
 \centering
 \vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/EandN.pdf}
-\label{fig:detfuns_EandN}
+\includegraphics[width=11cm]{keepfigure/EandN.pdf}
+\label{fig:ER+detfun_EandN}
 \end{figure}
+
+\afterpage{\clearpage}
+
+We use exactly the same methods to estimate encounter rate functions in two dimensions. In fact, since the distance measure used in the one-dimensional example above was the two-dimensional distance from the activity centre to the detectors, this example was actually two-dimensional - its just that we plotted the encounter function in the distance dimension rather than on the plane.
+
+\subsection{The capture history likelihood component}
+\label{subsec:ER+detfun.ERlikelihood}
+
+The encounter rate model $\lambda(d)$ on its own is not actually enough to fit it to the observed capture history. An appropirate model also needs to explain why the observed number of encounters differs from the expected number. So the model needs a random comonent. 
+
+Now whenever events occur independently at some fixed average rate ($\lambda(d)$ in our case), the number of events (encounters in our case) occurring over a time period $T$ has a Poisson distribution with parameter $\lambda(d)T$. So our model for the observed number of encounters (under the assumption that encounters are independent events) is if individual $i$'s activity centre is a distance $d_{ij}$ from detector $j$ then $n_{ij}$, the number of encounters of individual $i$ with detector $j$ in a time period $T$, is a Poisson random variable with parameter $\lambda(d_{ij})T$. We write this as
+\be
+[n_{ij}]&\sim&\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+\ee
+
+Assuming that detections occur independently at each of $J$ detectors (as might be reasonable for camera trap surveys, or acoustic surveys), the capture history for individual $i$ is distributed as the product of independent Poisson random variables:
+\be
+[\bm{\omega}_i]&\sim&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+\ee
+
+And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is also distributed as the product of independent Poisson random variables:
+\be
+[\bm{\Omega}_n]&\sim&\prod_{i=1}^n\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+\ee
+This is the probability of observting capture histories $\bm{\omega}_1,\ldots,\bm{\omega}_n$ for individuals $i=1,\ldots,n$, given that the $i$th individual's activity centre is at distances $d_{i1},\ldots,d_{iJ}$ from detectors $j=1,\ldots,J$. It is a central part of the associated SCR likelihood and for future reference we write it as $\mathbb{P}(\bm{\Omega}_n)$, as shown in Eqn~\eqref{eq:P.Omega.count}. 
+\begin{svgraybox}
+\bf{The capture history likelihood component: count data}
+\be
+\mathbb{P}(\bm{\Omega}_n)&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right)
+\label{eq:ER+detfun.P.Omega.count}
+\ee
+\end{svgraybox}
+
+
+\section{A simple spatial binary detection model}
+\label{sec:ER+detfun.simple.det.model}
+
+In the above example, which is appropriate for detectors like camera traps or acoustic arrays, the capture history consisted of the number of encounters at each detector. But not all kinds of detectors generate this kind of capture history. Suppose that you did a survey with hair snares rather than camera traps or microphones.
+
+With hair snares you can't tell how often individuals encountered detectors, only whether or not they did encounter them (whether or not there is at least one identifiable hair in the snare). In this case, using 1 to denote encounter and 0 to denote no encounter, the capture history from the example above would be $(1,1,1,1,0)$ instead of $(11,5,2,1,0)$. Nevertheless, the Poisson encounter rate model is still applicable, because the probability that individual $i$ encountered detector $j$ is just the probability that $n_{ij}$ is greater than zero, i.e.
+\be
+\mathbb{P}(n_{ij}>0)&=&1-\mathbb{P}(n_{ij}=0)
+\;=\;1-e^{-\lambda(d_{ij})T}. 
+\ee
+We can write the probability that individual $i$ is detected by (i.e. encounters) detector $j$ as 
+\be
+p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T}. 
+\label{eq:ER+detfun.binaryp}
+\ee
+Notice that this probability depends on the survey duration, $T$. If the same detector is used for different periods of time on two occasions, it will have diffent detection probabilities on the two occasions, and if identical detectors are used for different periods of time on the same occasion, they will have diffent detection probabilities. It is important to take account of this when doing SCR inference.
+
+The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambda(d_{ij})$ shown in Figure~\ref{fig:ER+detfun_EandN} is shown in Figure~\ref{fig:ER+detfun_binp}. Notice that while the encounter rate model was specified to have a normal shape (see Eqn~\eqref{eq:ER+detfun.lambda.hn} and Figure~\ref{fig:ER+detfun_EandN}), this leads to a detection function $p(d_{ij},T)$ that does not have a normal shape (see Eqn~\eqref{eq:ER+detfun.binaryp} and Figure~\ref{fig:ER+detfun_binp}). Conversely, if we specify that the detection function $p(d_{ij},T)$ has a normal shape, then the corresponding encounter rate function would not have a normal shape.
+
+\begin{figure}[ht]
+\caption{\small The detection probability function (black curve) corresponding to the encounter function shown in Figure~\ref{fig:ER+detfun_EandN}, with binary capture history given by the bars and the binary data below the $x$-axis.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=11cm]{keepfigure/binp.pdf}
+\label{fig:ER+detfun_binp}
+\end{figure}
+
+
+\subsection{The capture history likelihood component}
+\label{subsec:ER+detfun.binarylikelihood}
+
+Using $\delta){ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta){ij}=1$ if so, $\delta){ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta){i1},\ldots,\delta_{iJ})$. And assuming that encounters occur independently on each detector, then $\delta){ij}$ is a Bernoulli random variable with ``success'' probability $p(d_{ij},T)$, and we write
+\be
+[\delta_{ij}]&\sim&\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right).
+\ee
+
+And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is  distributed as the product of independent Bernoulli random variables:
+\be
+[\bm{\Omega}_n]&\sim&\prod_{i=1}^n\prod_{j=1}^J\mbox{Bern}\left(n_{ij};p(d_{ij},T)\right).
+\ee
+As before, we can write the probability of observting capture histories $\bm{\omega}_1,\ldots,\bm{\omega}_n$ for individuals $i=1,\ldots,n$, given that the $i$th individual's activity centre is at distances $d_{i1},\ldots,d_{iJ}$ from detectors $j=1,\ldots,J$ as $\mathbb{P}(\bm{\Omega}_n)$, as shown in Eqn~\eqref{eq:P.Omega.binary}. 
+\begin{svgraybox}
+\bf{The capture history likelihood component: Independent binary data}
+\be
+\mathbb{P}(\bm{\Omega}_n)&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Bern}\left(n_{ij};p(d_{ij},T)\right)
+\label{eq:ER+detfun.P.Omega.binary}
+\ee
+\end{svgraybox}
+
+
+
+\section{Should you model $p(d_{ij},T)$ or $\lambda(d_{ij})$?}
+
+It doesn't matter. You can model either. Eqn~\eqref{eq:ER+detfun.binaryp} gives us a way of converting between encounter rate $\lambda(d_{ij})$ and detection probability $\lambda(d_{ij},T)$:
+\be
+p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T} 
+\label{eq:ER+detfun.lambda.to.p}
+\ee
+\noindent
+or making $\lambda(d_{ij})$ the subject of the equation:
+\be
+\lambda(d_{ij})&=&\frac{-\log\left\{1-p(d_{ij},T)\right\}}{T}.
+\label{eq:ER+detfun.p.to.lambda}
+\ee
+So if you have hair snare data, and choose to specify a model for $\lambda(d_{ij})$ (e.g. specify that it is has a normal shape), then given the survey duration $T$, it is easily converted to a probability $p(d_{ij},T)$ using Eqn~\eqref{eq:ER+detfun.lambda.to.p}. Or if you have camera trap data, you can choose to specify a model for $p(d_{ij},T)$ for a given $T$ (e.g. specify that it is has a normal shape), it is easily converted to a $\lambda(d_{ij})$ using Eqn~\eqref{eq:ER+detfun.p.to.lambda}.
+
+We usually have very little idea what the detection or encounter rate function shape should be. We have a range of functional forms for each and choosing between them is a model selection question. Whether it is better to specify a form for $p(d_{ij},T)$ or for $\lambda(d_{ij})$ is also a model selection question. 
+
+
+
+\section{A space-time trap}
+\label{sec:ER+detfun.traps}
+
+A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background since occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
+
+Instead of detections (or not) on each of a number of occasions in \textit{time}, we had detections (or not) at each of a number detectors in \textit{space} in the example above. This allowed us to estimate the expected number of encounters (and hence detection probability, since detection is just at least one encounter - see below) when we have only a single sampling occasion. But you can't do this if your detectors are traps that hold animals when they detect them.

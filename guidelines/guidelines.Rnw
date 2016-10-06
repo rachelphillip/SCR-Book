@@ -111,12 +111,16 @@ Here are some guidelines for \LaTeX\ code style:
   is good, and ``In Chapter 4 we discuss...'' is bad.
 \item Use \texttt{\textbackslash eqref\{\}} instead of
   \texttt{\textbackslash ref\{\}} to reference equations.
+\item Start all section, figure and equation labels with the chapter label - to prevent ambiguity if we use the same label for a section, equation or figure in different chapters. For example, if we have a chapter labelled \texttt{\textbackslash label\{ch:ER+detfun\}} and in it a section that you want to label ``\texttt{traps}'', then use the label \texttt{\textbackslash label\{sec:ER+detfun.traps\}}. This makes for long labels, but prevents any ambiguity that could be a real hassle to sort out later.
 \end{enumerate}
 
 \subsection{Bibliography}
 
 [Somebody write something for how we are doing references.]
 
+\subsection{Index}
+
+Identify items to appear in the index as you write sections or chapters. Add these to the list of indexed items at the bottom of the \texttt{scr-book.Rnw} file (there are some examples there now). (Maybe we should make a separate index file?)
 \section{\texttt{knitr}}
 \label{sec:knitr}
 
@@ -436,17 +440,11 @@ Quick notes to be expanded upon:
 Quick notes to be expanded upon:
 \begin{enumerate}
 \item Use square brackets for any PDFs or PMFs (e.g., $[y]$, $[y | x]$).
-\item How do we boldify vectors? I use the \texttt{bm} package so they
-  are still italicised ($\bm{x}$, $\bm{y}$, $\bm{\theta}$). Other
-  people just use \textbackslash\texttt{bf} ($\bf x$, $\bf y$,
-  $\bf \theta$). I like the former because it also boldifies Greek
-  letters (as can be seen with $\theta$ here), but I am not fussy.
-\item Do we distinguish between random variables and fixed values?
-  Upper vs lowercase?
-\item Do we distinguish between vectors and matrices, or are they all
-  just boldified? We can do matrices in uppercase and vectors in
-  lowercase (but only if we have not already made the distinction of
-  fixed vs random in the same way).
+\item Use the \texttt{bm} package so they
+  are still italicised ($\bm{x}$, $\bm{y}$, $\bm{\theta}$). This also boldifies Greek
+  letters (as can be seen with $\theta$ here).
+\item We will not distinguish between random variables and fixed values - notation gets too complex.
+\item As far as possible, distinguish between vectors and matrices, by using bold lowercase for the former and bold uppercase for the latter. 
 \end{enumerate}
 
 \section{A simple example}

@@ -43,11 +43,14 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \usepackage{layouts}
 
 \usepackage{bm}              % bold math and greek symbols
+\usepackage{afterpage}       % allows \clearpage without inserting a page break
+\usepackage{amsfonts}        % gives things like \mathbb{P} (fancy P for probabilities n)
+\usepackage{amsmath}         % for \eqref
 
 % see the list of further useful packages
 % in the Reference Guide
 
-%%\makeindex             % used for the subject index
+\makeindex             % used for the subject index
                        % please use the style svind.ist with
                        % your makeindex program
 
@@ -68,9 +71,9 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\printinunitsof{in}\prntlen{\textwidth}
 %%\printinunitsof{in}\prntlen{\textheight}
 
-\author{Author name(s)}
-\title{Book title}
-\subtitle{-- Monograph --}
+\author{David Borchers, Eric Rexstad, Ben Stevenson, Eric Howe and Greg Distiller}
+\title{Spatial Capture-Recapture Concepts and Methods, with R}
+%\subtitle{-- Monograph --}
 \maketitle
 
 \frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,7 +91,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-\Sexpr{knit_child('chapters/example.Rnw')}
+%\Sexpr{knit_child('chapters/example.Rnw')}
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
@@ -100,7 +103,17 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\Sexpr{knit_child('chapters/glossary.Rnw')}
 %%\Sexpr{knit_child('chapters/solutions.Rnw')}
-%%\printindex
+
+\index{Encounter rate}
+\index{Expected encounter rate|see{encounter rate}}
+\index{Hazard rate|see{{\it also} encounter rate}}
+\index{Capture function|see{Detection function}}
+\index{Capture probability|see{Detection probability}}
+\index{Detection probability|see{{\it also} Detection function}}
+\index{Animal-level variables|see{{\it also} Heterogeneity}}
+\index{Survey-level variables|see{{\it also} Heterogeneity}}
+
+\printindex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
