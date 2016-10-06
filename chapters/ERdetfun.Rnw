@@ -1,0 +1,85 @@
+\chapter{Spatial encounter rates and detection probabilities}
+\label{chap:ER+detfun}
+
+\abstract{This chapter concerns models for spatial encounter rates and detection probabilities, and how they are related. It includes details of how encounter rates and detection probabilities can be made to depend on individual-level variables, detector-specific variables, survey- or occasion-specific variables, survey effort, and habitat or environmental variables. A key concept for all of these is the expected encounter rate.}
+
+\section{A simple spatial encounter rate model}
+\label{sec:simple.ER.model}
+
+If an individual's activity centre is far from you, you are less likely to encounter it than if it is near you. This simple fact is central to all SCR models and incorporating it into capture-recapture models is what turns them from non-spatial into \textit{spatial} capture-recapture models. In this chapter we explain how this is done. 
+
+A key concept here is the expected \textbf{encounter rate} -- the number of times an individual is expected to encounter a detector per time unit (day/hour/year/whetever), given the distance of its activity centre from the detector. %The expected encounter rate multiplied by the survey duration gives the expected encounter frequency.
+
+Of course, it is not only the individual's distance from the detector that determines the expected encounter rate. It also depends on 
+\begin{enumerate}
+\item the detector's ability to detect (some detectors will be better than others), 
+\item how susceptible the individual in question is to detection (some individuals behave more conspicuously than others), 
+\item how conducive to detection the prevailing conditions are (individuals may be easier to detect in good weather conditions, for example), and 
+\item how individuals use their habitat (if there is a lot of unsuitable habitat between a detector and an individual's activity centre, it may venture near the detector less often than otherwise, for example).  
+\end{enumerate}
+
+We will deal with each of these sources of difference in expected encounter rate in turn below, but we start by expanding a bit on the idea of a spatial encounter rate.
+
+Firstly, and importantly, by ``encounter'' we mean an interaction between individual and detector that results in a detection. So if an individual walks in front of a camera trap but is not photographed, no encounter occurred. Or if an individual makes a noise that is not detected by a microphone on an acoustic survey, no encounter occurred. 
+
+Figures~\ref{fig:detfuns_habitat} and \ref{fig:detfuns_habitat_encrate} illustrate schematically how expected encounter rate varies in space. Figure~\ref{fig:detfuns_habitat} shows the location of five camera traps at various distances from an individual's activity centre. The shading shows some spatial variable (a habitat variable, for example) that affects encounter rate, with lower values being associated with higher encounter rates. Figures~\ref{fig:detfuns_habitat_encrate} is a map of hypothetical encounter rate at all points in space for this individual. This rate is a combination of the individual's habitat usage (it tends to use habitat with low values of the spatial variable more than those with higher values) and distance from its activity centre (the farther a point is, the less it is used). For simplicity, we assume in this figure that all detectors are equally effective.
+
+\begin{figure}[ht]
+\caption{\small Five detectors placed at various distances from an animal's activity centre. The shading represents habitat type.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/habitat.pdf}
+\label{fig:detfuns_habitat}
+\end{figure}
+
+\begin{figure}[ht]
+\caption{\small A plot showing an animal's average space usage over the survey period, expressed in terms of the number of times it is expected to encounter a detector at any point in the region during the survey. The locations of five detectors used on the survey are also shown.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/usage.pdf}
+\label{fig:detfuns_habitat_encrate}
+\end{figure}
+
+We don't get to see maps like that in Figure~\ref{fig:detfuns_habitat_encrate} on a survey, all we see are the detections at each detector, and from these we try to reconstruct something like the map, in addition to estimating animal density. We are going to focus on estimation the expected number of encounters as a function of distance from activity centre and leave density estimation aside until Section~\ref{sec:detfuns_integrating}. And to keep things simple, we're initially going to consider expected encounter rate as a function of distance only, and to work in one distance dimension rather than two. 
+
+\subsection{Encounter rates in one dimension}
+\label{subsec:1DER}
+
+In one dimension, detectors are located at points along a line rather than points in space. Figure~\ref{fig:detfuns_enc} shows the five detectors of Figure~\ref{fig:detfuns_habitat_encrate} in one dimension, together with the number of times individual $i$ was detected at each detector. Data like this (albeit in two dimensions, not one) is all you get from each individual on a camera trap survey.
+
+
+\begin{figure}[ht]
+\caption{\small Illustrative example of camera trap data in one dimension. The number of detections of individual $i$ on each of $j=1,\ldots,5$ cameras is shown, together with the location of each camera.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=10cm]{keepfigure/ObsN.pdf}
+\label{fig:detfuns_enc}
+\end{figure}
+
+Although it is nothing like a map of expected encounters, Figure~\ref{fig:detfuns_enc} actually tells us quite a bit about the expected number of encounters of this individual at any point along the line. Firstly, it tells us something about the location of the individual's activity centre: this is likely nearer detectors 1 and 2 than detector 3 (because there were more encounters with 1 and 2 than with 3). So the activity centre is likely between detectors 1 and 3, and closer to 1 than to 3. Secondly, it suggests that the individual does not range as far as the distance from detector 1 to detector 5 (because we estimate that it is close to 1 and it had no encounters with detector 5). 
+
+We can formalise these observations by fitting an encounter rate function to the data of Figure~\ref{fig:detfuns_enc}. To do this, lets assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre $\bm{s}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{x}$ that is a distance $d=||\bm{x}-\bm{s}_i||$ from $\bm{s}_i$ is
+
+\begin{eqnarray}
+\lambda(d)&=&\lambda_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}.
+\end{eqnarray}
+
+We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:detfuns_enc}. But to do this we need to take account of the survey duration since $\lambda(d)$ is a \textit{rate} per unit time, and the longer the survey, the higher the number of encounters will be. This is very easily done, since the expected number of encounters is proportional to the time spent surveying and hence the expected \textit{number} of encounters on a survey of duration $T$ is just $\lambda(d)T$. This is shown in Figure~\ref{fig:detfuns_ENwithdists}.
+
+\begin{figure}[ht]
+\caption{\small The encounter rate function $\lambda(d)$ scaled by survey duration $T$ and centred at $\bm{x}_i$. Distances from $\bm{x}_i$ to each camera trap are shown below the curve and the expected number of encounters at each camera trap ($\lambda(d_{ij})T$ to camera trap $j=1,\ldots,5$) is marked on the curve.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/ENwithdists.pdf}
+\label{fig:detfuns_ENwithdists}
+\end{figure}
+
+If we fit this function to the observed numbers of encounters shown in Figure~\ref{fig:detfuns_enc}, we get Figure~\ref{fig:detfuns_ENwithdists}.  
+
+\begin{figure}[ht]
+\caption{\small The encounter rate function $\lambda(d)$ fitted to the data in Figure~\ref{fig:detfuns_enc}. The black dot is the estimated activity centre location.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/EandN.pdf}
+\label{fig:detfuns_EandN}
+\end{figure}

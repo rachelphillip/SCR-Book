@@ -42,12 +42,23 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 \usepackage{layouts}
 
+\usepackage{bm}              % bold math and greek symbols
+
 % see the list of further useful packages
 % in the Reference Guide
 
 %%\makeindex             % used for the subject index
                        % please use the style svind.ist with
                        % your makeindex program
+
+% User-defined commands:
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wh}[1]{\mbox{$\widehat{#1}$}}
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\bes}{\begin{eqnarray*}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\ees}{\end{eqnarray*}}
+%\newcommand{\bm}[1]{\boldsymbol{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -77,9 +88,12 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-%%\Sexpr{knit_child('chapters/example.Rnw')}
+\Sexpr{knit_child('chapters/example.Rnw')}
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
+
+\Sexpr{knit_child('chapters/ERdetfun.Rnw')}
+
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
 
