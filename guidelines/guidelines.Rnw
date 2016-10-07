@@ -120,7 +120,11 @@ Here are some guidelines for \LaTeX\ code style:
 
 \subsection{Index}
 
-Identify items to appear in the index as you write sections or chapters. Add these to the list of indexed items at the bottom of the \texttt{scr-book.Rnw} file (there are some examples there now). (Maybe we should make a separate index file?)
+Identify items to appear in the index as you write sections or chapters. Add \texttt{\textbackslash
+  index\{<indexitem>\}} to the pages that you want to be referenced in the index under ``\texttt{<indexitem>}''. To cross reference between index items add an \texttt{\textbackslash
+  index\{$\;$\}} item to the bottom of the \texttt{scr-book.Rnw} file (there are some examples there now). 
+  
+  
 \section{\texttt{knitr}}
 \label{sec:knitr}
 

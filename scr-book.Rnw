@@ -104,7 +104,6 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\Sexpr{knit_child('chapters/glossary.Rnw')}
 %%\Sexpr{knit_child('chapters/solutions.Rnw')}
 
-\index{Encounter rate}
 \index{Expected encounter rate|see{encounter rate}}
 \index{Hazard rate|see{{\it also} encounter rate}}
 \index{Capture function|see{Detection function}}

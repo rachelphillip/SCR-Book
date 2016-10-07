@@ -5,6 +5,7 @@
 
 \section{A simple spatial encounter rate model}
 \label{sec:ER+detfun.simple.ER.model}
+\index{Encounter rate}
 
 If an individual's activity centre is far from you, you are less likely to encounter it than if it is near you. This simple fact is central to all SCR models and incorporating it into capture-recapture models is what turns them from non-spatial into \textit{spatial} capture-recapture models. In this chapter we explain how this is done. 
 
