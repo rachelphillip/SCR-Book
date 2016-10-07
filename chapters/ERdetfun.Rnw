@@ -59,7 +59,7 @@ In one dimension, detectors are located at points along a line rather than point
 
 Although it is nothing like a map of expected encounters, Figure~\ref{fig:ER+detfun_enc} actually tells us quite a bit about the expected number of encounters of this individual at any point along the line. Firstly, it tells us something about the location of the individual's activity centre: this is likely nearer detectors 1 and 2 than detector 3, because there were more encounters with 1 and 2 than with 3. So the activity centre is likely between detectors 1 and 3, and closer to 1 than to 3. Secondly, it suggests that the individual does not range as far as the distance from detector 1 to detector 5 (because we estimate that it is close to 1 and it had no encounters with detector 5). 
 
-We can formalise these observations by fitting an encounter rate function to the spatial capture history data shown in Figure~\ref{fig:ER+detfun_enc}. To do this, lets assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre at $\bm{x}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{s}$ that is a distance $d=||\bm{s}-\bm{x}_i||$ from $\bm{x}_i$ is
+We can formalise these observations by fitting an encounter rate function to the spatial capture history data shown in Figure~\ref{fig:ER+detfun_enc}. To do this, let's assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre at $\bm{x}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{s}$ that is a distance $d=||\bm{s}-\bm{x}_i||$ from $\bm{x}_i$ is
 
 \begin{eqnarray}
 \lambda(d)&=&\lambda_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}.
@@ -76,7 +76,7 @@ We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in
 \label{fig:ER+detfun_ENwithdists}
 \end{figure}
 
-If we fit this function to the observed numbers of encounters shown in Figure~\ref{fig:ER+detfun_enc}, we get Figure~\ref{fig:ER+detfun_ENwithdists}. In summayr, given the locations of detectors and an expected encounter rate model with unknown intercept and range, we can use spatial capture histories to estimate the expected number of encounters of individuals at any distance from their activity centres. This also allows us to estimate the probability of detecting an individual at all, since the probability of detection is just the probability of getting more than zero encounters -- see Section~\ref{sec:ER+detfun.binary}
+If we fit this function to the observed numbers of encounters shown in Figure~\ref{fig:ER+detfun_enc}, we get Figure~\ref{fig:ER+detfun_ENwithdists}. In summary, given the locations of detectors and an expected encounter rate model with unknown intercept and range, we can use spatial capture histories to estimate the expected number of encounters of individuals at any distance from their activity centres. This also allows us to estimate the probability of detecting an individual at all, since the probability of detection is just the probability of getting more than zero encounters---see Section~\ref{sec:ER+detfun.binary}
 
 \begin{figure}[ht]
 \caption{\small The time-scaled encounter rate function $\lambda(d)T$ fitted to the data in Figure~\ref{fig:ER+detfun_enc}. The black dot is the estimated activity centre location.}
@@ -93,7 +93,7 @@ We use exactly the same methods to estimate encounter rate functions in two dime
 \subsection{The capture history likelihood component}
 \label{subsec:ER+detfun.ERlikelihood}
 
-The encounter rate model $\lambda(d)$ on its own is not actually enough to fit it to the observed capture history. An appropirate model also needs to explain why the observed number of encounters differs from the expected number. So the model needs a random comonent. 
+The encounter rate model $\lambda(d)$ on its own is not actually enough to fit it to the observed capture history. An appropirate model also needs to explain why the observed number of encounters differs from the expected number. So the model needs a random component. 
 
 Now whenever events occur independently at some fixed average rate ($\lambda(d)$ in our case), the number of events (encounters in our case) occurring over a time period $T$ has a Poisson distribution with parameter $\lambda(d)T$. So our model for the observed number of encounters (under the assumption that encounters are independent events) is if individual $i$'s activity centre is a distance $d_{ij}$ from detector $j$ then $n_{ij}$, the number of encounters of individual $i$ with detector $j$ in a time period $T$, is a Poisson random variable with parameter $\lambda(d_{ij})T$. We write this as
 \be
@@ -150,7 +150,7 @@ The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambd
 \subsection{The capture history likelihood component}
 \label{subsec:ER+detfun.binarylikelihood}
 
-Using $\delta){ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta){ij}=1$ if so, $\delta){ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta){i1},\ldots,\delta_{iJ})$. And assuming that encounters occur independently on each detector, then $\delta){ij}$ is a Bernoulli random variable with ``success'' probability $p(d_{ij},T)$, and we write
+Using $\delta_{ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta_{ij}=1$ if so, $\delta_{ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta_{i1},\ldots,\delta_{iJ})$. And assuming that encounters occur independently on each detector, then $\delta_{ij}$ is a Bernoulli random variable with ``success'' probability $p(d_{ij},T)$, and we write
 \be
 [\delta_{ij}]&\sim&\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right).
 \ee
