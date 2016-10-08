@@ -47,6 +47,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \usepackage{amsfonts}        % gives things like \mathbb{P} (fancy P for probabilities n)
 \usepackage{amsmath}         % for \eqref
 
+\usepackage[colorinlistoftodos,linecolor=gray,backgroundcolor=white]{todonotes} % To annotate
+
 % see the list of further useful packages
 % in the Reference Guide
 
@@ -91,7 +93,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-%\Sexpr{knit_child('chapters/example.Rnw')}
+\Sexpr{knit_child('chapters/example.Rnw')}
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 

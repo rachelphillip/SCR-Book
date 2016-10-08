@@ -59,17 +59,17 @@ In one dimension, detectors are located at points along a line rather than point
 
 Although it is nothing like a map of expected encounters, Figure~\ref{fig:ER+detfun_enc} actually tells us quite a bit about the expected number of encounters of this individual at any point along the line. Firstly, it tells us something about the location of the individual's activity centre: this is likely nearer detectors 1 and 2 than detector 3, because there were more encounters with 1 and 2 than with 3. So the activity centre is likely between detectors 1 and 3, and closer to 1 than to 3. Secondly, it suggests that the individual does not range as far as the distance from detector 1 to detector 5 (because we estimate that it is close to 1 and it had no encounters with detector 5). 
 
-We can formalise these observations by fitting an encounter rate function to the spatial capture history data shown in Figure~\ref{fig:ER+detfun_enc}. To do this, lets assume that the encounter rate function has the shape of a normal distribution, centred on an unknown activity centre at $\bm{x}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{s}$ that is a distance $d=||\bm{s}-\bm{x}_i||$ from $\bm{x}_i$ is
+We can formalise these observations by fitting an encounter rate function to the spatial capture history data shown in Figure~\ref{fig:ER+detfun_enc}. To do this, lets assume that the encounter rate function has the shape of a Gaussian function, centred on an unknown activity centre at $\bm{s}_i$, with an unknown ``scale parameter'' $\sigma$ that determines its range, and an unknown intercept $\lambda_0$ (the encounter rate with a detector placed at the activity centre). With these assumptions, the expected encounter rate at at a point $\bm{x}_j$ that is a distance $d_{ij}=||\bm{s}_i-\bm{x}_j||$ from $\bm{s}_i$ is
 
-\begin{eqnarray}
-\lambda(d)&=&\lambda_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}.
+\be
+\lambda(d_{ij})&=&\lambda_0\exp\left\{\frac{-d_{ij}^2}{2\sigma^2}\right\}.
 \label{eq:ER+detfun.lambda.hn}
-\end{eqnarray}
+\ee
 
 We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:ER+detfun_enc}. However, we need to take account of the survey duration to do this since the longer the survey, the higher the number of encounters will be. (Recall that $\lambda(d)$ is an encounter \textit{rate}, i.e. number of encounters \textit{per unit time}.) This is very easily done, since the expected number of encounters is proportional to the time spent surveying: if you survey for twice as long, you expect twice as many encounters. So the expected \textit{number} of encounters on a survey of duration $T$ time units is just $\lambda(d)T$. This is shown in Figure~\ref{fig:ER+detfun_ENwithdists}.
 
 \begin{figure}[ht]
-\caption{\small The encounter rate function $\lambda(d)$ scaled by survey duration $T$ and centred at $\bm{x}_i$. Distances from $\bm{x}_i$ to each camera trap are shown below the curve and the expected number of encounters at each camera trap ($\lambda(d_{ij})T$ to camera trap $j=1,\ldots,5$) is marked on the curve.}
+\caption{\small The encounter rate function $\lambda(d)$ scaled by survey duration $T$ and centred at $\bm{s}_i$. Distances from $\bm{x}_i$ to each camera trap are shown below the curve and the expected number of encounters at each camera trap ($\lambda(d_{ij})T$ to camera trap $j=1,\ldots,5$) is marked on the curve.}
 \centering
 \vspace{-24pt}
 \includegraphics[width=11cm]{keepfigure/ENwithdists.pdf}
@@ -90,34 +90,33 @@ If we fit this function to the observed numbers of encounters shown in Figure~\r
 
 We use exactly the same methods to estimate encounter rate functions in two dimensions. In fact, since the distance measure used in the one-dimensional example above was the two-dimensional distance from the activity centre to the detectors, this example was actually two-dimensional - its just that we plotted the encounter function in the distance dimension rather than on the plane.
 
-\subsection{The capture history likelihood component}
+\subsection{The capture history likelihood component: count data}
 \label{subsec:ER+detfun.ERlikelihood}
 
-The encounter rate model $\lambda(d)$ on its own is not actually enough to fit it to the observed capture history. An appropirate model also needs to explain why the observed number of encounters differs from the expected number. So the model needs a random comonent. 
+The encounter rate model $\lambda(d)$ on its own is not enough to fit it to the observed capture history. An appropriate model also needs to explain why the observed number of encounters differs from the expected number. The model needs a random comonent. 
 
 Now whenever events occur independently at some fixed average rate ($\lambda(d)$ in our case), the number of events (encounters in our case) occurring over a time period $T$ has a Poisson distribution with parameter $\lambda(d)T$. So our model for the observed number of encounters (under the assumption that encounters are independent events) is if individual $i$'s activity centre is a distance $d_{ij}$ from detector $j$ then $n_{ij}$, the number of encounters of individual $i$ with detector $j$ in a time period $T$, is a Poisson random variable with parameter $\lambda(d_{ij})T$. We write this as
 \be
-[n_{ij}]&\sim&\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+[n_{ij}|\bm{s}_i]&=&\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
 \ee
+\noindent
+(Note that we need the activity centre $\bm{s}_i$ to be known in order to know $d_{ij}$.)
 
 Assuming that detections occur independently at each of $J$ detectors (as might be reasonable for camera trap surveys, or acoustic surveys), the capture history for individual $i$ is distributed as the product of independent Poisson random variables:
 \be
-[\bm{\omega}_i]&\sim&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
 \ee
 
-And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is also distributed as the product of independent Poisson random variables:
-\be
-[\bm{\Omega}_n]&\sim&\prod_{i=1}^n\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
-\ee
-This is the probability of observting capture histories $\bm{\omega}_1,\ldots,\bm{\omega}_n$ for individuals $i=1,\ldots,n$, given that the $i$th individual's activity centre is at distances $d_{i1},\ldots,d_{iJ}$ from detectors $j=1,\ldots,J$. It is a central part of the associated SCR likelihood and for future reference we write it as $\mathbb{P}(\bm{\Omega}_n)$, as shown in Eqn~\eqref{eq:P.Omega.count}. 
+And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$, given the activity centres $\bm{S}_n=(\bm{s}_1,\ldots,\bm{s}_n)$ of all $n$ detected individuals, is also distributed as the product of independent Poisson random variables, and constitutes 
 \begin{svgraybox}
-\bf{The capture history likelihood component: count data}
+\bf{The capture history likelihood component for count data}
 \be
-\mathbb{P}(\bm{\Omega}_n)&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right)
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right)
 \label{eq:ER+detfun.P.Omega.count}
 \ee
 \end{svgraybox}
 
+This is the probability of observting capture histories $\bm{\omega}_1,\ldots,\bm{\omega}_n$ for individuals $i=1,\ldots,n$, given that the $i$th individual's activity centre is at distances $d_{i1},\ldots,d_{iJ}$ from detectors $j=1,\ldots,J$. 
 
 \section{A simple spatial binary detection model}
 \label{sec:ER+detfun.simple.det.model}
@@ -136,7 +135,7 @@ p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T}.
 \ee
 Notice that this probability depends on the survey duration, $T$. If the same detector is used for different periods of time on two occasions, it will have diffent detection probabilities on the two occasions, and if identical detectors are used for different periods of time on the same occasion, they will have diffent detection probabilities. It is important to take account of this when doing SCR inference.
 
-The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambda(d_{ij})$ shown in Figure~\ref{fig:ER+detfun_EandN} is shown in Figure~\ref{fig:ER+detfun_binp}. Notice that while the encounter rate model was specified to have a normal shape (see Eqn~\eqref{eq:ER+detfun.lambda.hn} and Figure~\ref{fig:ER+detfun_EandN}), this leads to a detection function $p(d_{ij},T)$ that does not have a normal shape (see Eqn~\eqref{eq:ER+detfun.binaryp} and Figure~\ref{fig:ER+detfun_binp}). Conversely, if we specify that the detection function $p(d_{ij},T)$ has a normal shape, then the corresponding encounter rate function would not have a normal shape.
+The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambda(d_{ij})$ shown in Figure~\ref{fig:ER+detfun_EandN} is shown in Figure~\ref{fig:ER+detfun_binp}. Notice that while the encounter rate model was specified to have a Gaussian function shape (see Eqn~\eqref{eq:ER+detfun.lambda.hn} and Figure~\ref{fig:ER+detfun_EandN}), this leads to a detection function $p(d_{ij},T)$ that does not have a Gaussian function shape (see Eqn~\eqref{eq:ER+detfun.binaryp} and Figure~\ref{fig:ER+detfun_binp}). Conversely, if we specify that the detection function $p(d_{ij},T)$ has a Gaussian function shape, then the corresponding encounter rate function would not have a Gaussian function shape.
 
 \begin{figure}[ht]
 \caption{\small The detection probability function (black curve) corresponding to the encounter function shown in Figure~\ref{fig:ER+detfun_EandN}, with binary capture history given by the bars and the binary data below the $x$-axis.}
@@ -147,49 +146,159 @@ The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambd
 \end{figure}
 
 
-\subsection{The capture history likelihood component}
+\subsection{The capture history likelihood component: binary data}
 \label{subsec:ER+detfun.binarylikelihood}
 
-Using $\delta){ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta){ij}=1$ if so, $\delta){ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta){i1},\ldots,\delta_{iJ})$. And assuming that encounters occur independently on each detector, then $\delta){ij}$ is a Bernoulli random variable with ``success'' probability $p(d_{ij},T)$, and we write
+Using $\delta_{ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta_{ij}=1$ if detected, $\delta_{ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta_{i1},\ldots,\delta_{iJ})$. And assuming that encounters occur independently on each detector, then and individual's capture history is distributed as the product of Bernoulli random variable with ``success'' probabilities $p(d_{ij},T)$ ($j=1,\ldots,J$), and we write
 \be
-[\delta_{ij}]&\sim&\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right).
+[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right).
 \ee
 
-And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is  distributed as the product of independent Bernoulli random variables:
-\be
-[\bm{\Omega}_n]&\sim&\prod_{i=1}^n\prod_{j=1}^J\mbox{Bern}\left(n_{ij};p(d_{ij},T)\right).
-\ee
-As before, we can write the probability of observting capture histories $\bm{\omega}_1,\ldots,\bm{\omega}_n$ for individuals $i=1,\ldots,n$, given that the $i$th individual's activity centre is at distances $d_{i1},\ldots,d_{iJ}$ from detectors $j=1,\ldots,J$ as $\mathbb{P}(\bm{\Omega}_n)$, as shown in Eqn~\eqref{eq:P.Omega.binary}. 
+And if encounters by different individuals are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is  distributed as the product of independent Bernoulli random variables:
 \begin{svgraybox}
-\bf{The capture history likelihood component: Independent binary data}
+\bf{The capture history likelihood component for independent binary data}
 \be
-\mathbb{P}(\bm{\Omega}_n)&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Bern}\left(n_{ij};p(d_{ij},T)\right)
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\mbox{Bern}\left(n_{ij};p(d_{ij},T)\right)
 \label{eq:ER+detfun.P.Omega.binary}
 \ee
 \end{svgraybox}
 
 
 
-\section{Should you model $p(d_{ij},T)$ or $\lambda(d_{ij})$?}
+\section{Should you model $p(d,T)$ or $\lambda(d)$?}
 
-It doesn't matter. You can model either. Eqn~\eqref{eq:ER+detfun.binaryp} gives us a way of converting between encounter rate $\lambda(d_{ij})$ and detection probability $\lambda(d_{ij},T)$:
+It doesn't matter. You can model either. Eqn~\eqref{eq:ER+detfun.binaryp} gives us a way of converting between encounter rate $\lambda(d)$ and detection probability $p(d,T)$:
 \be
-p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T} 
+p(d,T)&=&1-e^{-\lambda(d)T} 
 \label{eq:ER+detfun.lambda.to.p}
 \ee
 \noindent
-or making $\lambda(d_{ij})$ the subject of the equation:
+or making $\lambda(d)$ the subject of the equation:
 \be
-\lambda(d_{ij})&=&\frac{-\log\left\{1-p(d_{ij},T)\right\}}{T}.
+\lambda(d)&=&\frac{-\log\left\{1-p(d,T)\right\}}{T}.
 \label{eq:ER+detfun.p.to.lambda}
 \ee
-So if you have hair snare data, and choose to specify a model for $\lambda(d_{ij})$ (e.g. specify that it is has a normal shape), then given the survey duration $T$, it is easily converted to a probability $p(d_{ij},T)$ using Eqn~\eqref{eq:ER+detfun.lambda.to.p}. Or if you have camera trap data, you can choose to specify a model for $p(d_{ij},T)$ for a given $T$ (e.g. specify that it is has a normal shape), it is easily converted to a $\lambda(d_{ij})$ using Eqn~\eqref{eq:ER+detfun.p.to.lambda}.
+So if you have hair snare data, and choose to specify a model for $\lambda(d)$ (e.g. specify that it is has a Gaussian function shape), then given the survey duration $T$, this is easily converted into a model for $p(d,T)$ using Eqn~\eqref{eq:ER+detfun.lambda.to.p}. Or if you have camera trap data, you can choose to specify a model for $p(d,T)$ for a given $T$ (e.g. specify that it is has a Gaussian function shape for this $T$), and this is easily converted into an encounter rate model $\lambda(d)$ using Eqn~\eqref{eq:ER+detfun.p.to.lambda}.
 
-We usually have very little idea what the detection or encounter rate function shape should be. We have a range of functional forms for each and choosing between them is a model selection question. Whether it is better to specify a form for $p(d_{ij},T)$ or for $\lambda(d_{ij})$ is also a model selection question. 
+For example if you speficied that when $T=1$, $p(d,T)$ has a Gaussian shape with intercept paramter $g_0$ (the probability of detection when the activity centre is at the detector) and range parameter $\sigma$:
+\be
+p(d,T=1)&=&g_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}.
+\label{eq:ER+detfun.p.hn}
+\ee
+\noindent
+then the corresponding $\lambda(d)$ is
+\be
+\lambda(d)&=&\frac{-\log\left\{1-p(d,T=1)\right\}}{1}
+\;=\;-\log\left\{1-g_0\exp\left\{\frac{-d^2}{2\sigma^2}\right\}\right\}
+\label{eq:ER+detfun.Guassian.p.to.lambda}
+\ee
+
+Note, however, that if $p(d,T)$ has some specific shape (Gaussian, for example) for a survey duration $T$, it will \textit{not} have this shape for any other $T$. So if you specify that $p(d,T)$ has a Gaussian shape for your default survey duration and then some detectors fail halfway through the survey, these detectors will not have a Gaussian detection function shape. This is usually not a big deal because (a) unless $T$ changes a lot, the shapes will not be very different, and (b) you never know the true shape of $p(d,T)$ for any $T$ anyway. But it is as well to be aware of that the shape of $p(d,T)$ depends on $T$.
+
+We usually have very little idea what the detection or encounter rate function shape should be. We have a range of functional forms for each and choosing between them is a model selection question. Whether it is better to specify a form for $p(d,T)$ or for $\lambda(d)$ is also a model selection question. 
 
 
+\section{Count and binary data example}
+\label{sec:ER+detfun.count+binary.eg}
 
-\section{A space-time trap}
+To illustrate the application of the above ideas, we will use the package \texttt{secr} to fit simple models to count data from a camera trap survey of leopards in the Kruger National Park, and to a binary version of these data.
+\todo[inline]{Need to introduce this dataset in the introduction (?), and acknowledge source.}
+
+We focus on the expected encounter rate function and detection function specification. To fit an SCR model you also need to specify (a) a model for activity centre density and distribution, and (b) because activity centres are unobserved, you need to specify a region within which the activity centres of the detected individuals could be, and outside of which they could not be. For (a) will use the default density model here, which assumes unknown but equal denisty of activity centres everywhere, and we will use a pre-prepared ``mask'' (an \texttt{secr} term) that specifies the region (b). Density models are dealt with in detail in Chapter~\ref{ch:SPmod} and masks are explained futher in Section~\ref{sec:??}.
+
+The necessary data and fitted objects are obtained by loading an \texttt{.RData} object as follows:
+<<ER-detfun-leopards-load, include = TRUE, echo = TRUE>>=
+load("../analysis/objects/ERdetfun-objects.RData")
+@ 
+This loads the count capture history in \texttt{R} object \texttt{kruger.capt}, the corresponding binary capture bistory in \texttt{kruger.capt.bin} and the mask object in \texttt{kruger.mask} These are all objects created using the \texttt{secr} library.
+
+\subsection{Example fit to count data}
+
+To specify an encounter rate model we need to specify the functional form to use and to say how its parameters depend on covariates. We postpone consideration of covariates until later and so use the synax $\sim$\texttt{1}, which indicates no dependence on covariates.
+
+In \texttt{secr}-speak a model with Gaussian shape is called a ``half-normal'' model (a name derived from the distance sampling literature \todo{insert citation?}), and encounter rate functions are called ``hazard'' functions (a name that derives from survival analysis literature). So specifying that the model is ``\texttt{HHN}'' in \texttt{secr}-speak, is specifying that it is an encounter rate model (the first \texttt{H} is for ``hazard'') with half-normal shape (``\texttt{HN}''). And as \texttt{secr}-speak for $\lambda_0$ and $\sigma$ is ``\texttt{lambda0}'' and ``\texttt{sigma}'', the specification for an encounter rate model with Gaussian shape is as shown below.
+
+We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.fit} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
+
+<<ER-detfun-leopardsexample-erhn-fit, eval = FALSE>>=
+detfn="HHN"
+er.hn.model=list(lambda0~1,sigma~1)
+er.hn.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,detectfn=detfn)
+@
+
+
+Lets also fit an encounter rate model with ``hazard rate'' shape:
+\be
+\lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right)
+\ee
+\noindent (called ``\texttt{HHR}'' in \texttt{secr}-speak), as follows
+<<ER-detfun-leopardsexample-erhr-fit, eval = FALSE>>=
+detfn="HHR"
+er.hr.model=list(lambda0~1,sigma~1)
+er.hr.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,detectfn=detfn)
+@
+
+We can select between these models on the basis of AIC$_c$ as follows
+<<ER-detfun-leopardsexample-dfhn-aic, eval = FALSE>>=
+AIC(er.hn.fit,df.hn.fit)
+@ 
+\noindent
+and with a $\Delta$AIC$_c$ of only about 0.12, this suggests that there is very little to separate the two models. Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
+
+<<ER-detfun-leopardsexample-dfhn-ests, eval = TRUE>>=
+predict(er.hr.fit)[,c("estimate","lcl","ucl")]
+@ 
+
+
+We can use a plot similar to Figure~\ref{fig:ER+detfun_EandN} to see how the capture frequencies have informed the encounter rate model. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. So instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. And because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the postive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
+
+<<ER-detfun-leopardsexample-erfitplot, eval = FALSE>>=
+plot.er.fit(er.hr.fit,dmax=15000,binwidth=1000,lwd=3,xlab="Distance, d (m)",
+            ylab=expression(hat(lambda)(d)))
+plot(er.hn.fit,xval=seq(0,15000,length=200),lwd=3,add=TRUE,col="gray")
+legend("top",legend=c("Gaussian (or half-normal)","Hazard rate"),col=c("gray","black"),lwd=3,bty="n",cex=0.8)
+@ 
+
+
+\begin{figure}[ht]
+\caption{\small Histogram of average number of detections per detector against distance of detectors from estimated activity centre locations, by 3,000m distance interval. The estimated Gaussian and hazard-rate encounter rate models are plotted over the histogram.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=11cm]{keepfigure/ERdetfun-hrfit.pdf}
+\label{fig:ERdetfun.hrfit}
+\end{figure}
+
+The Gaussian model seems to be a very poor fit to the average encounter data, and in this plot looks a lot worse fit than the hazard rate model. However, we need to be cautious about over-interpreting this figure because it is based on the \textit{estimated} locations of activity centres, and these have substantial uncertainty associated with them, as shown in Figure~\ref{fig:ERdetfun-locest}. We can't really conclude a lot more from this plot than that the encounter rate does decline with distance, as expected, and that animals were very unlikely to venture more than about 15km from their activity centres over the surve period.
+
+\begin{figure}[ht]
+\caption{\small Kruger leopard study camera traps (black dots) and estimated probability contours of the activity centres of 5 detected individuals. (The average distance between the cameras is \Sexpr{round(summary(kruger.cams)$spacing)}m.)}
+\centering
+\vspace{-24pt}
+\includegraphics[width=6cm]{keepfigure/ERdetfun-locest.pdf}
+\label{fig:ERdetfun-locest}
+\end{figure}
+
+Interestingly, the estimated leopard density from the hazard rate model is only about \Sexpr{abs(round(100*predict(er.hr.fit)[1,"estimate"]/predict(er.hn.fit)[1,"estimate"]-100))}\% smaller than that from the Gaussian model, despite their very different shapes (Figure~\ref{fig:ERdetfun.hrfit}). This is a fairly typical feature of SCR models: different models can give quite different encounter rate (or detection function) shapes but very similar density estimates. The root cause of this is that  we have rather poor information on the distances of detectors from activity centres because we do not observe the activity centres, and as a result there is relatively little information in the data to tell us about the shape of the encounter rate function or detection function. There is usually quite good information on \textit{area under the encounter rate or detection function}. In our case the areas under the Gaussian and hazard rate curves differ by only \Sexpr{round(100*esa(er.hr.fit)[1]/esa(er.hn.fit)[1]-100)}\%. 
+
+A moral of this story is ``Be careful not to over-interpret encounter rate or detection functions.''.
+
+
+\subsection{Example fit to binary data}
+
+<<ER-detfun-leopardsexample-dfhn-fit, eval = FALSE>>=
+detfn="HN"
+df.hn.model=list(D~1,g0~1,sigma~1)
+df.hn.fit=secr.fit(kruger.capt,model=df.hn.model,mask=kruger.mask,detectfn=detfn)
+@ 
+
+<<ER-detfun-example1, echo = TRUE, fig.width = textwidth, fig.height = 0.25*textheight, out.width = add.in(textwidth), out.height = add.in(0.25*textheight), fig.pos = "tb", fig.cap = "The expected encounter rate $\\lambda(d)$ estimated from Kruger camera trap data by (a) specifying $\\lambda(d)$ to be Gaussian (solid curve), and (b) specifying $p(d,T=1)$ to be Gaussian (dashed curve). (Here the time unit, $T$, is the duration of the survey)">>=
+par(mar =  c(4.1, 4.1, 0.1, 0.2))
+plot(er.hr.fit,xval=seq(0,20000,length=200),lwd=3,xlab="Distance, d (m)",ylab=expression(lambda(d)))
+plot(df.hr.fit,xval=seq(0,20000,length=200),add=TRUE,lwd=3,lty=2,col="gray")
+@ 
+
+
+\section{Traps in space and time}
 \label{sec:ER+detfun.traps}
 
 A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background since occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
