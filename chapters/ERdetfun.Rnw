@@ -204,13 +204,17 @@ We usually have very little idea what the detection or encounter rate function s
 To illustrate the application of the above ideas, we will use the package \texttt{secr} to fit simple models to count data from a camera trap survey of leopards in the Kruger National Park, and to a binary version of these data.
 \todo[inline]{Need to introduce this dataset in the introduction (?), and acknowledge source.}
 
-We focus on the expected encounter rate function and detection function specification. To fit an SCR model you also need to specify (a) a model for activity centre density and distribution, and (b) because activity centres are unobserved, you need to specify a region within which the activity centres of the detected individuals could be, and outside of which they could not be. For (a) will use the default density model here, which assumes unknown but equal denisty of activity centres everywhere, and we will use a pre-prepared ``mask'' (an \texttt{secr} term) that specifies the region (b). Density models are dealt with in detail in Chapter~\ref{ch:SPmod} and masks are explained futher in Section~\ref{sec:??}.
+Here we focus on the expected encounter rate function and detection function specification. To fit an SCR model you also need to specify (a) a model for activity centre density and distribution, and (b) because activity centres are unobserved, you need to specify a region within which the activity centres of the detected individuals could be, and outside of which they could not be. For (a) will use the default density model here, which assumes unknown but equal denisty of activity centres everywhere, and we will use a pre-prepared ``mask'' (an \texttt{secr} term) that specifies the region (b). Density models are dealt with in detail in Chapter~\ref{ch:SPmod} and masks are explained futher in Section~\ref{sec:??}.
 
-The necessary data and fitted objects are obtained by loading an \texttt{.RData} object as follows:
+The necessary data and fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
+{\small
 <<ER-detfun-leopards-load, include = TRUE, echo = TRUE>>=
-load("../analysis/objects/ERdetfun-objects.RData")
-@ 
-This loads the count capture history in \texttt{R} object \texttt{kruger.capt}, the corresponding binary capture bistory in \texttt{kruger.capt.bin} and the mask object in \texttt{kruger.mask} These are all objects created using the \texttt{secr} library.
+library(scrmlebook)
+data("ERdetfun-objects")
+@
+}
+
+This loads the count capture history in \texttt{R} object \texttt{kruger.capt}, the corresponding binary capture bistory in \texttt{kruger.capt.bin} and the mask object in \texttt{kruger.mask} These are all objects that were created using the \texttt{secr} library.
 
 \subsection{Example fit to count data}
 
@@ -220,44 +224,61 @@ In \texttt{secr}-speak a model with Gaussian shape is called a ``half-normal'' m
 
 We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.fit} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
 
+{\small
 <<ER-detfun-leopardsexample-erhn-fit, eval = FALSE>>=
 detfn="HHN"
 er.hn.model=list(lambda0~1,sigma~1)
-er.hn.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,detectfn=detfn)
+er.hn.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,
+                   detectfn=detfn)
 @
+}
 
 
-Lets also fit an encounter rate model with ``hazard rate'' shape:
+We will also fit an encounter rate model with ``hazard rate'' shape. This is defined as follows
 \be
-\lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right)
+\lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right).
 \ee
-\noindent (called ``\texttt{HHR}'' in \texttt{secr}-speak), as follows
+\noindent 
+It has one more parameter than a Gaussian model and is hence more flexible. Its shape can be seen in Figure~\ref{fig:ERdetfun.hrfit}. 
+
+An encounter rate model with hazard rate shape is called ``\texttt{HHR}'' in \texttt{secr}-speak, and we can fit it as follows:
+{\small
 <<ER-detfun-leopardsexample-erhr-fit, eval = FALSE>>=
 detfn="HHR"
 er.hr.model=list(lambda0~1,sigma~1)
-er.hr.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,detectfn=detfn)
+er.hr.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,
+                   detectfn=detfn)
 @
+}
 
-We can select between these models on the basis of AIC$_c$ as follows
-<<ER-detfun-leopardsexample-dfhn-aic, eval = FALSE>>=
-AIC(er.hn.fit,df.hn.fit)
-@ 
+We can compare the Gaussian and hazard models on the basis of AIC$_c$ as follows\todo{How to put in neat table?}
+{\small
+<<ER-detfun-leopardsexample-dfhn-aic, eval = TRUE>>=
+aics = AIC(er.hn.fit,df.hn.fit)
+aics[,c("model","detectfn","dAICc","AICcwt")]
+@
+}
 \noindent
-and with a $\Delta$AIC$_c$ of only about 0.12, this suggests that there is very little to separate the two models. Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
+With a $\Delta$AIC$_c$ of only about \Sexpr{round(aics[2,"dAICc"],2)}, this suggests that there is very little to separate the two models. Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
 
+{\small
 <<ER-detfun-leopardsexample-dfhn-ests, eval = TRUE>>=
 predict(er.hr.fit)[,c("estimate","lcl","ucl")]
-@ 
+@
+} 
 
 
 We can use a plot similar to Figure~\ref{fig:ER+detfun_EandN} to see how the capture frequencies have informed the encounter rate model. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. So instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. And because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the postive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
 
+{\small
 <<ER-detfun-leopardsexample-erfitplot, eval = FALSE>>=
-plot.er.fit(er.hr.fit,dmax=15000,binwidth=1000,lwd=3,xlab="Distance, d (m)",
-            ylab=expression(hat(lambda)(d)))
+plot.er.fit(er.hr.fit,dmax=15000,binwidth=1000,lwd=3,
+            xlab="Distance, d (m)",ylab=expression(hat(lambda)(d)))
 plot(er.hn.fit,xval=seq(0,15000,length=200),lwd=3,add=TRUE,col="gray")
-legend("top",legend=c("Gaussian (or half-normal)","Hazard rate"),col=c("gray","black"),lwd=3,bty="n",cex=0.8)
-@ 
+legend("top",legend=c("Gaussian (or half-normal)","Hazard rate"),
+       col=c("gray","black"),lwd=3,bty="n",cex=0.8)
+@
+} 
 
 
 \begin{figure}[ht]
@@ -285,17 +306,24 @@ A moral of this story is ``Be careful not to over-interpret encounter rate or de
 
 \subsection{Example fit to binary data}
 
-<<ER-detfun-leopardsexample-dfhn-fit, eval = FALSE>>=
-detfn="HN"
-df.hn.model=list(D~1,g0~1,sigma~1)
-df.hn.fit=secr.fit(kruger.capt,model=df.hn.model,mask=kruger.mask,detectfn=detfn)
-@ 
+{\small
+<<ER-detfun-leopardsexample-dfhn-bin-fit, eval = FALSE>>=
+detfn="HHN"
+er.hn.model=list(g0~1,sigma~1)
+er.bin.hn.fit=secr.fit(kruger.capt.bin,model=er.hn.model,mask=kruger.mask,
+                   detectfn=detfn)
+@
+} 
 
+{\small
 <<ER-detfun-example1, echo = TRUE, fig.width = textwidth, fig.height = 0.25*textheight, out.width = add.in(textwidth), out.height = add.in(0.25*textheight), fig.pos = "tb", fig.cap = "The expected encounter rate $\\lambda(d)$ estimated from Kruger camera trap data by (a) specifying $\\lambda(d)$ to be Gaussian (solid curve), and (b) specifying $p(d,T=1)$ to be Gaussian (dashed curve). (Here the time unit, $T$, is the duration of the survey)">>=
 par(mar =  c(4.1, 4.1, 0.1, 0.2))
-plot(er.hr.fit,xval=seq(0,20000,length=200),lwd=3,xlab="Distance, d (m)",ylab=expression(lambda(d)))
-plot(df.hr.fit,xval=seq(0,20000,length=200),add=TRUE,lwd=3,lty=2,col="gray")
-@ 
+plot(df.hr.fit,xval=seq(0,20000,length=200),lwd=3,xlab="Distance, d (m)",
+     ylab=expression(lambda(d)))
+plot(df.bin.hr.fit,xval=seq(0,20000,length=200),add=TRUE,lwd=3,lty=2,
+     col="gray")
+@
+} 
 
 
 \section{Traps in space and time}
