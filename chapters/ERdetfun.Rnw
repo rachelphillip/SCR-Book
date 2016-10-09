@@ -206,15 +206,22 @@ To illustrate the application of the above ideas, we will use the package \textt
 
 Here we focus on the expected encounter rate function and detection function specification. To fit an SCR model you also need to specify (a) a model for activity centre density and distribution, and (b) because activity centres are unobserved, you need to specify a region within which the activity centres of the detected individuals could be, and outside of which they could not be. For (a) will use the default density model here, which assumes unknown but equal denisty of activity centres everywhere, and we will use a pre-prepared ``mask'' (an \texttt{secr} term) that specifies the region (b). Density models are dealt with in detail in Chapter~\ref{ch:SPmod} and masks are explained futher in Section~\ref{sec:??}.
 
-The necessary data and fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
+The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
 {\small
 <<ER-detfun-leopards-load, include = TRUE, echo = TRUE>>=
 library(scrmlebook)
-data("ERdetfun-objects")
+data("ERdetfun-data")
+data("ERdetfun-fits")
 @
 }
 
-This loads the count capture history in \texttt{R} object \texttt{kruger.capt}, the corresponding binary capture bistory in \texttt{kruger.capt.bin} and the mask object in \texttt{kruger.mask} These are all objects that were created using the \texttt{secr} library.
+The first \texttt{data} command loads the count capture history in \texttt{R} object \texttt{kruger.capt}, the corresponding binary capture history in \texttt{kruger.capt.bin} and the mask object in \texttt{kruger.mask}. The second loads all the models that are fitted in this chapter (the code some of which is given below). These are all objects that were created using the \texttt{secr} library. Details of the data and the fits can be viewed in the \texttt{scrmlebook} help files as follows
+{\small
+<<ER-detfun-leopards-load-help, include = TRUE, echo = TRUE, eval=FALSE>>=
+help("ERdetfun-data")
+help("ERdetfun-fits")
+@
+}
 
 \subsection{Example fit to count data}
 
@@ -251,7 +258,7 @@ er.hr.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,
 @
 }
 
-We can compare the Gaussian and hazard models on the basis of AIC$_c$ as follows\todo{How to put in neat table?}
+The Gaussian and hazard models can be compared on the basis of AIC$_c$ as follows\todo{How to put in neat table?}
 {\small
 <<ER-detfun-leopardsexample-dfhn-aic, eval = TRUE>>=
 aics = AIC(er.hn.fit,df.hn.fit)
@@ -268,7 +275,7 @@ predict(er.hr.fit)[,c("estimate","lcl","ucl")]
 } 
 
 
-We can use a plot similar to Figure~\ref{fig:ER+detfun_EandN} to see how the capture frequencies have informed the encounter rate model. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. So instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. And because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the postive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
+A plot similar to Figure~\ref{fig:ER+detfun_EandN} would show how the capture frequencies have informed the encounter rate model, as explained above. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. So instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. And because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the postive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
 
 {\small
 <<ER-detfun-leopardsexample-erfitplot, eval = FALSE>>=
@@ -289,7 +296,7 @@ legend("top",legend=c("Gaussian (or half-normal)","Hazard rate"),
 \label{fig:ERdetfun.hrfit}
 \end{figure}
 
-The Gaussian model seems to be a very poor fit to the average encounter data, and in this plot looks a lot worse fit than the hazard rate model. However, we need to be cautious about over-interpreting this figure because it is based on the \textit{estimated} locations of activity centres, and these have substantial uncertainty associated with them, as shown in Figure~\ref{fig:ERdetfun-locest}. We can't really conclude a lot more from this plot than that the encounter rate does decline with distance, as expected, and that animals were very unlikely to venture more than about 15km from their activity centres over the surve period.
+The Gaussian model seems to be a very poor fit to the average encounter data, and in this plot looks a lot worse fit than the hazard rate model. However, we need to be cautious about over-interpreting this figure because it is based on the \textit{estimated} locations of activity centres, and these have substantial uncertainty associated with them, as shown in Figure~\ref{fig:ERdetfun-locest}. This uncertainty is not incorporated into Figure~\ref{fig:ERdetfun.hrfit}. We can't really conclude a lot more from this plot than that the encounter rate does decline with distance, as expected, and that animals were very unlikely to venture more than about 15km from their activity centres over the surve period.
 
 \begin{figure}[ht]
 \caption{\small Kruger leopard study camera traps (black dots) and estimated probability contours of the activity centres of 5 detected individuals. (The average distance between the cameras is \Sexpr{round(summary(kruger.cams)$spacing)}m.)}
