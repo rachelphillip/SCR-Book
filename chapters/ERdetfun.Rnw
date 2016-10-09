@@ -208,7 +208,7 @@ Here we focus on the expected encounter rate function and detection function spe
 
 The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
 {\small
-<<ER-detfun-leopards-load, include = TRUE, echo = TRUE>>=
+<<ER-detfun-leopards-load, include = FALSE, echo = TRUE, eval=TRUE>>=
 library(scrmlebook)
 data("ERdetfun-data")
 data("ERdetfun-fits")
@@ -223,7 +223,7 @@ help("ERdetfun-fits")
 @
 }
 
-\subsection{Example fit to count data}
+\subsection{Example fits to count data}
 
 To specify an encounter rate model we need to specify the functional form to use and to say how its parameters depend on covariates. We postpone consideration of covariates until later and so use the synax $\sim$\texttt{1}, which indicates no dependence on covariates.
 
@@ -246,7 +246,7 @@ We will also fit an encounter rate model with ``hazard rate'' shape. This is def
 \lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right).
 \ee
 \noindent 
-It has one more parameter than a Gaussian model and is hence more flexible. Its shape can be seen in Figure~\ref{fig:ERdetfun.hrfit}. 
+It has one more parameter ($b$) than a Gaussian model and is hence more flexible. Its shape can be seen in Figure~\ref{fig:ERdetfun.hrfit}. 
 
 An encounter rate model with hazard rate shape is called ``\texttt{HHR}'' in \texttt{secr}-speak, and we can fit it as follows:
 {\small
@@ -261,12 +261,12 @@ er.hr.fit=secr.fit(kruger.capt,model=er.model,mask=kruger.mask,
 The Gaussian and hazard models can be compared on the basis of AIC$_c$ as follows\todo{How to put in neat table?}
 {\small
 <<ER-detfun-leopardsexample-dfhn-aic, eval = TRUE>>=
-aics = AIC(er.hn.fit,df.hn.fit)
+aics = AIC(er.hn.fit,er.hr.fit)
 aics[,c("model","detectfn","dAICc","AICcwt")]
 @
 }
 \noindent
-With a $\Delta$AIC$_c$ of only about \Sexpr{round(aics[2,"dAICc"],2)}, this suggests that there is very little to separate the two models. Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
+With a $\Delta$AIC$_c$ of only about \Sexpr{round(aics[2,"dAICc"],2)}, this suggests that the hazard rate model is slightly better than the Gaussian model Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
 
 {\small
 <<ER-detfun-leopardsexample-dfhn-ests, eval = TRUE>>=
@@ -310,27 +310,58 @@ Interestingly, the estimated leopard density from the hazard rate model is only 
 
 A moral of this story is ``Be careful not to over-interpret encounter rate or detection functions.''.
 
+We could also specify Gaussian or hazard-rate forms for the detection function rather than the encounter rate function. For example, a detection function with hazard rate form is fitted thus:
+{\small
+<<ER-detfun-leopardsexample-dfhr-fit, eval = FALSE>>=
+detfn="HR"
+df.hr.model=list(lambda0~1,sigma~1)
+df.hr.fit=secr.fit(kruger.capt,model=df.model,mask=kruger.mask,
+                   detectfn=detfn)
+@
+}
+Note that this detection function applies over the duration of the survey. So we are implicitly saying that $T=1$ for the duration of the survey, i.e., that time units are ``this-survey-length''. Specifying the same detection function for a survey of a different length would be inconsistent.
 
-\subsection{Example fit to binary data}
+Having fitted models with both Gaussian and hazard-rate forms for the encounter rate function and the detection function, we can compare models using AIC$_c$ again:\todo{How to put in neat table?}
+{\small
+<<ER-detfun-leopardsexample-erdfhn-aic, eval = TRUE>>=
+aics = AIC(er.hn.fit,er.hr.fit,df.hn.fit,df.hr.fit)
+aics[,c("model","detectfn","dAICc","AICcwt")]
+@
+}
+\noindent
+It is apparent from this that it makes very little difference whether you specify the shape of the encounter rate function or the shape of the detection function. The main difference is that the shape of the encounter rate function is independent of the survey duration, whereas the shape of the detection function changes with survey length. This makes the encounter rate function a ``common currency'' for all survey durations.
 
+\subsection{Example fits to binary data}
+
+Here we suppose that insted of camera-traps, the detectors on the kruger leopard survey were hair snares (and that identification was by way of DNA). This leads to some loss of information because instead of counts we get only binary detected/undetected data at each detector.
+
+We can fit models to these binary capture history data (in \texttt{kruger.capt.bin}) much as we did with the count data, but having specified that detector are what \texttt{secr} calls ``proximity'' detectors when we created the capture history object. You can see what kind of detectors are in a capture history object thus:
+{\small
+<<ER-detfun-leopardsexample-chtype, eval = TRUE>>=
+detector(kruger.cams)
+detector(kruger.cams.bin)
+@
+} 
+
+Here is code to fit an encounter rate function model with hazard rate form to the binary data, for example:
 {\small
 <<ER-detfun-leopardsexample-dfhn-bin-fit, eval = FALSE>>=
 detfn="HHN"
 er.hn.model=list(g0~1,sigma~1)
-er.bin.hn.fit=secr.fit(kruger.capt.bin,model=er.hn.model,mask=kruger.mask,
-                   detectfn=detfn)
+er.bin.hn.fit=secr.fit(kruger.capt.bin,model=er.bin.hn.model,
+                       mask=kruger.mask,detectfn=detfn)
 @
 } 
 
+And to compare various models fitted to these binary data:
 {\small
-<<ER-detfun-example1, echo = TRUE, fig.width = textwidth, fig.height = 0.25*textheight, out.width = add.in(textwidth), out.height = add.in(0.25*textheight), fig.pos = "tb", fig.cap = "The expected encounter rate $\\lambda(d)$ estimated from Kruger camera trap data by (a) specifying $\\lambda(d)$ to be Gaussian (solid curve), and (b) specifying $p(d,T=1)$ to be Gaussian (dashed curve). (Here the time unit, $T$, is the duration of the survey)">>=
-par(mar =  c(4.1, 4.1, 0.1, 0.2))
-plot(df.hr.fit,xval=seq(0,20000,length=200),lwd=3,xlab="Distance, d (m)",
-     ylab=expression(lambda(d)))
-plot(df.bin.hr.fit,xval=seq(0,20000,length=200),add=TRUE,lwd=3,lty=2,
-     col="gray")
+<<ER-detfun-leopardsexample-erdfhn-bin-aic, eval = TRUE>>=
+aics = AIC(er.bin.hn.fit,er.bin.hr.fit,df.bin.hn.fit,df.bin.hr.fit)
+aics[,c("model","detectfn","dAICc","AICcwt")]
 @
-} 
+}
+
+
 
 
 \section{Traps in space and time}
