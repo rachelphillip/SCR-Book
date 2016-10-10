@@ -23,11 +23,11 @@ done
 ## Printing date.
 echo -e "$(date)\n"
 ## Deleting all .RData objects in analysis/objects/.
-echo -e "Deleting .RData objects..."
-cd /home/ben/GitHub/SCR-Book/analysis/objects
-rm -rfv *
-echo -e "DONE\n"
-cd /home/ben/GitHub/SCR-Book/analysis/code/
+##echo -e "Deleting .RData objects..."
+##cd /home/ben/GitHub/SCR-Book/analysis/objects
+##rm -rfv *
+##echo -e "DONE\n"
+##cd /home/ben/GitHub/SCR-Book/analysis/code/
 ## Updating packages.
 if [ "$doupdate" = true ]; then
     echo -e "Updating packages..."
@@ -45,8 +45,13 @@ for i in *.R; do
 	echo -e "DONE\n"
     fi 
 done
+## Building package.
+cd ../..
+R CMD build --resave-data
+R CMD check scrmlebook_*.tar.gz
+R CMD INSTALL --install-tests scrmlebook_*.tar.gz
 ## Running tests.
 if [ "$dotest" = true ]; then
     echo -e "Running tests..."
-    R -q -e 'library(testthat); test_file("tests.R")'
+    R -q -e 'library(testthat); library(scrmlebook); test_package("scrmlebook")'
 fi
