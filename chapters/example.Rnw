@@ -17,17 +17,19 @@ to the main
 \label{sec:example-code}
 
 We wish to include figures and tables based on a fitted model. The
-code should be saved in \texttt{analysis\slash code\slash }, and the final line
-should save a \texttt{.RData} file to \texttt{analysis\slash objects}. It
-may load data from \texttt{analysis\slash data}. See
-\texttt{analysis\slash code\slash example.R} for a simple example. It loads in
+code should be saved in \texttt{scrmlebook\slash inst\slash code\slash
+}, and the final line should save a \texttt{.RData} file to
+\texttt{scrmlebook\slash data\slash}. It may also load data from
+\texttt{scrmlebook\slash data\slash}. See \texttt{scrmlebook\slash
+  inst\slash code\slash example.R} for a simple example. It loads in
 data, fits a model, and saves the results to file
-\texttt{analysis\slash objects\slash example.RData}. 
+\texttt{scrmlebook\slash inst\slash data\slash example-fits.RData}.
 
-Add any new packages to the package list in
-\texttt{analysis\slash code\slash packages.R} if they are not already there. Also,
-for each code file, add test(s) to \texttt{analysis\slash code\slash tests.R} (see
-this file for examples).
+Add any new packages to the package list in \texttt{scrmlebook\slash
+  inst\slash code\slash packages.R} if they are not already
+there. Also, for each code file, add test(s) to
+\texttt{scrmlebook\slash tests\slash testthat\slash} (see this folder
+for an example file).
 
 \section{Using fitted model objects}
 \label{sec:example-fitted}
@@ -42,13 +44,13 @@ example.fit <- secr.fit(detections, buffer = 100)
 You can set \texttt{include = FALSE} and \texttt{echo = FALSE} to do
 things in R behind the scenes without printing or plotting
 anything. For example, we can load the object containing model results
-in its own chunk. The code below will only show up in the source
-document. Make sure you load object with a path specification relative
-to the \texttt{chapters/} directory in the book's repository. The two
-dots (\texttt{..}) mean to go up one level in the directory structure
-(in this case, to the main directory of the book's repository).
+in its own chunk. If the chapter relies on objects within the
+\texttt{data\slash} directory of the \texttt{scrmlebook} package
+directory, it needs to be loaded using the \texttt{data()}
+function. The code below will only show up in the source document.
 <<example-load, include = FALSE, echo = FALSE>>=
-load("../analysis/objects/example.RData")
+data("example-data")
+data("example-fits")
 @ 
 
 Now that we have loaded in the model object, we will plot the
