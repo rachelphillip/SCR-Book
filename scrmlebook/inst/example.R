@@ -6,7 +6,7 @@ library(secr)
 load("../data/example-data.RData")
 
 ## Fitting model.
-example.fit <- secr.fit (detections, buffer = 100, trace = FALSE)
+example.fit <- secr.fit(detections, buffer = 100, trace = FALSE)
 
 ## Saving results. Again, use a relative file specification.
-save(example.fit, file = "../objects/example.RData")
+save(example.fit, file = "../data/example-fits.RData")
