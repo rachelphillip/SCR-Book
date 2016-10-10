@@ -24,13 +24,13 @@ works with traps of class '\code{count}'.}
 
 \item{hcol}{Colour of histogram.}
 
-\item{lineonly}{If TRUE, uses \code{\link{lines}} to draw histogram lines on current plot; 
+\item{hlineonly}{If TRUE, uses \code{\link{lines}} to draw histogram lines on current plot; 
 else uses \code{\link{plot}} to draw lines on new plot.}
 
-\item{outline}{If TRUE, draws only the outline (profile) of the histogram; else draws each 
+\item{houtline}{If TRUE, draws only the outline (profile) of the histogram; else draws each 
 complete bar.}
 
-\item{If}{TRUE, fills bards with \code{hcol}, else leaves them empty.}
+\item{hfill}{TRUE, fills bards with \code{hcol}, else leaves them empty.}
 }
 \description{
 Plots mean encounter rate by distance interval, with estimated encounter rate function

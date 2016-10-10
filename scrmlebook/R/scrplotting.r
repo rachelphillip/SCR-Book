@@ -17,7 +17,7 @@
 #' @param key TRUE if you want a key (legend) added showing probability levels.
 #' @param ... Other arguments for \code{plotcovariate}.
 #' 
-#' @export
+#' @export plot.p..
 plot.p..=function(capthist, mesh, pars, dist=NULL, contour=TRUE, key=TRUE, ...) {
   M=dim(mesh)[1] # number of mesh points
   a = rep(attributes(mesh)$area,M) # area of each mesh cell (vector of length M)
@@ -53,7 +53,7 @@ plot.p..=function(capthist, mesh, pars, dist=NULL, contour=TRUE, key=TRUE, ...) 
 #' @param key TRUE if you want a key (legend) added showing probability levels.
 #' @param ... Other arguments for \code{plotcovariate}.
 #' 
-#' @export
+#' @export plot.Pi
 plot.Pi=function(i,capthist, mesh, pars, dist=NULL, contour=TRUE, key=TRUE, ...) {
   M=dim(mesh)[1] # number of mesh points
   a = rep(attributes(mesh)$area,M) # area of each mesh cell (vector of length M)
@@ -144,13 +144,13 @@ histline=function(height,breaks,lineonly=FALSE,outline=FALSE,fill=FALSE,ylim=ran
 #' @param xlab Label for x-axis.
 #' @param ylab Label for y-axis.
 #' @param hcol Colour of histogram.
-#' @param lineonly If TRUE, uses \code{\link{lines}} to draw histogram lines on current plot; 
+#' @param hlineonly If TRUE, uses \code{\link{lines}} to draw histogram lines on current plot; 
 #' else uses \code{\link{plot}} to draw lines on new plot.
-#' @param outline If TRUE, draws only the outline (profile) of the histogram; else draws each 
+#' @param houtline If TRUE, draws only the outline (profile) of the histogram; else draws each 
 #' complete bar.
-#' @param If TRUE, fills bards with \code{hcol}, else leaves them empty.
+#' @param hfill TRUE, fills bards with \code{hcol}, else leaves them empty.
 #' 
-#' @export
+#' @export plot.er.fit
 plot.er.fit=function(scrfit,dmax,binwidth,lwd=2,xlab="x",ylab="y",
                      hcol="red",hlineonly=FALSE,houtline=FALSE,hfill=TRUE) {
   
@@ -194,6 +194,7 @@ plot.er.fit=function(scrfit,dmax,binwidth,lwd=2,xlab="x",ylab="y",
 #' @param covariate is a character variable with the name of one of the covariates in mask (the one to plot)
 #' @param contour is a logical, TRUE if want contour plots on image
 #' @param ... other arguments to be passed to \code{prep4image}
+#' @export
 plotcovariate=function(mask,covariate,contour=TRUE,key=TRUE, ...) {
   cnum=which(names(covariates(mask))==covariate)
   if(is.null(cnum)) stop(paste("No covariate(s) called",covariate))
@@ -230,7 +231,6 @@ plotcovariate=function(mask,covariate,contour=TRUE,key=TRUE, ...) {
 #'   ``facnames'' that is a character vector containing the levels as factor 
 #'   variables, with z=1 corresponding to the first name, z=2 to the second, etc.
 #' @export
-#' @importFrom fields image.plot
 prep4image = function(data, plot = TRUE, contour = TRUE, key = TRUE, ...){
   
   # convert factor data$z to integer:
@@ -254,7 +254,7 @@ prep4image = function(data, plot = TRUE, contour = TRUE, key = TRUE, ...){
   x = sort(unique(data[,"x"]))
   y = sort(unique(data[,"y"]))
   
-  z = matrix(NA, nr = length(x), nc = length(y))
+  z = matrix(NA, nrow = length(x), ncol = length(y))
   
   for(i in 1:length(x)){
     for(j in 1:length(y)){
