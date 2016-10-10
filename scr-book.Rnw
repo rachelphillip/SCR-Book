@@ -1,6 +1,8 @@
 <<knitr-setup, include = FALSE, echo = FALSE>>=
 ## Checking for uninstalled packages.
-source("analysis/code/packages.R")
+source("scrmlebook/inst/code/packages.R")
+## Loading the scrmlebook package.
+library(scrmlebook)
 ## Text width and height.
 textwidth <- 4.6072
 textheight <- 7.52116
