@@ -101,6 +101,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')}
 
+\Sexpr{knit_child('chapters/det-types.Rnw')}
+
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
 

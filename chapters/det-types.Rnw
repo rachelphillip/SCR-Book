@@ -1,0 +1,3 @@
+\chapter{Detector types}
+\label{chap:det-types}
+
