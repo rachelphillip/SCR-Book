@@ -35,7 +35,7 @@ if [ "$doupdate" = true ]; then
     echo -e "DONE\n"
 fi
 ## Installing packages.
-echo -e "Installing packages..." 
+echo -e "Loading packages..." 
 R -q --no-save < packages.R 1>/dev/null
 echo -e "DONE\n"
 for i in *.R; do
@@ -46,10 +46,11 @@ for i in *.R; do
     fi 
 done
 ## Building package.
-cd ../..
-R CMD build --resave-data
+R CMD build --resave-data ../..
 R CMD check scrmlebook_*.tar.gz
 R CMD INSTALL --install-tests scrmlebook_*.tar.gz
+rm -rf scrmlebook_*.tar.gz
+rm -rf scrmlebook.Rcheck
 ## Running tests.
 if [ "$dotest" = true ]; then
     echo -e "Running tests..."
