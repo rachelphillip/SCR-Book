@@ -13,5 +13,7 @@ Depends:
     secr (>= 2.10.3),
     fields (>= 8.4.1)
 Suggests:
+    knitr,
     testthat
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1
