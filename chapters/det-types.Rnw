@@ -1,3 +1,106 @@
 \chapter{Detector types}
 \label{chap:det-types}
 
+\abstract{Traditionally, CR surveys involved the physical trapping and
+  marking of individuals. Nowadays, animals can be detected and
+  identified by deploying one of a wide variety of detector types;
+  however, the way we model the data that are collected depends on
+  which was used. This chapter describes the types of detectors that
+  can be used on SCR surveys, how the resulting data can be modelled,
+  the assumptions these models make, and how they can be fitted using
+  available software.}
+
+\section{Why different models?}
+\label{sec:det-types-different-models}
+
+There are two reasons why the type of detector deployed on a survey
+affects the statistical model that is fitted. The first is related to
+whether or not detectors physically detain individuals---this affects
+assumptions that can plausibly be made about dependence between
+detections within the same occasion. The second is related to the
+response data that are collected by the detectors.
+
+\subsection{Inter-detection dependence}
+\label{sec:det-types-independence}
+
+So far we have considered only two types of detectors: camera traps
+and hair snares (Chapter \ref{chap:ER+detfun}). In both cases, the
+number of times an individual is expected to encounter a detector was
+assumed to depend on the detector's distance from its activity centre
+(e.g., Eqn \eqref{eq:ER+detfun.lambda.hn}). Conditional on the
+location of the activity centre, encounters were assumed to be
+independent across the traps (Eqns \eqref{eq:ER+detfun.count.wi} and
+\eqref{eq:ER+detfun.binary.wi}), and independent across individuals
+(Eqns \eqref{eq:ER+detfun.P.Omega.count} and
+\eqref{eq:ER+detfun.P.Omega.binary}). 
+
+These assumptions may be reasonable in this context, as it is
+plausible that a detection by one camera trap or hair snare does not
+affect encouter rates at any others. Here, we call such detectors
+\emph{proximity detectors}\index{Proximity detectors}---a term first
+coined by Efford, Borchers, and Dawson (2009)[???].
+
+We can also use SCR methods when the detectors that are deployed
+physically capture the individuals they detect. Indeed, this was the
+context in which the very first SCR methods were developed (Efford,
+2004; Borchers and Efford, 2008). In such situations we must operate
+under the familiar CR framework of capturing individuals over a set of
+discrete sampling occasions: in order to obtain recaptures (both
+across space and time) we must end one occasion, release all trapped
+individuals, and begin another. Here we consider two types of such
+detectors: \emph{multi-catch traps}\index{multi-catch traps}, which
+can accommodate many individuals at once, and \emph{single-catch
+  traps}\index{single-catch traps}, which close after a single animal
+is trapped, preventing any further detections of any other indviduals
+for the rest of the occasion.
+
+However, the between-individual and between-trap independence
+assumptions discussed above may not hold when detectors physically
+detain animals. In such cases, an encounter with one detector prevents
+further detection by any other for the remainder of the occasion, and
+so there is strict \emph{dependence} between encounters across the
+traps. Likewise, if single-catch traps are used, then a trap is
+disabled when it detects an animal; this decreases the probability of
+any other individual being detected, and so one cannot assume
+independent encounters across individuals.
+
+\subsection{Response data}
+\label{sec:det-types-response}
+
+Different detector types may collect different response data. We have
+already seen one example of this: in Section
+\ref{sec:ER+detfun.count+binary.eg} we considered the use of both
+camera traps and hair snares. While a camera trap is able to
+\emph{count} the number of times it detects each individual, a hair
+snare only provides \emph{binary} data indicating if at least one
+interaction occured. Count data provide richer spatial information
+over and above what can be inferred from binary data alone---not only
+is an individual's activity centre more likely to be located nearest
+the detectors at which it was detected, but it is particularly likely
+to be located nearest those that made a large number of
+detections. With a better idea of the detected individuals' activity
+centre locations we obtain more a precise estimate of the detection
+function, and therefore also of animal density.
+
+There are other possible response data types that achieve the same
+purpose. On acoustic surveys, the activity centre associated with a
+detected individual may be conceptualised as its physical location at
+the time it produces a call. If microphones are used to detect calls,
+then these may collect both the received signal strength (loudness)
+and precise time of arrival of the detected calls. The source location
+of a call is most likely to be close to the detectors that received
+the call the loudest and the earliest. If human observers are used to
+detect calls, then they may be able to estimate the bearing and/or
+distance to detetected individuals, again providing additional
+infromation from which to infer animals' locations. Acoustic SCR
+methods are discussed in further detail in Chapter
+\ref{chap:acoustic}.
+
+Alternatively, response data types may be collected that do not
+necessarily improve estimation of animal density, but instead allow
+inference on additional demographic parameters of interest. For
+example, observing detection times allows estimation of animal
+activity cycles over some temporal scale (e.g., daily, monthly, or
+annual). Such approaches are discussed in further detail in Chapter
+\ref{chap:continuous-time}.
+
