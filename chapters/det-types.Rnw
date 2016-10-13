@@ -50,9 +50,16 @@ across space and time) we must end one occasion, release all trapped
 individuals, and begin another. Here we consider two types of such
 detectors: \emph{multi-catch traps}\index{multi-catch traps}, which
 can accommodate many individuals at once, and \emph{single-catch
-  traps}\index{single-catch traps}, which close after a single animal
-is trapped, preventing any further detections of any other indviduals
-for the rest of the occasion.
+  traps}\index{single-catch traps} (Figure \ref{fig:bunny-rabbit}),
+which close after a single animal is trapped, preventing any further
+detections of any other indviduals for the rest of the occasion.
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\Sexpr{textwidth}in]{keepfigure/in-trap}
+  \caption{A cold bunny rabbit.}
+  \label{fig:bunny-rabbit}
+\end{figure}
 
 However, the between-individual and between-trap independence
 assumptions discussed above may not hold when detectors physically
