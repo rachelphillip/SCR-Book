@@ -208,7 +208,7 @@ Here we focus on the expected encounter rate function and detection function spe
 
 The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
 {\small
-<<ER-detfun-leopards-load, include = FALSE, echo = TRUE, eval=TRUE>>=
+<<ER-detfun-leopards-load, include = TRUE, echo = TRUE, eval=TRUE>>=
 library(scrmlebook)
 data("ERdetfun-data")
 data("ERdetfun-fits")

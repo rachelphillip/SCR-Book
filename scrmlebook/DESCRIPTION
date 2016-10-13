@@ -1,7 +1,7 @@
 Package: scrmlebook
 Type: Package
 Title: Utility functions and data for the book Spatial Capture-Recapture by
-    Maximum Likelihood, with R.
+    Maximum Likelihood, with R
 Version: 1.0
 Date: 2016-10-09
 Author: David Borchers et al.
@@ -10,5 +10,10 @@ Description: Utility functions and data for the book Spatial Capture-Recapture b
     Maximum Likelihood, with R.
 License: GPL (>= 2)
 Depends:
-    secr (>= 2.10.3),  fields (>= 8.4.1)
+    secr (>= 2.10.3),
+    fields (>= 8.4.1)
+Suggests:
+    knitr,
+    testthat
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1
