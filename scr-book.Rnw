@@ -27,28 +27,24 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[graybox,envcountchap,sectrefs]{SpringerStyleFiles/styles/svmono}
 
-<<<<<<< HEAD
+
 %\usepackage[backend=bibtex,natbib=true]{biblatex}
 %  From Buckland et al (2015)
 \usepackage[round, authoryear]{natbib}
 \setcitestyle{notesep={:}}
 
-=======
->>>>>>> origin/master
 % choose options for [] as required from the list
 % in the Reference Guide
 
 
-\usepackage[backend=bibtex]{biblatex}
+%\usepackage[backend=bibtex]{biblatex}
 
-<<<<<<< HEAD
 
-=======
 %% Bibliography
 %% ============
 %\bibliographystyle{SpringerStyleFiles/styles/svbasic}
-\bibliography{dlb}
->>>>>>> origin/master
+%\bibliography{dlb}
+
 
 \usepackage{mathptmx}
 \usepackage{helvet}
@@ -143,14 +139,11 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
 
-<<<<<<< HEAD
 
 % Bibliography %
 \bibliography{dlb}{}
 \bibliographystyle{er-chicago}
 
-=======
->>>>>>> origin/master
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\Sexpr{knit_child('chapters/glossary.Rnw')}
 %%\Sexpr{knit_child('chapters/solutions.Rnw')}

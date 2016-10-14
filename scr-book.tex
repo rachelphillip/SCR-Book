@@ -62,6 +62,7 @@
 
 \usepackage{alltt}
 
+
 %\usepackage[backend=bibtex,natbib=true]{biblatex}
 %  From Buckland et al (2015)
 \usepackage[round, authoryear]{natbib}
@@ -70,11 +71,14 @@
 % choose options for [] as required from the list
 % in the Reference Guide
 
+
+%\usepackage[backend=bibtex]{biblatex}
+
+
 %% Bibliography
 %% ============
-
-%\bibliographystyle{spmpsci}
-
+%\bibliographystyle{SpringerStyleFiles/styles/svbasic}
+%\bibliography{dlb}
 
 
 \usepackage{mathptmx}
@@ -146,11 +150,7 @@
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-<<<<<<< Updated upstream
 %%knit_child('chapters/example.Rnw')
-=======
-%knit_child('chapters/example.Rnw')
->>>>>>> Stashed changes
 
 %%knit_child('chapters/part.Rnw')
 
@@ -602,6 +602,7 @@ And to compare various models fitted to these binary data:
 }
 
 
+ %DLB
 
 
 \section{Occasions: recaptures across space and time}
@@ -641,7 +642,7 @@ where
 \section{Strata: no recaptures across space and time}
 \label{sec:ER+detfun.strata}
 
-It is sometimes useful to analyse multiple survey units that might share common encounter rate or detection function parameters, but between which recaptures cannot occur. These might be distinct spatial units (regions separated by larger distances than individuals would travel over the survey period, for example), or they might be surveys of the same region at times that are so far apart that no marks from one occasion are identifiable on other occasions. In survey parlance these are commonly called ``strata''. In \texttt{secr}-speak they are ``sessions''. (\cite{Royle+al:14}\todo{Can't get citaions working!} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
+It is sometimes useful to analyse multiple survey units that might share common encounter rate or detection function parameters, but between which recaptures cannot occur. These might be distinct spatial units (regions separated by larger distances than individuals would travel over the survey period, for example), or they might be surveys of the same region at times that are so far apart that no marks from one occasion are identifiable on other occasions. In survey parlance these are commonly called ``strata''. In \texttt{secr}-speak they are ``sessions''. (\cite{Royle+al:14} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
 
 In this case, each stratum is like a separate mini-survey that could be analysed on its own, without the other strata. But if some parameters may be shared across strata (if they might have a common $\sigma$, for example), then the analysis must combine the strata. Because no recaptures (as opposed to parameters) are shared across strata, the capture histories are independent between strata and the corresponding multi-stratum likelihood is just the product of the likelihoods for each stratum. Indexing stratum by $l=1,\ldots,L$, the stratified count and binary likelihood functions are:
 \begin{svgraybox}
@@ -683,7 +684,7 @@ As noted at the beginning of this chapter, encounter rates and detection probabi
 
 \subsection{Link functions and linear predictors}
 
-We make parameters depend on covariates by writing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on say the elevation, $x$, at which the detector is placed, in this way: $g_0=\beta_0 + \beta_1 x$, where $\beta_0$ and $\beta_1$ are unknown parameters. This would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. As with generalised linear models (GLMs), the link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 x$ in the example above) to the prameter of interest ($g_0$ in this example).
+We make parameters depend on covariates by writing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $x$ in this way: $g_0=\beta_0 + \beta_1 x$, where $\beta_0$ and $\beta_1$ are unknown parameters. This would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. As with generalised linear models (GLMs), the link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 x$ in the example above) to the prameter of interest ($g_0$ in this example).
 
 In the case of $g_0$ we need a link function that keeps it between 0 and 1, while in the case of $\lambda_0$ (a rate, and hence bounded below by zero but unbounded above) and $\sigma$ (also bounded below by zero but unbounded above). Common choices are a logit link or complimentary log-log link (``cloglog'' link for short) for $g_0$, and log links for $\lambda_0$ and $\sigma$. 
 
@@ -706,7 +707,13 @@ $\sigma=\;$ & $\;e^\eta$ & (inverse log link)
 \label{fig:ERdetfun.linkfuns}
 \end{figure}
 
-Dependence on more covariates is modelled by adding terms to the linear predictor: $\eta=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_m x_m$. The \texttt{secr} syntax for this follows the syntax for GLMs in \texttt{R}:
+Dependence on more covariates is modelled by adding terms to the linear predictor: $\eta=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_m x_m$. 
+
+
+\todo[inline]{Should we mention regression splines here, and add a plot explaining?}
+
+
+The \texttt{secr} syntax for this follows the syntax for GLMs in \texttt{R}:
 \noindent
 {\small
 \begin{svgraybox}
@@ -720,18 +727,19 @@ sigma \url{~} x1 + x2 + $\cdots$ + xm
 \noindent
 The \texttt{secr} package automatically selects the log link for $\sigma$ and $\lambda_0$, and the logit link for $g_0$. Interaction terms and main effects with interactions can be added using ``\texttt{:}'' and ``\texttt{*}'', respectively, as with GLMs in \texttt{R}.
 
-\todo[inline]{Should we mention regression splines here, and add a plot explaining?}
 
 
-\section{Detector effects}
+\section{Detector, occasion and stratum effects}
+
+It is useful to separate variables that affect encounter rate and detection probability into two classes: those that need to be known throughout the survey region, and those that need to be known only at the detectors. In this section we deal with those that need to be known only at the detectors. This includes variables associated with occasions or strata, except in the case in which 
+
+
+The effects on encounter rate and detection probability of variables associated with detectors are spatial only to the extent that detectors are located at specific points (or subregions - see Chapter~\ref{ch:arealine}) of space. Unlike variables affecting the distibution of activity centres, they are not inherently spatial. To use variables associated with detectors, we need only know the values of the variables at the detectors, not throughout the study region. 
+
+Similarly, to use variables associated with occasions we need not know anything about what part of space was covered 
 
 When there are differences between detectors that may make some more efficient than others ... (Hmmm, it is the data structure that is different between detector effects, occasion effects and stratum effects, not the model specification. Maybe these three sections need to be a running example, with code since there is not really anything methodological to say?)
 
-
-\section{Occasion effects}
-
-
-\section{Stratum effects}
 
 
 \section{Effort effects}
