@@ -48,6 +48,6 @@
 #' @examples
 #'  library(scrmlebook)
 #'  data('ERdetfun-data')
-#'  plotcovariate(kruger.mask,covariate="habitat.cov",asp=1,bty="n"))
+#'  plotcovariate(kruger.mask,covariate="habitat.cov",asp=1,bty="n")
 #'  plot(kruger.cams,add=TRUE)
 NULL
