@@ -27,8 +27,17 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[graybox,envcountchap,sectrefs]{SpringerStyleFiles/styles/svmono}
 
+\usepackage[backend=bibtex,natbib=true]{biblatex}
+
 % choose options for [] as required from the list
 % in the Reference Guide
+
+%% Bibliography
+%% ============
+
+%\bibliographystyle{spmpsci}
+
+\bibliography{dlb}
 
 \usepackage{mathptmx}
 \usepackage{helvet}
@@ -65,6 +74,10 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \newcommand{\bes}{\begin{eqnarray*}}
 \newcommand{\ee}{\end{eqnarray}}
 \newcommand{\ees}{\end{eqnarray*}}
+\newcommand{\bd}{\begin{description}}
+\newcommand{\ed}{\end{description}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
 %\newcommand{\bm}[1]{\boldsymbol{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,7 +108,11 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
+<<<<<<< Updated upstream
 %%\Sexpr{knit_child('chapters/example.Rnw')}
+=======
+%\Sexpr{knit_child('chapters/example.Rnw')}
+>>>>>>> Stashed changes
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
@@ -117,6 +134,10 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
+
+
+
+
 
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\Sexpr{knit_child('chapters/glossary.Rnw')}
