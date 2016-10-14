@@ -27,20 +27,28 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[graybox,envcountchap,sectrefs]{SpringerStyleFiles/styles/svmono}
 
+<<<<<<< HEAD
 %\usepackage[backend=bibtex,natbib=true]{biblatex}
 %  From Buckland et al (2015)
 \usepackage[round, authoryear]{natbib}
 \setcitestyle{notesep={:}}
 
+=======
+>>>>>>> origin/master
 % choose options for [] as required from the list
 % in the Reference Guide
 
+
+\usepackage[backend=bibtex]{biblatex}
+
+<<<<<<< HEAD
+
+=======
 %% Bibliography
 %% ============
-
-%\bibliographystyle{spmpsci}
-
-
+%\bibliographystyle{SpringerStyleFiles/styles/svbasic}
+\bibliography{dlb}
+>>>>>>> origin/master
 
 \usepackage{mathptmx}
 \usepackage{helvet}
@@ -111,16 +119,13 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-<<<<<<< Updated upstream
 %%\Sexpr{knit_child('chapters/example.Rnw')}
-=======
-%\Sexpr{knit_child('chapters/example.Rnw')}
->>>>>>> Stashed changes
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
 %\Sexpr{knit_child('chapters/introduction.Rnw')}
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
+\Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/spatial-distribution.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/explaining-diff-detection.Rnw')} %DLB & EH
@@ -138,11 +143,14 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
 
+<<<<<<< HEAD
 
 % Bibliography %
 \bibliography{dlb}{}
 \bibliographystyle{er-chicago}
 
+=======
+>>>>>>> origin/master
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\Sexpr{knit_child('chapters/glossary.Rnw')}
 %%\Sexpr{knit_child('chapters/solutions.Rnw')}
