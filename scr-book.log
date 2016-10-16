@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.4.2)  15 OCT 2016 17:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.4.2)  16 OCT 2016 14:58
 entering extended mode
 **./scr-book.tex
 (scr-book.tex
@@ -1054,7 +1054,7 @@ File: keepfigure/binp.pdf Graphic file (type pdf)
 <use keepfigure/binp.pdf>
 Package pdftex.def Info: keepfigure/binp.pdf used on input line 303.
 (pdftex.def)             Requested size: 312.9803pt x 156.49234pt.
- [7 <./keepfigure/EandN.pdf>] [8 <./keepfigure/binp.pdf>]
+ [7 <./keepfigure/EandN.pdf>]
 
 Package xcolor Warning: Incompatible color definition on input line 317.
 
@@ -1068,20 +1068,20 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 325.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 325.
-[9
-
-]
+[8 <./keepfigure/binp.pdf>]
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 361.
 
- ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 
-LaTeX Warning: Reference `ch:SPmod' on page 10 undefined on input line 364.
+LaTeX Warning: Reference `ch:SPmod' on page 9 undefined on input line 364.
 
 
-LaTeX Warning: Reference `sec:??' on page 10 undefined on input line 364.
+LaTeX Warning: Reference `sec:??' on page 9 undefined on input line 364.
 
+[9]
 
 Package xcolor Warning: Incompatible color definition on input line 369.
 
@@ -1097,11 +1097,10 @@ Overfull \hbox (15.93pt too wide) in paragraph at lines 379--382
 pcr/m/n/10 kruger.capt\OT1/ptm/m/n/10 ,
  []
 
-[10]
 
 Package xcolor Warning: Incompatible color definition on input line 401.
 
-
+[10]
 Overfull \hbox (13.90215pt too wide) in paragraph at lines 404--404
 []                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
 ][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
@@ -1111,31 +1110,26 @@ Overfull \hbox (13.90215pt too wide) in paragraph at lines 404--404
 
 Package xcolor Warning: Incompatible color definition on input line 421.
 
-[11]
+
 Overfull \hbox (13.90215pt too wide) in paragraph at lines 424--424
 []                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
 ][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
 []=[][]"HHR"[][])[][] 
  []
 
+[11]
 
-Package xcolor Warning: Incompatible color definition on input line 433.
-
-
-Package xcolor Warning: Incompatible color definition on input line 457.
+Package xcolor Warning: Incompatible color definition on input line 479.
 
 
-Package xcolor Warning: Incompatible color definition on input line 485.
-
-
-Overfull \hbox (8.80215pt too wide) in paragraph at lines 488--488
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 482--482
 []            []\OT1/pcr/m/n/8.5 xlab[][]=[][]"Distance, d (m)"[][],[][]ylab[][
 ]=[][]\OT1/pcr/b/n/8.5 expression[][]\OT1/pcr/m/n/8.5 ([][]\OT1/pcr/b/n/8.5 hat
 [][]\OT1/pcr/m/n/8.5 (lambda)(d)))[][] 
  []
 
 
-Overfull \hbox (24.10213pt too wide) in paragraph at lines 489--489
+Overfull \hbox (24.10213pt too wide) in paragraph at lines 483--483
 [][]\OT1/pcr/b/n/8.5 plot[][]\OT1/pcr/m/n/8.5 (er.hn.fit,[][]xval[][]=[][]\OT1/
 pcr/b/n/8.5 seq[][]\OT1/pcr/m/n/8.5 ([][]0[][],[][]15000[][],[][]length[][]=[][
 ]200[][]),[][]lwd[][]=[][]3[][],[][]add[][]=[][]TRUE[][],[][]col[][]=[][]"gray"
@@ -1146,162 +1140,154 @@ pcr/b/n/8.5 seq[][]\OT1/pcr/m/n/8.5 ([][]0[][],[][]15000[][],[][]length[][]=[][
 File: keepfigure/ERdetfun-hrfit.pdf Graphic file (type pdf)
 
 <use keepfigure/ERdetfun-hrfit.pdf>
-Package pdftex.def Info: keepfigure/ERdetfun-hrfit.pdf used on input line 502.
+Package pdftex.def Info: keepfigure/ERdetfun-hrfit.pdf used on input line 496.
 (pdftex.def)             Requested size: 312.9803pt x 156.49234pt.
 
 <keepfigure/ERdetfun-locest.pdf, id=111, 214.8025pt x 361.35pt>
 File: keepfigure/ERdetfun-locest.pdf Graphic file (type pdf)
 
 <use keepfigure/ERdetfun-locest.pdf>
-Package pdftex.def Info: keepfigure/ERdetfun-locest.pdf used on input line 512.
+Package pdftex.def Info: keepfigure/ERdetfun-locest.pdf used on input line 506.
 
 (pdftex.def)             Requested size: 170.71652pt x 287.18918pt.
+ [12 <./keepfigure/ERdetfun-hrfit.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 518.
 
 
-! Package xkeyval Error: `nline' undefined in families `todonotes'.
-
-See the xkeyval package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.516 ...g of interpretation section--subsection?}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[12]
-
-Package xcolor Warning: Incompatible color definition on input line 524.
-
-
-Overfull \hbox (8.80215pt too wide) in paragraph at lines 527--527
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 521--521
 []                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
 ][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
 []=[][]"HR"[][])[][] 
  []
 
+[13 <./keepfigure/ERdetfun-locest.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 537.
-
-[13 <./keepfigure/ERdetfun-hrfit.pdf>] [14 <./keepfigure/ERdetfun-locest.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 570.
+Package xcolor Warning: Incompatible color definition on input line 561.
 
 
-Package xcolor Warning: Incompatible color definition on input line 590.
+Package xcolor Warning: Incompatible color definition on input line 581.
 
 
-Package xcolor Warning: Incompatible color definition on input line 604.
-
-
-Overfull \hbox (8.80215pt too wide) in paragraph at lines 606--606
-[][]\OT1/pcr/m/n/8.5 aics[] []=[] []\OT1/pcr/b/n/8.5 AIC[][]\OT1/pcr/m/n/8.5 (e
-r.bin.hn.fit,er.bin.hr.fit,df.bin.hn.fit,df.bin.hr.fit)[][] 
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 584--584
+[]                          []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 l
+ist[][]\OT1/pcr/m/n/8.5 (g0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[][
+]=[][]"HHN"[][])[][] 
  []
+
+[14]
+
+LaTeX Warning: Reference `ch:detector types' on page 15 undefined on input line
+ 623.
+
+
+Package xcolor Warning: Incompatible color definition on input line 624.
+
+
+Package xcolor Warning: Incompatible color definition on input line 630.
+
+
+Package xcolor Warning: Incompatible color definition on input line 630.
+
+
+Package xcolor Warning: Incompatible color definition on input line 632.
+
+
+Package xcolor Warning: Incompatible color definition on input line 638.
+
+
+Package xcolor Warning: Incompatible color definition on input line 638.
+
+
+Package xcolor Warning: Incompatible color definition on input line 641.
 
 [15]
 
-LaTeX Warning: Reference `ch:detector types' on page 16 undefined on input line
- 639.
-
-
-Package xcolor Warning: Incompatible color definition on input line 640.
-
-
-Package xcolor Warning: Incompatible color definition on input line 646.
-
-
-Package xcolor Warning: Incompatible color definition on input line 646.
+Package xcolor Warning: Incompatible color definition on input line 648.
 
 
 Package xcolor Warning: Incompatible color definition on input line 648.
 
 
-Package xcolor Warning: Incompatible color definition on input line 654.
+Package xcolor Warning: Incompatible color definition on input line 656.
 
 
-Package xcolor Warning: Incompatible color definition on input line 654.
+Package xcolor Warning: Incompatible color definition on input line 662.
 
 
-Package xcolor Warning: Incompatible color definition on input line 657.
-
-
-Package xcolor Warning: Incompatible color definition on input line 664.
+Package xcolor Warning: Incompatible color definition on input line 662.
 
 
 Package xcolor Warning: Incompatible color definition on input line 664.
+
+
+Package xcolor Warning: Incompatible color definition on input line 670.
+
+
+Package xcolor Warning: Incompatible color definition on input line 670.
+
+
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 [16]
 
-Package xcolor Warning: Incompatible color definition on input line 672.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 
-Package xcolor Warning: Incompatible color definition on input line 678.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 
-Package xcolor Warning: Incompatible color definition on input line 678.
+Package xcolor Warning: Incompatible color definition on input line 673.
 
 
-Package xcolor Warning: Incompatible color definition on input line 680.
+Package xcolor Warning: Incompatible color definition on input line 683.
 
 
-Package xcolor Warning: Incompatible color definition on input line 686.
-
-
-Package xcolor Warning: Incompatible color definition on input line 686.
-
-
-Package xcolor Warning: Incompatible color definition on input line 689.
-
-
-Package xcolor Warning: Incompatible color definition on input line 699.
-
-
-Package xcolor Warning: Incompatible color definition on input line 699.
+Package xcolor Warning: Incompatible color definition on input line 683.
 
 [17] <keepfigure/linkfuns.pdf, id=143, 578.16pt x 216.81pt>
 File: keepfigure/linkfuns.pdf Graphic file (type pdf)
 
 <use keepfigure/linkfuns.pdf>
-Package pdftex.def Info: keepfigure/linkfuns.pdf used on input line 730.
+Package pdftex.def Info: keepfigure/linkfuns.pdf used on input line 714.
 (pdftex.def)             Requested size: 341.43306pt x 128.03587pt.
 
-Overfull \hbox (8.53583pt too wide) in paragraph at lines 730--732
+Overfull \hbox (8.53583pt too wide) in paragraph at lines 714--716
  [][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 743.
-
-[18]
-
-Package xcolor Warning: Incompatible color definition on input line 749.
+Package xcolor Warning: Incompatible color definition on input line 727.
 
 
-Package xcolor Warning: Incompatible color definition on input line 749.
+Package xcolor Warning: Incompatible color definition on input line 733.
 
 
-LaTeX Warning: Reference `ch:arealine' on page 19 undefined on input line 761.
+Package xcolor Warning: Incompatible color definition on input line 733.
 
-[19 <./keepfigure/linkfuns.pdf>] (scr-book.bbl) [20] (scr-book.ind [21
+[18 <./keepfigure/linkfuns.pdf>]
+
+LaTeX Warning: Reference `ch:arealine' on page 19 undefined on input line 745.
+
+(scr-book.bbl) [19] [20
 
 
+] (scr-book.ind [21
 
 
-])
-(scr-book.aux)
+]) (scr-book.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 15081 strings out of 493622
- 285773 string characters out of 3143636
- 366811 words of memory out of 3000000
- 18079 multiletter control sequences out of 15000+200000
+ 15056 strings out of 493622
+ 285215 string characters out of 3143636
+ 349913 words of memory out of 3000000
+ 18054 multiletter control sequences out of 15000+200000
  69174 words of font info for 150 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 62i,10n,85p,1007b,899s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 62i,10n,85p,1007b,895s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fon
@@ -1314,7 +1300,7 @@ TeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi
 8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Progra
 m Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on scr-book.pdf (25 pages, 303240 bytes).
+Output written on scr-book.pdf (25 pages, 299659 bytes).
 PDF statistics:
  205 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

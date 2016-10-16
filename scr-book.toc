@@ -3,18 +3,18 @@
 \contentsline {subsection}{\numberline {1.1.1}Spatial capture histories and encounter functions}{3}
 \contentsline {subsection}{\numberline {1.1.2}The capture history likelihood component: count data}{5}
 \contentsline {section}{\numberline {1.2}A simple spatial binary detection model}{6}
-\contentsline {subsection}{\numberline {1.2.1}The capture history likelihood component: binary data}{9}
-\contentsline {section}{\numberline {1.3}Should you model $p(d,T)$ or $\lambda (d)$?}{9}
-\contentsline {section}{\numberline {1.4}Count and binary data application}{10}
-\contentsline {subsection}{\numberline {1.4.1}Example fits to count data}{11}
-\contentsline {subsection}{\numberline {1.4.2}Example fits to binary data}{15}
+\contentsline {subsection}{\numberline {1.2.1}The capture history likelihood component: binary data}{8}
+\contentsline {section}{\numberline {1.3}Should you model $p(d,T)$ or $\lambda (d)$?}{8}
+\contentsline {section}{\numberline {1.4}Count and binary data application}{9}
+\contentsline {subsection}{\numberline {1.4.1}Example fits to count data}{10}
+\contentsline {subsection}{\numberline {1.4.2}Example fits to binary data}{14}
 \contentsline {section}{\numberline {1.5}Occasions: recaptures across space and time}{15}
 \contentsline {section}{\numberline {1.6}Strata: no recaptures across space and time}{16}
-\contentsline {section}{\numberline {1.7}Modelling covariate effects}{18}
-\contentsline {subsection}{\numberline {1.7.1}Link functions and linear predictors}{18}
+\contentsline {section}{\numberline {1.7}Modelling covariate effects}{17}
+\contentsline {subsection}{\numberline {1.7.1}Link functions and linear predictors}{17}
 \contentsline {section}{\numberline {1.8}Detector, occasion and stratum effects}{19}
-\contentsline {section}{\numberline {1.9}Effort effects}{20}
-\contentsline {section}{\numberline {1.10}Individual effects (behaviour and heterogeneity)}{20}
-\contentsline {section}{\numberline {1.11}Habitat effects}{20}
-\contentsline {section}{References}{20}
+\contentsline {section}{\numberline {1.9}Effort effects}{19}
+\contentsline {section}{\numberline {1.10}Individual effects (behaviour and heterogeneity)}{19}
+\contentsline {section}{\numberline {1.11}Habitat effects}{19}
+\contentsline {section}{References}{19}
 \contentsline {chapter}{Index}{21}
