@@ -1,161 +1,3 @@
-
-
-%%%%%%%%%%%%%%%%%%%% book.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% sample root file for the chapters of your "monograph"
-%
-% Use this file as a template for your own input.
-%
-%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[graybox,envcountchap,sectrefs]{SpringerStyleFiles/styles/svmono}\usepackage[]{graphicx}\usepackage[]{color}
-%% maxwidth is the original width if it is less than linewidth
-%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
-\makeatletter
-\def\maxwidth{ %
-  \ifdim\Gin@nat@width>\linewidth
-    \linewidth
-  \else
-    \Gin@nat@width
-  \fi
-}
-\makeatother
-
-\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
-\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
-\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
-\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
-\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
-\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
-\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
-\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
-\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
-\let\hlipl\hlkwb
-
-\usepackage{framed}
-\makeatletter
-\newenvironment{kframe}{%
- \def\at@end@of@kframe{}%
- \ifinner\ifhmode%
-  \def\at@end@of@kframe{\end{minipage}}%
-  \begin{minipage}{\columnwidth}%
- \fi\fi%
- \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
- \colorbox{shadecolor}{##1}\hskip-\fboxsep
-     % There is no \\@totalrightmargin, so:
-     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
- \MakeFramed {\advance\hsize-\width
-   \@totalleftmargin\z@ \linewidth\hsize
-   \@setminipage}}%
- {\par\unskip\endMakeFramed%
- \at@end@of@kframe}
-\makeatother
-
-\definecolor{shadecolor}{rgb}{.97, .97, .97}
-\definecolor{messagecolor}{rgb}{0, 0, 0}
-\definecolor{warningcolor}{rgb}{1, 0, 1}
-\definecolor{errorcolor}{rgb}{1, 0, 0}
-\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
-
-\usepackage{alltt}
-
-
-%\usepackage[backend=bibtex,natbib=true]{biblatex}
-%  From Buckland et al (2015)
-\usepackage[round, authoryear]{natbib}
-\setcitestyle{notesep={:}}
-
-% choose options for [] as required from the list
-% in the Reference Guide
-
-
-%\usepackage[backend=bibtex]{biblatex}
-
-
-%% Bibliography
-%% ============
-%\bibliographystyle{SpringerStyleFiles/styles/svbasic}
-%\bibliography{dlb}
-
-
-\usepackage{mathptmx}
-\usepackage{helvet}
-\usepackage{courier}
-%
-\usepackage{type1cm}         
-
-\usepackage{makeidx}         % allows index generation
-\usepackage{graphicx}        % standard LaTeX graphics tool
-                             % when including figure files
-\usepackage{multicol}        % used for the two-column index
-\usepackage[bottom]{footmisc}% places footnotes at page bottom
-
-\usepackage{layouts}
-
-\usepackage{bm}              % bold math and greek symbols
-\usepackage{afterpage}       % allows \clearpage without inserting a page break
-\usepackage{amsfonts}        % gives things like \mathbb{P} (fancy P for probabilities n)
-\usepackage{amsmath}         % for \eqref
-
-\usepackage[colorinlistoftodos,linecolor=gray,backgroundcolor=white]{todonotes} % To annotate
-
-% see the list of further useful packages
-% in the Reference Guide
-
-\makeindex             % used for the subject index
-                       % please use the style svind.ist with
-                       % your makeindex program
-
-% User-defined commands:
-\newcommand{\ul}[1]{\underline{#1}}
-\newcommand{\wh}[1]{\mbox{$\widehat{#1}$}}
-\newcommand{\be}{\begin{eqnarray}}
-\newcommand{\bes}{\begin{eqnarray*}}
-\newcommand{\ee}{\end{eqnarray}}
-\newcommand{\ees}{\end{eqnarray*}}
-\newcommand{\bd}{\begin{description}}
-\newcommand{\ed}{\end{description}}
-\newcommand{\bi}{\begin{itemize}}
-\newcommand{\ei}{\end{itemize}}
-%\newcommand{\bm}[1]{\boldsymbol{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\begin{document}
-
-%% Uncomment to print width and height of text.
-%%\printinunitsof{in}\prntlen{\textwidth}
-%%\printinunitsof{in}\prntlen{\textheight}
-
-\author{David Borchers, Eric Rexstad, Ben Stevenson, Eric Howe and Greg Distiller}
-\title{Spatial Capture-Recapture by Maximum Likelihood, with R}
-%\subtitle{-- Monograph --}
-\maketitle
-
-\frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%knit_child('chapters/dedic.Rnw')
-%%knit_child('chapters/foreword.Rnw')
-%%knit_child('chapters/preface.Rnw')
-%%knit_child('chapters/acknow.Rnw')
-
-\tableofcontents
-
-%%knit_child('chapters/acronym.Rnw')
-
-
-\mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% Example chapter (leave commented).
-%%knit_child('chapters/example.Rnw')
-
-%%knit_child('chapters/part.Rnw')
-
-%knit_child('chapters/introduction.Rnw')
-
 \chapter{Spatial encounter rates and detection probabilities}
 \label{chap:ER+detfun}
 
@@ -292,7 +134,7 @@ Notice that this probability depends on the survey duration, $T$. If the same de
 \label{fig:ER+detfun_EandN}
 \end{figure}
 
-%\afterpage{\clearpage}
+\afterpage{\clearpage}
 
 The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambda(d_{ij})$ shown in Figure~\ref{fig:ER+detfun_EandN} is shown in Figure~\ref{fig:ER+detfun_binp}. Notice that while the encounter rate model was specified to have a Gaussian function shape (see Eqn~\eqref{eq:ER+detfun.lambda.hn} and Figure~\ref{fig:ER+detfun_EandN}), this leads to a detection function $p(d_{ij},T)$ that does not have a Gaussian function shape (see Eqn~\eqref{eq:ER+detfun.binaryp} and Figure~\ref{fig:ER+detfun_binp}). Conversely, if we specify that the detection function $p(d_{ij},T)$ has a Gaussian function shape, then the corresponding encounter rate function would not have a Gaussian function shape.
 
@@ -369,6 +211,34 @@ The necessary data and associated fitted objects are obtained by loading the lib
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlkwd{library}\hlstd{(scrmlebook)}
+\end{alltt}
+
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: secr}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'secr' was built under R version 3.2.5}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# This is secr 2.10.3. For overview type ?secr}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: fields}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'fields' was built under R version 3.2.5}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: spam}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'spam' was built under R version 3.2.5}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: grid}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Spam version 1.4-0 (2016-08-29) is loaded.\\\#\# Type 'help( Spam)' or 'demo( spam)' for a short introduction \\\#\# and overview of this package.\\\#\# Help for individual functions is also obtained by adding the\\\#\# suffix '.spam' to the function name, e.g. 'help( chol.spam)'.}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# \\\#\# Attaching package: 'spam'}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# The following objects are masked from 'package:base':\\\#\# \\\#\#\ \ \ \  backsolve, forwardsolve}}
+
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# Loading required package: maps}}
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: package 'maps' was built under R version 3.2.5}}\begin{alltt}
 \hlkwd{data}\hlstd{(}\hlstr{"ERdetfun-data"}\hlstd{)}
 \hlkwd{data}\hlstd{(}\hlstr{"ERdetfun-fits"}\hlstd{)}
 \end{alltt}
@@ -427,48 +297,54 @@ An encounter rate model with hazard rate shape is called ``\texttt{HHR}'' in \te
 \end{knitrout}
 }
 
-The Gaussian and hazard models can be compared on the basis of AIC$_c$ as follows
+The Gaussian and hazard models can be compared on the basis of AIC$_c$ as follows\todo{How to put in neat table?}
 {\small
-% latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Sun Oct 16 14:58:13 2016
-\begin{table}[ht]
-\centering
-\begin{tabular}{rllrr}
-  \hline
- & model & detectfn & dAICc & AICcwt \\ 
-  \hline
-er.hr.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 z\~{}1 & hazard hazard rate & 0.00 & 0.67 \\ 
-  er.hn.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 & hazard halfnormal & 1.45 & 0.33 \\ 
-   \hline
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{aics} \hlkwb{<-} \hlkwd{AIC}\hlstd{(er.hn.fit,er.hr.fit)}
+\hlstd{knitr}\hlopt{::}\hlkwd{kable}\hlstd{(aics[,}\hlkwd{c}\hlstd{(}\hlstr{"model"}\hlstd{,}\hlstr{"detectfn"}\hlstd{,}\hlstr{"dAICc"}\hlstd{,}\hlstr{"AICcwt"}\hlstd{)])}
+\end{alltt}
+\end{kframe}
+\begin{tabular}{l|l|l|r|r}
+\hline
+  & model & detectfn & dAICc & AICcwt\\
+\hline
+er.hr.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 z\textasciitilde{}1 & hazard hazard rate & 0.000 & 0.6735\\
+\hline
+er.hn.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 & hazard halfnormal & 1.448 & 0.3265\\
+\hline
 \end{tabular}
-\caption{Model selection criteria for hazard rate and Gaussian encounter rate models fitted to Kruger count data.} 
-\label{tab:ERdetfun.countmodsel}
-\end{table}
 
+
+\end{knitrout}
 }
-
 \noindent
-With a $\Delta$AIC$_c$ of only about 1.45 (Table~\ref{tab:ERdetfun.countmodsel}), this suggests that the hazard rate model is slightly better than the Gaussian model. Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table~\ref{tab:ERdetfun.countests}.
+With a $\Delta$AIC$_c$ of only about 1.45, this suggests that the hazard rate model is slightly better than the Gaussian model Point estimates and upper and lower 95\% confidence interval bounds for density, $\lambda_0$, $\sigma$ and the hazard rate parameter $b$ (called \texttt{z} in \texttt{secr}-speak) are show in Table ??\todo{how make this into a table?}.
 
 {\small
-% latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Sun Oct 16 14:58:13 2016
-\begin{table}[ht]
-\centering
-\begin{tabular}{rrrr}
-  \hline
- & estimate & lcl & ucl \\ 
-  \hline
-D & 0.0002 & 0.0001 & 0.0003 \\ 
-  lambda0 & 1.9105 & 0.5875 & 6.2124 \\ 
-  sigma & 1262.7018 & 503.2888 & 3167.9935 \\ 
-  z & 2.1126 & 1.6540 & 2.6984 \\ 
-   \hline
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{knitr}\hlopt{::}\hlkwd{kable}\hlstd{(}\hlkwd{predict}\hlstd{(er.hr.fit)[,}\hlkwd{c}\hlstd{(}\hlstr{"estimate"}\hlstd{,}\hlstr{"lcl"}\hlstd{,}\hlstr{"ucl"}\hlstd{)])}
+\end{alltt}
+\end{kframe}
+\begin{tabular}{l|r|r|r}
+\hline
+  & estimate & lcl & ucl\\
+\hline
+D & 0.0002016 & 0.0001304 & 0.0003117\\
+\hline
+lambda0 & 1.9104668 & 0.5875132 & 6.2124277\\
+\hline
+sigma & 1262.7017790 & 503.2888429 & 3167.9934994\\
+\hline
+z & 2.1126221 & 1.6540366 & 2.6983516\\
+\hline
 \end{tabular}
-\caption{Parameter estimates and 95\% confidence bounds for density, $\lambda_0$ and hazard rate parameter $b$.} 
-\label{tab:ERdetfun.countests}
-\end{table}
 
+
+\end{knitrout}
 } 
 
 
@@ -507,7 +383,7 @@ The Gaussian model seems to be a  poor fit to the average encounter data, and in
 \label{fig:ERdetfun-locest}
 \end{figure}
 
-\todo[inline]{beginning of interpretation section--subsection?}
+\todo[nline]{beginning of interpretation section--subsection?}
 Interestingly, \todo[inline]{but density isn't reported here, should it be discussed?}the estimated leopard density from the hazard rate model is only about 5\% smaller than that from the Gaussian model, despite their very different shapes (Figure~\ref{fig:ERdetfun.hrfit}). This is a fairly typical feature of SCR models: different models can give quite different encounter rate (or detection function) shapes but very similar density estimates. The root cause of this is that  we have rather poor information on the distances of detectors from activity centres because we do not observe the activity centres, and as a result there is relatively little information in the data to tell us about the shape of the encounter rate function or detection function. There is usually quite good information on \textit{area under the encounter rate or detection function}. In our case the areas under the Gaussian and hazard rate curves differ by only 6\%. 
 
 A moral of this story is ``Be careful not to over-interpret encounter rate or detection functions.''.
@@ -525,28 +401,31 @@ We could also specify Gaussian or hazard-rate forms for the detection function r
 }
 Note that this detection function applies over the duration of the survey. We are implicitly saying that $T=1$ for the duration of the survey, i.e., that time units are ``this-survey-length''. Specifying the same detection function for a survey of a different length would be inconsistent.
 
-\todo[inline]{not all models in table shown in text...}Having fitted models with both Gaussian and hazard-rate forms for the encounter rate function and the detection function, we can compare models using AIC$_c$ again:
-\todo[inline]{Tables 1.3 and 1.4 not referenced in text.}
-
+\todo[inline]{not all models in table shown in text...}Having fitted models with both Gaussian and hazard-rate forms for the encounter rate function and the detection function, we can compare models using AIC$_c$ again:\todo{How to put in neat table?}
 {\small
-% latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Sun Oct 16 14:58:14 2016
-\begin{table}[ht]
-\centering
-\begin{tabular}{rllrr}
-  \hline
- & model & detectfn & dAICc & AICcwt \\ 
-  \hline
-er.hr.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 z\~{}1 & hazard hazard rate & 0.00 & 0.34 \\ 
-  df.hr.fit & D\~{}1 g0\~{}1 sigma\~{}1 z\~{}1 & hazard rate & 0.12 & 0.32 \\ 
-  df.hn.fit & D\~{}1 g0\~{}1 sigma\~{}1 & halfnormal & 1.25 & 0.18 \\ 
-  er.hn.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 & hazard halfnormal & 1.45 & 0.16 \\ 
-   \hline
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{aics} \hlkwb{=} \hlkwd{AIC}\hlstd{(er.hn.fit,er.hr.fit,df.hn.fit,df.hr.fit)}
+\hlstd{knitr}\hlopt{::}\hlkwd{kable}\hlstd{(aics[,}\hlkwd{c}\hlstd{(}\hlstr{"model"}\hlstd{,}\hlstr{"detectfn"}\hlstd{,}\hlstr{"dAICc"}\hlstd{,}\hlstr{"AICcwt"}\hlstd{)])}
+\end{alltt}
+\end{kframe}
+\begin{tabular}{l|l|l|r|r}
+\hline
+  & model & detectfn & dAICc & AICcwt\\
+\hline
+er.hr.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 z\textasciitilde{}1 & hazard hazard rate & 0.000 & 0.3375\\
+\hline
+df.hr.fit & D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 z\textasciitilde{}1 & hazard rate & 0.119 & 0.3180\\
+\hline
+df.hn.fit & D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 & halfnormal & 1.246 & 0.1810\\
+\hline
+er.hn.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 & hazard halfnormal & 1.448 & 0.1636\\
+\hline
 \end{tabular}
-\caption{Model selection criteria for hazard rate and Gaussian detection function models fitted to Kruger count data.} 
-\label{tab:ERdetfun.detfn.countmodsel}
-\end{table}
 
+
+\end{knitrout}
 }
 \noindent
 It is apparent from this that it makes very little difference whether you specify the shape of the encounter rate function or the shape of the detection function. The main difference is that the shape of the encounter rate function is independent of the survey duration, whereas the shape of the detection function changes with survey length. This makes the encounter rate function a ``common currency'' for all survey durations.
@@ -580,8 +459,10 @@ Here is code to fit an encounter rate function model with hazard rate form to th
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{er.bin.hn.fit} \hlkwb{<-} \hlkwd{secr.fit}\hlstd{(kruger.capt.bin,} \hlkwc{mask}\hlstd{=kruger.mask,}
-                          \hlkwc{model}\hlstd{=}\hlkwd{list}\hlstd{(g0}\hlopt{~}\hlnum{1}\hlstd{,sigma}\hlopt{~}\hlnum{1}\hlstd{),} \hlkwc{detectfn}\hlstd{=}\hlstr{"HHN"}\hlstd{)}
+\hlstd{detfn}\hlkwb{=}\hlstr{"HHN"}
+\hlstd{er.hn.model}\hlkwb{=}\hlkwd{list}\hlstd{(g0}\hlopt{~}\hlnum{1}\hlstd{,sigma}\hlopt{~}\hlnum{1}\hlstd{)}
+\hlstd{er.bin.hn.fit}\hlkwb{=}\hlkwd{secr.fit}\hlstd{(kruger.capt.bin,} \hlkwc{mask}\hlstd{=kruger.mask,}
+                       \hlkwc{model}\hlstd{=}\hlkwd{list}\hlstd{(g0}\hlopt{~}\hlnum{1}\hlstd{,sigma}\hlopt{~}\hlnum{1}\hlstd{),} \hlkwc{detectfn}\hlstd{=}\hlstr{"HHN"}\hlstd{)}
 \end{alltt}
 \end{kframe}
 \end{knitrout}
@@ -589,216 +470,30 @@ Here is code to fit an encounter rate function model with hazard rate form to th
 
 And to compare various models fitted to these binary data:
 {\small
-% latex table generated in R 3.2.3 by xtable 1.8-2 package
-% Sun Oct 16 14:58:14 2016
-\begin{table}[ht]
-\centering
-\begin{tabular}{rllrr}
-  \hline
- & model & detectfn & dAICc & AICcwt \\ 
-  \hline
-df.bin.hn.fit & D\~{}1 g0\~{}1 sigma\~{}1 & halfnormal & 0.00 & 0.28 \\ 
-  er.bin.hn.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 & hazard halfnormal & 0.02 & 0.28 \\ 
-  df.bin.hr.fit & D\~{}1 g0\~{}1 sigma\~{}1 z\~{}1 & hazard rate & 0.53 & 0.22 \\ 
-  er.bin.hr.fit & D\~{}1 lambda0\~{}1 sigma\~{}1 z\~{}1 & hazard hazard rate & 0.56 & 0.21 \\ 
-   \hline
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{aics} \hlkwb{=} \hlkwd{AIC}\hlstd{(er.bin.hn.fit,er.bin.hr.fit,df.bin.hn.fit,df.bin.hr.fit)}
+\hlstd{knitr}\hlopt{::}\hlkwd{kable}\hlstd{(aics[,}\hlkwd{c}\hlstd{(}\hlstr{"model"}\hlstd{,}\hlstr{"detectfn"}\hlstd{,}\hlstr{"dAICc"}\hlstd{,}\hlstr{"AICcwt"}\hlstd{)])}
+\end{alltt}
+\end{kframe}
+\begin{tabular}{l|l|l|r|r}
+\hline
+  & model & detectfn & dAICc & AICcwt\\
+\hline
+df.bin.hn.fit & D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 & halfnormal & 0.000 & 0.2846\\
+\hline
+er.bin.hn.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 & hazard halfnormal & 0.016 & 0.2823\\
+\hline
+df.bin.hr.fit & D\textasciitilde{}1 g0\textasciitilde{}1 sigma\textasciitilde{}1 z\textasciitilde{}1 & hazard rate & 0.529 & 0.2184\\
+\hline
+er.bin.hr.fit & D\textasciitilde{}1 lambda0\textasciitilde{}1 sigma\textasciitilde{}1 z\textasciitilde{}1 & hazard hazard rate & 0.563 & 0.2147\\
+\hline
 \end{tabular}
-\caption{Model selection criteria for hazard rate and Gaussian detection function models fitted to Kruger binary data.} 
-\label{tab:ERdetfun.detfn.binarymodsel}
-\end{table}
 
+
+\end{knitrout}
 }
-
-
- %DLB
-
-
-\section{Occasions: recaptures across space and time}
-\label{sec:ER+detfun.occasions}
-
-A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background since occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
-
-Instead of detections (or not) on each of a number of occasions in \textit{time}, we had detections (or not) at each of a number detectors in \textit{space} in the example above. This allowed us to estimate the expected number of encounters (and hence detection probability, since detection is just at least one encounter) when we have only a single sampling occasion. But you can't do this if your detectors are traps that hold animals when they detect them. 
-
-We delay dealing with such traps until Chapter~\ref{ch:detector types}. But here we extend the above models to include occasions, which we index by $k=1,\ldots,K$. The count and binary likelihood functions of Eqns~\eqref{eq:ER+detfun.P.Omega.count} and \eqref{eq:ER+detfun.P.Omega.binary} are easily extended to include multiple occasions like this:
-\begin{svgraybox}
-\bf{The capture history likelihood component for count data (multi-occasion)}
-\be
-[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\prod_{k=1}^K\mbox{Po}\left(n_{ijk};\lambda(d_{ijk})T_k\right)
-\label{eq:ER+detfun.P.Omega.count.occ}
-\ee
-\end{svgraybox}
-and this:
-\begin{svgraybox}
-\bf{The capture history likelihood component for independent binary data (multi-occasion)}
-\be
-[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\prod_{k=1}^K\mbox{Bern}\left(\delta_{ijk};p(d_{ijk},T_k)\right)
-\label{eq:ER+detfun.P.Omega.binary.occ}
-\ee
-\end{svgraybox}
-\noindent
-where
-\begin{svgraybox}
-\bd
-\item[$n_{ijk}$] is the number of detections of individual $i$ at detector $j$ on occasion $k$,
-\item[$\delta_{ijk}$] is 1 if individual $i$ was detected at detector $j$ on occasion $k$,
-\item[$d_{ijk}$] is the distance of the activity centre of individual $i$ from detector $j$ on occasion $k$. Note that this is a latent variable - we do not observe it.
-\item[$T_k$] is the duration of the $k$th occasion.
-\ed
-\end{svgraybox}
-
-\section{Strata: no recaptures across space and time}
-\label{sec:ER+detfun.strata}
-
-It is sometimes useful to analyse multiple survey units that might share common encounter rate or detection function parameters, but between which recaptures cannot occur. These might be distinct spatial units (regions separated by larger distances than individuals would travel over the survey period, for example), or they might be surveys of the same region at times that are so far apart that no marks from one occasion are identifiable on other occasions. In survey parlance these are commonly called ``strata''. In \texttt{secr}-speak they are ``sessions''. (\cite{Royle+al:14} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
-
-In this case, each stratum is like a separate mini-survey that could be analysed on its own, without the other strata. But if some parameters may be shared across strata (if they might have a common $\sigma$, for example), then the analysis must combine the strata. Because no recaptures (as opposed to parameters) are shared across strata, the capture histories are independent between strata and the corresponding multi-stratum likelihood is just the product of the likelihoods for each stratum. Indexing stratum by $l=1,\ldots,L$, the stratified count and binary likelihood functions are:
-\begin{svgraybox}
-\bf{The capture history likelihood component for count data (multi-occasion, stratified)}
-\be
-[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{l=1}^L\prod_{i=1}^{n_l}\prod_{k=1}^{K_l}\prod_{j=1}^{J_{kl}}\mbox{Po}\left(n_{ijkl};\lambda(d_{ijkl})T_{kl}\right)
-\label{eq:ER+detfun.P.Omega.count.occ.strat}
-\ee
-\end{svgraybox}
-and this:
-\begin{svgraybox}
-\bf{The capture history likelihood component for independent binary data (multi-occasion, stratified)}
-\be
-[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{l=1}^L\prod_{i=1}^{n_l}\prod_{k=1}^{K_l}\prod_{j=1}^{J_{kl}}\mbox{Bern}\left(\delta_{ijkl};p(d_{ijkl},T_{kl})\right)
-\label{eq:ER+detfun.P.Omega.binary.occ.strat}
-\ee
-\end{svgraybox}
-\noindent
-where
-\begin{svgraybox}
-\bd
-\item[$n_{ijk}$] is the number of detections of individual $i$ at detector $j$ on occasion $k$,
-\item[$\delta_{ijkl}$] is 1 if individual $i$ in stratum $l$ was detected at detector $j$ on occasion $k$ in that straum,
-\item[$d_{ijkl}$] is the distance of the activity centre of individual $i$ in stratum $l$ from detector $j$ on occasion $k$ in that stratum. Note that this is a latent variable - we do not observe it.
-\item[$T_{kl}$] is the duration of the $k$th occasion in the $l$th stratum.
-\item[$n_l$] is the number of individuals detected in stratum $l$.
-\item[$J_{kl}$] is the number of detectors used on occasion $k$ in stratum $l$.
-\item[$K_l$] is the number of sampling occasions in stratum $l$.
-\ed
-\end{svgraybox}
-
-\section{Modelling covariate effects}
-
-As noted at the beginning of this chapter, encounter rates and detection probabilities often depend on variables associated with the detectors, the environment, the individual animals and other things. We need to be able to model this dependence. While there is no single correct way to do this, there are two ways in which it is commonly done:
-\bi
-\item by making the intercept of the encounter rate function ($\lambda_0$) or the detection function ($g_0$) depend on covariates and/or
-\item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
-\ei
-
-\subsection{Link functions and linear predictors}
-
-We make parameters depend on covariates by writing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $x$ in this way: $g_0=\beta_0 + \beta_1 x$, where $\beta_0$ and $\beta_1$ are unknown parameters. This would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. As with generalised linear models (GLMs), the link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 x$ in the example above) to the prameter of interest ($g_0$ in this example).
-
-In the case of $g_0$ we need a link function that keeps it between 0 and 1, while in the case of $\lambda_0$ (a rate, and hence bounded below by zero but unbounded above) and $\sigma$ (also bounded below by zero but unbounded above). Common choices are a logit link or complimentary log-log link (``cloglog'' link for short) for $g_0$, and log links for $\lambda_0$ and $\sigma$. 
-
-By convention, link functions specify $\eta$ as a function of (in our case) $g_0$, $\lambda_0$ or $\sigma$. In our context, it is easier to interpret the inverse link functions, which give $g_0$, $\lambda_0$ or $\sigma$ as functions of the linear predictor $\eta$. Examples of the inverse link function forms as functions of a linear predictor $\eta=\beta_0+\beta_1 x$ are shown for positive and negative $\beta_1$ in Figure~\ref{fig:ERdetfun.linkfuns}. The equations for the inverse link functions are as follows:
-\begin{center}
-\begin{tabular}{ rll } 
-$g_0=\;$ & $\;\frac{e^\eta}{1+e^\eta}$ & (inverse logit link) \\
-$g_0=\;$ & $\;1-\exp\left\{e^{-\eta}\right\}$ & (inverse cloglog link) \\
-$\lambda_0=\;$ & $\;e^\eta$ & (inverse log link) \\
-$\sigma=\;$ & $\;e^\eta$ & (inverse log link)
-\end{tabular}
-\end{center}
-
-
-\begin{figure}[ht]
-\caption{\small Inverse logit and cloglog (left) and log (right) link functions of a linear predictor $\eta=\beta_0+\beta_1 x$. Solid lines are for positive $\beta_1$ while dashed lines are for negative $\beta_1$. The left plot shows the inverse logit link in black and the inverse cloglog link in grey.}
-\centering
-\vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/linkfuns.pdf}
-\label{fig:ERdetfun.linkfuns}
-\end{figure}
-
-Dependence on more covariates is modelled by adding terms to the linear predictor: $\eta=\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_m x_m$. 
-
-
-\todo[inline]{Should we mention regression splines here, and add a plot explaining?}
-
-
-The \texttt{secr} syntax for this follows the syntax for GLMs in \texttt{R}:
-\noindent
-{\small
-\begin{svgraybox}
-\texttt{
-g0 \url{~} x1 + x2 + $\cdots$ + xm \\
-lambda0 \url{~} x1 + x2 + $\cdots$ + xm \\
-sigma \url{~} x1 + x2 + $\cdots$ + xm 
-}
-\end{svgraybox}
-}
-\noindent
-The \texttt{secr} package automatically selects the log link for $\sigma$ and $\lambda_0$, and the logit link for $g_0$. Interaction terms and main effects with interactions can be added using ``\texttt{:}'' and ``\texttt{*}'', respectively, as with GLMs in \texttt{R}.
-
-
-
-\section{Detector, occasion and stratum effects}
-
-It is useful to separate variables that affect encounter rate and detection probability into two classes: those that need to be known throughout the survey region, and those that need to be known only at the detectors. In this section we deal with those that need to be known only at the detectors. This includes variables associated with occasions or strata, except in the case in which 
-
-
-The effects on encounter rate and detection probability of variables associated with detectors are spatial only to the extent that detectors are located at specific points (or subregions - see Chapter~\ref{ch:arealine}) of space. Unlike variables affecting the distibution of activity centres, they are not inherently spatial. To use variables associated with detectors, we need only know the values of the variables at the detectors, not throughout the study region. 
-
-Similarly, to use variables associated with occasions we need not know anything about what part of space was covered 
-
-When there are differences between detectors that may make some more efficient than others ... (Hmmm, it is the data structure that is different between detector effects, occasion effects and stratum effects, not the model specification. Maybe these three sections need to be a running example, with code since there is not really anything methodological to say?)
-
-
-
-\section{Effort effects}
-
-The encounter rate function is the key to adjusting for changes in effort between traps, occasions or sessions. With it we already have a link function between the expected encounter rate $\lambda(d)$ or detection probability $p(d)$ on the one hand, and the time a detector operated ($T_{jkl}$ for detector $j$ on occasion $j$ in stratum $l$) on the other:
-
-\section{Individual effects (behaviour and heterogeneity)}
-
-
-\section{Habitat effects} %DLB
-% knit_child('chapters/spatial-distribution.Rnw') %DLB
-% knit_child('chapters/detprob-and-spatial.Rnw')  %DLB
-% knit_child('chapters/explaining-diff-detection.Rnw') %DLB & EH
-% knit_child('chapters/detector-types.Rnw')  %Ben
-% knit_child('chapters/area-transect-detectors.Rnw')  %Ben
-% knit_child('chapters/non-euclidian.Rnw')  %DLB
-% knit_child('chapters/trend-models.Rnw')  %EH
-% knit_child('chapters/survey-design.Rnw')  %EH
-% knit_child('chapters/acoustics.Rnw')  %Ben
-% knit_child('chapters/continuous-time.Rnw')  %Greg
-% knit_child('chapters/open-popns.Rnw')  %DLB
-% knit_child('chapters/unmarked-telemetry.Rnw')  %Ben
-% knit_child('chapters/synthesis.Rnw')  %DLB
-
-%%knit_child('chapters/chapter.Rnw')
-%%knit_child('chapters/appendix.Rnw')
-
-
-% Bibliography %
-\bibliography{dlb}{}
-\bibliographystyle{er-chicago}
-
-\backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%knit_child('chapters/glossary.Rnw')
-%%knit_child('chapters/solutions.Rnw')
-
-\index{Expected encounter rate|see{encounter rate}}
-\index{Hazard rate|see{{\it also} encounter rate}}
-\index{Capture function|see{Detection function}}
-\index{Capture probability|see{Detection probability}}
-\index{Detection probability|see{{\it also} Detection function}}
-\index{Animal-level variables|see{{\it also} Heterogeneity}}
-\index{Survey-level variables|see{{\it also} Heterogeneity}}
-
-\printindex
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\end{document}
-
-
 
 
 

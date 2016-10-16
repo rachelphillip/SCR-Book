@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.6.1)  14 OCT 2016 15:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2016.4.2)  16 OCT 2016 14:58
 entering extended mode
 **./scr-book.tex
 (scr-book.tex
-LaTeX2e <2016/03/31>
-Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+LaTeX2e <2016/02/01>
+Babel <3.9q> and hyphenation patterns for 70 language(s) loaded.
 (SpringerStyleFiles/styles/svmono.cls
 
 LaTeX Warning: You have requested document class `SpringerStyleFiles/styles/svm
@@ -86,21 +86,21 @@ LaTeX Font Info:    Redeclaring math symbol \Omega on input line 842.
 LaTeX Info: Redefining \abstract on input line 1894.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
-Package: color 2016/07/10 v1.1e Standard LaTeX Color (DPC)
+Package: color 2016/01/03 v1.1b Standard LaTeX Color (DPC)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
-File: color.cfg 2016/01/02 v1.6 sample color configuration
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: pdftex.def on input line 147.
+Package color Info: Driver file: pdftex.def on input line 143.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
-File: pdftex.def 2016/07/10 v0.06j Graphics/color for pdfTeX
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count105
 ))
@@ -120,15 +120,15 @@ Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks14
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
-Package: graphics 2016/07/10 v1.0t Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2016/01/03 v1.0q Standard LaTeX Graphics (DPC,SPQR)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
 Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
-File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 99.
+Package graphics Info: Driver file: pdftex.def on input line 95.
 )
 \Gin@req@height=\dimen129
 \Gin@req@width=\dimen130
@@ -195,7 +195,7 @@ atched RF)
 Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\multicol.sty"
-Package: multicol 2016/04/07 v1.8p multicolumn formatting (FMi)
+Package: multicol 2015/08/19 v1.8n multicolumn formatting (FMi)
 \c@tracingmulticols=\count107
 \mult@box=\box27
 \multicol@leftmargin=\dimen131
@@ -339,8 +339,8 @@ Package: layouts 2009/09/02 v2.6d graphical depiction of document elements
 \spinemargin=\skip73
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\bm.sty"
-Package: bm 2016/07/07 v1.2b Bold Symbol Support (DPC/FMi)
-LaTeX Info: Redefining \bm on input line 208.
+Package: bm 2014/10/28 v1.1c Bold Symbol Support (DPC/FMi)
+LaTeX Info: Redefining \bm on input line 207.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\afterpage.sty"
 Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
@@ -357,41 +357,41 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
-Package: amsmath 2016/06/28 v2.15d AMS math features
+Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip74
 
 For additional information on amsmath, use the `?' option.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
-Package: amstext 2000/06/29 v2.01 AMS text
+Package: amstext 2000/06/29 v2.01
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
-File: amsgen.sty 1999/11/30 v2.0 generic functions
+File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks19
 \ex@=\dimen141
 ))
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
-Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-LaTeX Info: Redefining \boldsymbol on input line 28.
+Package: amsbsy 1999/11/29 v1.2d
+LaTeX Info: Redefining \boldsymbol on input line 39.
 \pmbraise@=\dimen142
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
-Package: amsopn 2016/03/08 v2.02 operator names
+Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count167
-LaTeX Info: Redefining \frac on input line 199.
+LaTeX Info: Redefining \frac on input line 210.
 \uproot@=\count168
 \leftroot@=\count169
-LaTeX Info: Redefining \overline on input line 297.
+LaTeX Info: Redefining \overline on input line 306.
 \classnum@=\count170
 \DOTSCASE@=\count171
-LaTeX Info: Redefining \ldots on input line 394.
-LaTeX Info: Redefining \dots on input line 397.
-LaTeX Info: Redefining \cdots on input line 518.
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
 \Mathstrutbox@=\box56
 \strutbox@=\box57
 \big@size=\dimen143
-LaTeX Font Info:    Redeclaring font encoding OML on input line 634.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 
 
 Package amsmath Warning: Unable to redefine math accent \vec.
@@ -416,8 +416,8 @@ Package amsmath Warning: Unable to redefine math accent \vec.
 \multlinegap=\skip75
 \multlinetaggap=\skip76
 \mathdisplay@stack=\toks23
-LaTeX Info: Redefining \[ on input line 2739.
-LaTeX Info: Redefining \] on input line 2740.
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
 ) ("C:\Program Files\MiKTeX 2.9\tex\latex\todonotes\todonotes.sty"
 Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
 Package: todonotes 2012/07/25
@@ -437,22 +437,22 @@ Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
 ))
 ("C:\Program Files\MiKTeX 2.9\tex\latex\xcolor\xcolor.sty"
-Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
-File: color.cfg 2016/01/02 v1.6 sample color configuration
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package xcolor Info: Driver file: pdftex.def on input line 225.
-LaTeX Info: Redefining \color on input line 709.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
-Package xcolor Info: Model `RGB' extended on input line 1364.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+LaTeX Info: Redefining \color on input line 702.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
+Package xcolor Info: Model `RGB' extended on input line 1353.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1357.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\frontendlayer\tikz.sty"
 ("C:\Program Files\MiKTeX 2.9\tex\latex\pgf\basiclayer\pgf.sty"
@@ -742,7 +742,7 @@ Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
 tim
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\textcomp.sty"
-Package: textcomp 2016/06/19 v1.99m Standard LaTeX package
+Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
 (textcomp)               4 = 5 + \texteuro
@@ -865,15 +865,16 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 \makeMPintoPDFobject=\count274
 \everyMPtoPDFconversion=\toks39
 ) ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\pdftexcmds.sty"
-Package: pdftexcmds 2016/05/21 v0.22 Utility functions of pdfTeX for LuaTeX (HO
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifluatex.sty"
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
-Package: ifpdf 2016/05/14 v3.1 Provides the ifpdf switch
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -881,40 +882,38 @@ Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvdefinekeys.sty"
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
 ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\etexcmds.sty"
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-38.
 Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
+(grfext)             \AppendGraphicsExtensions on input line 452.
 )
 
 Package layouts Warning: Layout scale set to 0.5 on input line 127.
 
 ABD: EveryShipout initializing macros [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
+{C:/Users/erexstad/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 
 ]
@@ -970,13 +969,18 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 159.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 164.
-[1
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 174.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ts1ptm.fd"
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [1
 
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8.5> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 187.
- <keepfigure/habitat.pdf, id=26, 505.89pt x 361.35pt>
+
+<keepfigure/habitat.pdf, id=26, 505.89pt x 361.35pt>
 File: keepfigure/habitat.pdf Graphic file (type pdf)
 
 <use keepfigure/habitat.pdf>
@@ -1028,117 +1032,104 @@ Package pdftex.def Info: keepfigure/ENwithdists.pdf used on input line 233.
 LaTeX Warning: Reference `sec:ER+detfun.binary' on page 4 undefined on input li
 ne 237.
 
-<keepfigure/EandN.pdf, id=50, 505.89pt x 361.35pt>
+[4 <./keepfigure/ObsN.pdf>] [5 <./keepfigure/ENwithdists.pdf>]
+
+Package xcolor Warning: Incompatible color definition on input line 259.
+
+
+Package xcolor Warning: Incompatible color definition on input line 265.
+
+
+Package xcolor Warning: Incompatible color definition on input line 265.
+
+[6] <keepfigure/EandN.pdf, id=75, 505.89pt x 361.35pt>
 File: keepfigure/EandN.pdf Graphic file (type pdf)
- <use keepfigure/EandN.pdf>
-Package pdftex.def Info: keepfigure/EandN.pdf used on input line 243.
+
+<use keepfigure/EandN.pdf>
+Package pdftex.def Info: keepfigure/EandN.pdf used on input line 291.
 (pdftex.def)             Requested size: 312.9803pt x 223.5605pt.
-
-[4 <./keepfigure/ObsN.pdf>] [5 <./keepfigure/ENwithdists.pdf> <./keepfigure/Ean
-dN.pdf>]
-
-Package xcolor Warning: Incompatible color definition on input line 269.
-
-
-Package xcolor Warning: Incompatible color definition on input line 275.
-
-
-Package xcolor Warning: Incompatible color definition on input line 275.
-
-[6
-
-] <keepfigure/binp.pdf, id=83, 505.89pt x 252.945pt>
+ <keepfigure/binp.pdf, id=76, 505.89pt x 252.945pt>
 File: keepfigure/binp.pdf Graphic file (type pdf)
 
 <use keepfigure/binp.pdf>
-Package pdftex.def Info: keepfigure/binp.pdf used on input line 302.
+Package pdftex.def Info: keepfigure/binp.pdf used on input line 303.
 (pdftex.def)             Requested size: 312.9803pt x 156.49234pt.
- [7]
+ [7 <./keepfigure/EandN.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 316.
-
-
-Package xcolor Warning: Incompatible color definition on input line 322.
+Package xcolor Warning: Incompatible color definition on input line 317.
 
 
-Package xcolor Warning: Incompatible color definition on input line 322.
+Package xcolor Warning: Incompatible color definition on input line 323.
+
+
+Package xcolor Warning: Incompatible color definition on input line 323.
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 326.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 325.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 326.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 325.
 [8 <./keepfigure/binp.pdf>]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 362.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 361.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 
-LaTeX Warning: Reference `ch:SPmod' on page 9 undefined on input line 365.
+LaTeX Warning: Reference `ch:SPmod' on page 9 undefined on input line 364.
 
 
-LaTeX Warning: Reference `sec:??' on page 9 undefined on input line 365.
+LaTeX Warning: Reference `sec:??' on page 9 undefined on input line 364.
 
 [9]
 
-Package xcolor Warning: Incompatible color definition on input line 370.
+Package xcolor Warning: Incompatible color definition on input line 369.
 
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <8.5> not available
-(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 372.
+(Font)              Font shape `OT1/pcr/b/n' tried instead on input line 371.
 
-Package xcolor Warning: Incompatible color definition on input line 383.
+Package xcolor Warning: Incompatible color definition on input line 382.
 
 
-Overfull \hbox (15.93pt too wide) in paragraph at lines 380--383
+Overfull \hbox (15.93pt too wide) in paragraph at lines 379--382
 []\OT1/ptm/m/n/10 The first \OT1/pcr/m/n/10 data \OT1/ptm/m/n/10 com-mand loads
  the count cap-ture his-tory in \OT1/pcr/m/n/10 R \OT1/ptm/m/n/10 ob-ject \OT1/
 pcr/m/n/10 kruger.capt\OT1/ptm/m/n/10 ,
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 402.
+Package xcolor Warning: Incompatible color definition on input line 401.
 
 [10]
-
-Package xcolor Warning: Incompatible color definition on input line 424.
-
-
-Package xcolor Warning: Incompatible color definition on input line 438.
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 447--447
- []\OT1/pcr/m/n/8.5 ##                               model           detectfn d
-AICc AICcwt[] 
+Overfull \hbox (13.90215pt too wide) in paragraph at lines 404--404
+[]                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
+][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
+[]=[][]"HHN"[][])[][] 
  []
 
 
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 447--447
- []\OT1/pcr/m/n/8.5 ## er.hr.fit D~1 lambda0~1 sigma~1 z~1 hazard hazard rate 0
-.000 0.6735[] 
+Package xcolor Warning: Incompatible color definition on input line 421.
+
+
+Overfull \hbox (13.90215pt too wide) in paragraph at lines 424--424
+[]                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
+][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
+[]=[][]"HHR"[][])[][] 
  []
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 447--447
- []\OT1/pcr/m/n/8.5 ## er.hn.fit     D~1 lambda0~1 sigma~1  hazard halfnormal 1
-.448 0.3265[] 
- []
-
-
-Package xcolor Warning: Incompatible color definition on input line 456.
-
-
-Package xcolor Warning: Incompatible color definition on input line 476.
 
 [11]
-Overfull \hbox (8.80215pt too wide) in paragraph at lines 479--479
+
+Package xcolor Warning: Incompatible color definition on input line 479.
+
+
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 482--482
 []            []\OT1/pcr/m/n/8.5 xlab[][]=[][]"Distance, d (m)"[][],[][]ylab[][
 ]=[][]\OT1/pcr/b/n/8.5 expression[][]\OT1/pcr/m/n/8.5 ([][]\OT1/pcr/b/n/8.5 hat
 [][]\OT1/pcr/m/n/8.5 (lambda)(d)))[][] 
  []
 
 
-Overfull \hbox (24.10213pt too wide) in paragraph at lines 480--480
+Overfull \hbox (24.10213pt too wide) in paragraph at lines 483--483
 [][]\OT1/pcr/b/n/8.5 plot[][]\OT1/pcr/m/n/8.5 (er.hn.fit,[][]xval[][]=[][]\OT1/
 pcr/b/n/8.5 seq[][]\OT1/pcr/m/n/8.5 ([][]0[][],[][]15000[][],[][]length[][]=[][
 ]200[][]),[][]lwd[][]=[][]3[][],[][]add[][]=[][]TRUE[][],[][]col[][]=[][]"gray"
@@ -1149,112 +1140,45 @@ pcr/b/n/8.5 seq[][]\OT1/pcr/m/n/8.5 ([][]0[][],[][]15000[][],[][]length[][]=[][
 File: keepfigure/ERdetfun-hrfit.pdf Graphic file (type pdf)
 
 <use keepfigure/ERdetfun-hrfit.pdf>
-Package pdftex.def Info: keepfigure/ERdetfun-hrfit.pdf used on input line 493.
+Package pdftex.def Info: keepfigure/ERdetfun-hrfit.pdf used on input line 496.
 (pdftex.def)             Requested size: 312.9803pt x 156.49234pt.
 
 <keepfigure/ERdetfun-locest.pdf, id=111, 214.8025pt x 361.35pt>
 File: keepfigure/ERdetfun-locest.pdf Graphic file (type pdf)
 
 <use keepfigure/ERdetfun-locest.pdf>
-Package pdftex.def Info: keepfigure/ERdetfun-locest.pdf used on input line 503.
+Package pdftex.def Info: keepfigure/ERdetfun-locest.pdf used on input line 506.
 
 (pdftex.def)             Requested size: 170.71652pt x 287.18918pt.
  [12 <./keepfigure/ERdetfun-hrfit.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 514.
+Package xcolor Warning: Incompatible color definition on input line 518.
 
 
-Package xcolor Warning: Incompatible color definition on input line 529.
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 540--540
- []\OT1/pcr/m/n/8.5 ##                               model           detectfn d
-AICc AICcwt[] 
- []
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 540--540
- []\OT1/pcr/m/n/8.5 ## er.hr.fit D~1 lambda0~1 sigma~1 z~1 hazard hazard rate 0
-.000 0.3375[] 
- []
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 540--540
- []\OT1/pcr/m/n/8.5 ## df.hr.fit      D~1 g0~1 sigma~1 z~1        hazard rate 0
-.119 0.3180[] 
- []
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 540--540
- []\OT1/pcr/m/n/8.5 ## df.hn.fit          D~1 g0~1 sigma~1         halfnormal 1
-.246 0.1810[] 
- []
-
-
-Overfull \hbox (36.10213pt too wide) in paragraph at lines 540--540
- []\OT1/pcr/m/n/8.5 ## er.hn.fit     D~1 lambda0~1 sigma~1  hazard halfnormal 1
-.448 0.1636[] 
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 521--521
+[]                      []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 list[
+][]\OT1/pcr/m/n/8.5 (lambda0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[]
+[]=[][]"HR"[][])[][] 
  []
 
 [13 <./keepfigure/ERdetfun-locest.pdf>]
 
-Package xcolor Warning: Incompatible color definition on input line 554.
+Package xcolor Warning: Incompatible color definition on input line 561.
 
 
-Package xcolor Warning: Incompatible color definition on input line 574.
+Package xcolor Warning: Incompatible color definition on input line 581.
 
 
-Package xcolor Warning: Incompatible color definition on input line 588.
-
-
-Overfull \hbox (8.80215pt too wide) in paragraph at lines 590--590
-[][]\OT1/pcr/m/n/8.5 aics[] []=[] []\OT1/pcr/b/n/8.5 AIC[][]\OT1/pcr/m/n/8.5 (e
-r.bin.hn.fit,er.bin.hr.fit,df.bin.hn.fit,df.bin.hr.fit)[][] 
- []
-
-
-Overfull \hbox (56.50209pt too wide) in paragraph at lines 599--599
- []\OT1/pcr/m/n/8.5 ##                                   model           detect
-fn dAICc AICcwt[] 
- []
-
-
-Overfull \hbox (56.50209pt too wide) in paragraph at lines 599--599
- []\OT1/pcr/m/n/8.5 ## df.bin.hn.fit          D~1 g0~1 sigma~1         halfnorm
-al 0.000 0.2846[] 
- []
-
-
-Overfull \hbox (56.50209pt too wide) in paragraph at lines 599--599
- []\OT1/pcr/m/n/8.5 ## er.bin.hn.fit     D~1 lambda0~1 sigma~1  hazard halfnorm
-al 0.016 0.2823[] 
- []
-
-
-Overfull \hbox (56.50209pt too wide) in paragraph at lines 599--599
- []\OT1/pcr/m/n/8.5 ## df.bin.hr.fit      D~1 g0~1 sigma~1 z~1        hazard ra
-te 0.529 0.2184[] 
- []
-
-
-Overfull \hbox (56.50209pt too wide) in paragraph at lines 599--599
- []\OT1/pcr/m/n/8.5 ## er.bin.hr.fit D~1 lambda0~1 sigma~1 z~1 hazard hazard ra
-te 0.563 0.2147[] 
+Overfull \hbox (8.80215pt too wide) in paragraph at lines 584--584
+[]                          []\OT1/pcr/m/n/8.5 model[][]=[][]\OT1/pcr/b/n/8.5 l
+ist[][]\OT1/pcr/m/n/8.5 (g0[][]~[][]1[][],sigma[][]~[][]1[][]),[] []detectfn[][
+]=[][]"HHN"[][])[][] 
  []
 
 [14]
 
 LaTeX Warning: Reference `ch:detector types' on page 15 undefined on input line
- 615.
-
-
-Package xcolor Warning: Incompatible color definition on input line 616.
-
-
-Package xcolor Warning: Incompatible color definition on input line 622.
-
-
-Package xcolor Warning: Incompatible color definition on input line 622.
+ 623.
 
 
 Package xcolor Warning: Incompatible color definition on input line 624.
@@ -1266,32 +1190,23 @@ Package xcolor Warning: Incompatible color definition on input line 630.
 Package xcolor Warning: Incompatible color definition on input line 630.
 
 
-Package xcolor Warning: Incompatible color definition on input line 633.
+Package xcolor Warning: Incompatible color definition on input line 632.
 
 
-Package xcolor Warning: Incompatible color definition on input line 640.
+Package xcolor Warning: Incompatible color definition on input line 638.
 
 
-Package xcolor Warning: Incompatible color definition on input line 640.
+Package xcolor Warning: Incompatible color definition on input line 638.
 
 
-Package xcolor Warning: Incompatible color definition on input line 640.
+Package xcolor Warning: Incompatible color definition on input line 641.
 
 [15]
-
-Package xcolor Warning: Incompatible color definition on input line 640.
-
-
-Package xcolor Warning: Incompatible color definition on input line 640.
-
 
 Package xcolor Warning: Incompatible color definition on input line 648.
 
 
-Package xcolor Warning: Incompatible color definition on input line 654.
-
-
-Package xcolor Warning: Incompatible color definition on input line 654.
+Package xcolor Warning: Incompatible color definition on input line 648.
 
 
 Package xcolor Warning: Incompatible color definition on input line 656.
@@ -1303,52 +1218,56 @@ Package xcolor Warning: Incompatible color definition on input line 662.
 Package xcolor Warning: Incompatible color definition on input line 662.
 
 
-Package xcolor Warning: Incompatible color definition on input line 665.
+Package xcolor Warning: Incompatible color definition on input line 664.
 
 
-Package xcolor Warning: Incompatible color definition on input line 675.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 
-Package xcolor Warning: Incompatible color definition on input line 675.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 
-Package xcolor Warning: Incompatible color definition on input line 675.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 [16]
 
-Package xcolor Warning: Incompatible color definition on input line 675.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
 
-Package xcolor Warning: Incompatible color definition on input line 675.
+Package xcolor Warning: Incompatible color definition on input line 670.
 
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 681.
 
-("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ts1ptm.fd"
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [17]
-<keepfigure/linkfuns.pdf, id=143, 578.16pt x 216.81pt>
+Package xcolor Warning: Incompatible color definition on input line 673.
+
+
+Package xcolor Warning: Incompatible color definition on input line 683.
+
+
+Package xcolor Warning: Incompatible color definition on input line 683.
+
+[17] <keepfigure/linkfuns.pdf, id=143, 578.16pt x 216.81pt>
 File: keepfigure/linkfuns.pdf Graphic file (type pdf)
 
 <use keepfigure/linkfuns.pdf>
-Package pdftex.def Info: keepfigure/linkfuns.pdf used on input line 706.
+Package pdftex.def Info: keepfigure/linkfuns.pdf used on input line 714.
 (pdftex.def)             Requested size: 341.43306pt x 128.03587pt.
 
-Overfull \hbox (8.53583pt too wide) in paragraph at lines 706--708
+Overfull \hbox (8.53583pt too wide) in paragraph at lines 714--716
  [][] 
  []
 
 
-Package xcolor Warning: Incompatible color definition on input line 719.
+Package xcolor Warning: Incompatible color definition on input line 727.
 
 
-Package xcolor Warning: Incompatible color definition on input line 725.
+Package xcolor Warning: Incompatible color definition on input line 733.
 
 
-Package xcolor Warning: Incompatible color definition on input line 725.
+Package xcolor Warning: Incompatible color definition on input line 733.
 
 [18 <./keepfigure/linkfuns.pdf>]
 
-LaTeX Warning: Reference `ch:arealine' on page 19 undefined on input line 737.
+LaTeX Warning: Reference `ch:arealine' on page 19 undefined on input line 745.
 
 (scr-book.bbl) [19] [20
 
@@ -1362,13 +1281,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 15070 strings out of 493335
- 285425 string characters out of 3139264
- 354536 words of memory out of 3000000
- 18200 multiletter control sequences out of 15000+200000
+ 15056 strings out of 493622
+ 285215 string characters out of 3143636
+ 349913 words of memory out of 3000000
+ 18054 multiletter control sequences out of 15000+200000
  69174 words of font info for 150 fonts, out of 3000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 62i,10n,80p,952b,704s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 1025 hyphenation exceptions out of 8191
+ 62i,10n,85p,1007b,895s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fon
@@ -1381,7 +1300,7 @@ TeX 2.9/fonts/type1/urw/symbol/usyr.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi
 8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Progra
 m Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on scr-book.pdf (25 pages, 300044 bytes).
+Output written on scr-book.pdf (25 pages, 299659 bytes).
 PDF statistics:
  205 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
