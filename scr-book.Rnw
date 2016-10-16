@@ -85,6 +85,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \newcommand{\ed}{\end{description}}
 \newcommand{\bi}{\begin{itemize}}
 \newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
 %\newcommand{\bm}[1]{\boldsymbol{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,6 +124,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %\Sexpr{knit_child('chapters/introduction.Rnw')}
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
 \Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
+\Sexpr{knit_child('chapters/ERdetfun-part3.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/spatial-distribution.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/explaining-diff-detection.Rnw')} %DLB & EH
