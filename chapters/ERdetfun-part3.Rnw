@@ -1,0 +1,33 @@
+\section{Individual effects (behaviour and heterogeneity)}
+
+It is useful to classify covariates that are attached to individuals into the followin hierarchy:
+\ben
+\item Covariates that are known for all individuals at all times,
+\item Covariates that are known for some individuals (usually those that were captured at least once) at all times, and
+\item Covariates that are known only for the captured individuals and only at the times of their capture.
+\item Covariates that are known for no individuals.
+\een
+Incorporating these covariates in SCR models becomes increasingly difficult as one moves down this list - because as we more down the list more and more covariates are unobserved, or ``latent'' And it is more difficult incorporating latent variables, which you don't observe, than variables that you do observe.\todo{Confusing use of `variable' and `covariate'. Resolve somehow.}
+
+\subsection{Behavioural effects}
+
+The easiest kind of covariate, that of type 1. above, is one that the survey itself attaches to individuals (at least conceptually, but sometimes also physically). It is an indicator variable that records the occasions on which an individual was detected. It is a binary variable that we will call $c_{ijkl}$, and which is 1 if individual $i$ was detected on detector $j$ on occasion $k$ in stratum $l$, and zero otherwise. The resaon we know it for all individuals, even though we don't know how many individuals there are, is that it is by definition zero for any uncaptured individual.
+
+\subsection{Partially observed variables}
+
+
+
+\subsection{Entirely latent variables}
+
+
+
+\subsection{Example analyses}
+
+
+
+
+\section{Spatial effects}
+
+
+\subsection{Example analyses}
+
