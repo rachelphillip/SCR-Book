@@ -1,0 +1,11 @@
+*.aux
+*.tex
+*.log
+*.gz
+*.out
+*.toc
+figure/
+*.ind
+scr-book.idx
+*.ilg
+scr-book.pdf
