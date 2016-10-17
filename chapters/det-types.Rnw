@@ -200,3 +200,42 @@ multi-strata generalisations given by Eqns
 \eqref{eq:ER+detfun.P.Omega.binary.occ},
 \eqref{eq:ER+detfun.P.Omega.count.occ.strat}, and
 \eqref{eq:ER+detfun.P.Omega.binary.occ.strat}.
+
+\section{In \texttt{secr}}
+
+We have already seen the fitting of SCR models to data collected by
+proximity detectors using \texttt{secr} in Chapter
+\ref{chap:ER+detfun}. The first argument to the \texttt{secr.fit}
+function, named \texttt{capthist}, contains not only the capture
+histories of the detected individuals, but also information about the
+detectors that were deployed. The data object \texttt{kruger.capt} is
+an appropriate \texttt{capthist} object. Locations of the detectors
+can be extracted:
+<<det-types-extract-locs>>=
+head(traps(kruger.capt))
+@ 
+And so can the type of detector used:
+<<det-types-extrat-type>>=
+detector(traps(kruger.capt))
+@ 
+
+The \texttt{secr} package uses slightly different detector
+nomenclature to what we use here: it considers not only the type of
+detector used, but also the type of response data that is being used
+in the model. That is, fitting a binary-response model to data
+collected by proximity detectors requires setting the detector type to
+\texttt{"proximity"} in \texttt{"secr"}, and fitting a count-response
+model requires setting the detector type to \texttt{"count"}, even
+though we are fitting a model to data collected by the same detectors;
+see Table \ref{tab:det-types-table}.
+
+The detector type specified in the \texttt{capthist} object tells the
+\texttt{secr.fit} function which form of the
+$[\bm{\Omega}_n | \bm{S}_n]$ likelihood component to use. If the
+detector type is either \texttt{"proximity"} or \texttt{"count"},
+independence is assumed both between detectors (conditional on
+activity centre locations) and between individuals. If it is
+\texttt{"proximity"}, then the captures histories must contain binary
+detection data, and Bernoulli response data are assumed. If it is
+\texttt{"count"}, then the capture histories must contain detection
+counts, and Poisson response data are assumed.
