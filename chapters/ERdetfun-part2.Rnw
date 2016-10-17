@@ -118,7 +118,7 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 
 \subsection{Link function fromulation for encounter rate and detection probability}
 
-The distance $d$ from a detector to an activity centre is the most important covariate in SCR analyses, although it is usually not observed. As noted above, there is a variety of possible fuctional forms that are used to model the dependence of encounter rate and detection probability on this distance, the Gaussian and hazard-rate forms being among the most commonly used. The Gaussian model for encounter rate is readily formulated in terms of a log link function as follows:
+The distance $d$ from a detector to an activity centre is the most important covariate in SCR analyses, although it is usually not observed. As noted above, there is a variety of possible functional forms that are used to model the dependence of encounter rate and detection probability on this distance, the Gaussian and hazard-rate forms being among the most commonly used. The Gaussian model for encounter rate is readily formulated in terms of a log link function as follows:
 \be
 \lambda(d)\;=\;\lambda_0\exp\left\{-\frac{d^2}{2\sigma^2}\right\}&=&\exp\{\beta_0\}\exp\{\beta_d d^2\} \nonumber \\
 &=&\exp\{\beta_0 + \beta_d d^2\}\;=\;e^{\eta}
