@@ -79,7 +79,7 @@ Encounter rates and detection probabilities often depend on variables associated
 \item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
 \een
 
-These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But his would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a prameter of interest ($g_0$ in this example).
+These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But this would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a parameter of interest ($g_0$ in this example).
 
 In the case of $g_0$ we need a link function that keeps it between 0 and 1, while in the cases of $\lambda_0$ (a rate, and hence bounded below by zero but unbounded above) and $\sigma$ (also bounded below by zero but unbounded above) we need a link function that keeps them non-negative. Common choices are a logit link or complimentary log-log link (``cloglog'' link for short) for $g_0$, and log links for $\lambda_0$ and $\sigma$. 
 
@@ -116,7 +116,7 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 \todo[inline]{Should we mention regression splines here, and add a plot explaining?}
 
 
-\subsection{Link function fromulation for encounter rate and detection probability}
+\subsection{Link function formulation for encounter rate and detection probability}
 
 The distance $d$ from a detector to an activity centre is the most important covariate in SCR analyses, although it is usually not observed. As noted above, there is a variety of possible functional forms that are used to model the dependence of encounter rate and detection probability on this distance, the Gaussian and hazard-rate forms being among the most commonly used. The Gaussian model for encounter rate is readily formulated in terms of a log link function as follows:
 \be
@@ -135,7 +135,7 @@ and this gives a negative exponential form for the encounter rate function.
 
 Not all commonly-used encounter rate function forms fit into this \{link function; linear predictor\} form. The hazard rate function is one that does not. 
 
-Nor do all detection proability models follow the \{link function; linear predictor\} form. The Gaussian form for the detction function does not, for example. 
+Nor do all detection proability models follow the \{link function; linear predictor\} form. The Gaussian form for the detection function does not, for example. 
 
 However, the cloglog link function provides a natural link between any encounter rate function that can be expressed in the $\lambda(d)=e^{\eta}$ form and detection functions and leads to a natural way of incorporating survey effort into detection probability functions (see Section~\ref{sec:ERdetfund-effort}). If we combine $\lambda(d)=e^{\eta}$ with Eqn~\eqref{eq:ER+detfun.binaryp} (and use $T=1$ for simplicity), we get
 \be
@@ -155,13 +155,13 @@ If one wants to retain the familiar \{link function; linear predictor\} form, th
 
 \subsection{Data structures and covariates}
 
-Variables other than $d$ that affect encounter rate and detection probability (``covariates'' in SCR analyses)\todo{adequate explanation of "covariate" vs "explanatory variable" terms?} can act at three levels in an SCR analysis:
+Variables other than $d$ that affect encounter rate and detection probability (``covariates'' in SCR analyses) \todo{adequate explanation of "covariate" vs "explanatory variable" terms?} can act at three levels in an SCR analysis:
 \ben
 \item at the detector level (covariates like detector type, date or stratum identity),
 \item at the individual level (covariates like sex or age), and
 \item at points in space (covariates like habitat type or elevation).
 \een
-These three levels correspond to the three kinds of data required for SCR analyses (detector data, capture history data and spatial data) and the level at which covariates act determines which of these kinds of data the covariate should be attached to. Generic data structures, with covariates, for each kind of data are shown in Tables~\ref{tab:ERdetfun-detdata}, \ref{tab:ERdetfun-capdata} and \ref{tab:ERdetfun-meshdata}. 
+These three levels correspond to the three kinds of data required for SCR analyses (detector data, capture history data and spatial data) and the level at which covariates act determines to which data type the covariate should be attached. Generic data structures, with covariates, for each kind of data are shown in Tables~\ref{tab:ERdetfun-detdata}, \ref{tab:ERdetfun-capdata} and \ref{tab:ERdetfun-meshdata}. 
 
 
 \begin{center}
