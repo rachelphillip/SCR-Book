@@ -95,7 +95,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Example chapter (leave commented).
-\Sexpr{knit_child('chapters/example.Rnw')}
+%%\Sexpr{knit_child('chapters/example.Rnw')}
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
