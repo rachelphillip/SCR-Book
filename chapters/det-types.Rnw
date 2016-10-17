@@ -36,20 +36,24 @@ independent across the traps (Eqns \eqref{eq:ER+detfun.count.wi} and
 
 These assumptions may be reasonable in this context, as it is
 plausible that a detection by one camera trap or hair snare does not
-affect encouter rates at any others. Here, we call such detectors
-\emph{proximity detectors}\index{Proximity detectors}---a term first
-coined by Efford, Borchers, and Dawson (2009)[???].
+affect encouter rates at any others. An individual is unaffected when
+it is detected. Here, we call such detectors \emph{proximity
+  detectors}\index{Proximity detectors}---a term first coined by
+\cite{Efford+al:09b}\todo{Is this correct?}. Further examples of
+proximity detectors include various types of acoustic and visual
+detectors, which may either be electronic devices (e.g., microphones
+or hydrophones) or human observers.
 
 We can also use SCR methods when the detectors that are deployed
 physically capture the individuals they detect. Indeed, this was the
-context in which the very first SCR methods were developed (Efford,
-2004; Borchers and Efford, 2008). In such situations we must operate
-under the familiar CR framework of capturing individuals over a set of
-discrete sampling occasions: in order to obtain recaptures (both
-across space and time) we must end one occasion, release all trapped
-individuals, and begin another. Here we consider two types of such
-detectors: \emph{multi-catch traps}\index{multi-catch traps}, which
-can accommodate many individuals at once, and \emph{single-catch
+context in which the very first SCR methods were developed
+\citep{Efford:04,Borchers+Efford:08}. In such situations we must
+operate under the familiar CR framework of capturing individuals over
+a set of discrete sampling occasions: in order to obtain recaptures
+(both across space and time) we must end one occasion, release all
+trapped individuals, and begin another. Here we consider two types of
+such detectors: \emph{multi-catch traps}\index{multi-catch traps},
+which can accommodate many individuals at once, and \emph{single-catch
   traps}\index{single-catch traps} (Figure \ref{fig:bunny-rabbit}),
 which close after a single animal is trapped, preventing any further
 detections of any other indviduals for the rest of the occasion.
@@ -63,13 +67,14 @@ detections of any other indviduals for the rest of the occasion.
 
 However, the between-individual and between-trap independence
 assumptions discussed above may not hold when detectors physically
-detain animals. In such cases, an encounter with one detector prevents
-further detection by any other for the remainder of the occasion, and
-so there is strict \emph{dependence} between encounters across the
-traps. Likewise, if single-catch traps are used, then a trap is
-disabled when it detects an animal; this decreases the probability of
-any other individual being detected, and so one cannot assume
-independent encounters across individuals.
+detain animals. In such cases, an individual that encounters one
+detector prevents further detection of that individual by any other
+detector for the remainder of the occasion, and so there is strict
+\emph{dependence} between encounters across the traps. Likewise, if
+single-catch traps are used, then a trap is disabled when it detects
+an animal; this decreases the probability of any other individual
+being detected, and so one cannot assume independent encounters across
+individuals.
 
 \subsection{Response data}
 \label{sec:det-types-response}
@@ -89,25 +94,89 @@ detections. With a better idea of the detected individuals' activity
 centre locations we obtain more a precise estimate of the detection
 function, and therefore also of animal density.
 
-There are other possible response data types that achieve the same
-purpose. On acoustic surveys, the activity centre associated with a
-detected individual may be conceptualised as its physical location at
-the time it produces a call. If microphones are used to detect calls,
-then these may collect both the received signal strength (loudness)
-and precise time of arrival of the detected calls. The source location
-of a call is most likely to be close to the detectors that received
-the call the loudest and the earliest. If human observers are used to
-detect calls, then they may be able to estimate the bearing and/or
-distance to detetected individuals, again providing additional
-infromation from which to infer animals' locations. Acoustic SCR
-methods are discussed in further detail in Chapter
-\ref{chap:acoustic}.
+There are other possible response data types that may be observed in
+addition to the capture histories that also provide additional spatial
+information. On acoustic surveys, the activity centre associated with
+a detected individual may be conceptualised as its physical location
+at the time it produces a call. If microphones are used to detect
+calls, then these may collect both the received signal strength
+(loudness) and precise time of arrival of the detected calls. The
+source location of a call is most likely to be close to the detectors
+that received the call the loudest and the earliest. If human
+observers are used to detect calls, then they may be able to estimate
+the bearing and/or distance to detetected individuals, again providing
+further information from which to infer animals' locations. Acoustic
+SCR methods are discussed in further detail in Chapter
+\ref{chap:acoustic}. Hereafter, such data that are collected from each
+detection over and above the capture histories are referred to as
+\emph{additional} response data.
 
-Alternatively, response data types may be collected that do not
-necessarily improve estimation of animal density, but instead allow
-inference on additional demographic parameters of interest. For
-example, observing detection times allows estimation of animal
-activity cycles over some temporal scale (e.g., daily, monthly, or
-annual). Such approaches are discussed in further detail in Chapter
-\ref{chap:continuous-time}.
+Additional response data types do not necessarily improve estimation
+of animal density, but may instead allow inference on additional
+demographic parameters of interest.  For example, observing detection
+times allows estimation of animal activity cycles over some temporal
+scale (e.g., daily, monthly, or annual). Such approaches are discussed
+in further detail in Chapter \ref{chap:continuous-time}.
 
+\subsection{The likelihood for different detector types}
+\label{sec:det-types-response}
+
+The type of detector deployed on a survey directly affects the type of
+data we collect about each individual (given by $\bm{\omega}_i$ for
+the $i$th individual), but not its activity centre
+location. Therefore, the likelihood component that is affected by the
+choice of detector type is $[\bm{\Omega}_n | \bm{S}_n]$, but not
+$[\bm{S}_n]$ itself. Throughout the remainder of this chapter, this
+likelihood component is provided for various detector and response
+types, along with examples of how to fit these models using
+\texttt{secr}.
+
+\subsection{Incorporating additional information}
+\label{sec:det-types-additional-info}
+
+\todo{This section will probably be moved elsewhere.}A variety of
+additional response data types may be observed from each detection;
+for example, an acoustic survey may record both the received signal
+strength and time of arrival of each detection of a call. Let $\bm{Y}$
+hold all additional data observed from all detections, and let each
+element be indexed by the same subscripts used in Sections
+\ref{sec:ER+detfun.occasions} and \ref{sec:ER+detfun.strata}, in
+addition to the subscript $m$, which indexes the additional
+information type. For example, $y_{ijkm}$ is the $m$th additional data
+type collected from the $i$th individual's detection at the $j$th
+detector on the $k$th occasion.
+
+When additional data are collected, we must build it into the
+likelihood. This is achieved by specifying
+$[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n]$ instead of
+$[\bm{\Omega}_n | \bm{S}_n]$.
+
+\section{Proximity detectors}
+\label{sec:det-types-proximity}
+
+The likelihood component $[\bm{\Omega}_n | \bm{S}_n]$ has already been
+provided in detail in Chapter \ref{chap:ER+detfun} for surveys using
+proximity detectors. To recap briefly, the expected number of
+encounters between the $i$th detected individual and the $j$th trap is
+given by \todo{Is it OK to use this instead of
+  $\lambda(d_{ij})$?}$\lambda_{ij}$ (ignoring any subscripts for
+multi-occasion or multi-strata surveys). If the response data are
+counts, then we assume the number of detections made by the $j$th
+detector of the $i$th individual is a Poisson random variable with
+expectation $\lambda_{ij}$, and if the response data are binary, then
+we assume the $j$th detector detected the $i$th individual with
+probability \todo{Same here with this instead of
+  $p(d_{ij})$.}$p_{ij} = 1 - \exp(-\lambda_{ij})$.
+
+We assume that the number of encounters between each detector and a
+particular individual are independent of one another, given its
+activity centre location. We also assume that one individual's
+encounters are independent of all others'. These assumptions allow the
+single-session likelihood components given by Eqns
+\eqref{eq:ER+detfun.P.Omega.count} and
+\eqref{eq:ER+detfun.P.Omega.binary}, with multi-occasion and
+multi-strata generalisations given by Eqns
+\eqref{eq:ER+detfun.P.Omega.count.occ},
+\eqref{eq:ER+detfun.P.Omega.binary.occ},
+\eqref{eq:ER+detfun.P.Omega.count.occ.strat}, and
+\eqref{eq:ER+detfun.P.Omega.binary.occ.strat}.
