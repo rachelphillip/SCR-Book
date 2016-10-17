@@ -60,7 +60,7 @@ detections of any other indviduals for the rest of the occasion.
 
 \begin{figure}[tb]
   \centering
-  \includegraphics[width=\Sexpr{textwidth}in]{keepfigure/in-trap}
+  \includegraphics[width=\Sexpr{0.75*textwidth}in]{keepfigure/in-trap}
   \caption{A cold bunny rabbit.}
   \label{fig:bunny-rabbit}
 \end{figure}
@@ -129,7 +129,10 @@ choice of detector type is $[\bm{\Omega}_n | \bm{S}_n]$, but not
 $[\bm{S}_n]$ itself. Throughout the remainder of this chapter, this
 likelihood component is provided for various detector and response
 types, along with examples of how to fit these models using
-\texttt{secr}.
+\texttt{secr}. Table \ref{tab:det-types-table} shows the possible
+combinations of the simple detector and response types discussed in
+this chapter, and how the \texttt{secr} package refers to these
+combinations.
 
 \subsection{Incorporating additional information}
 \label{sec:det-types-additional-info}
@@ -151,6 +154,23 @@ likelihood. This is achieved by specifying
 $[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n]$ instead of
 $[\bm{\Omega}_n | \bm{S}_n]$.
 
+\begin{table}[t]
+  \centering
+  \caption{Detector and response data combinations, along with possible independence assumptions, and the names they take in the \texttt{secr} package. The `Detectors' column indicates whether or not it is possible to have independence between encounters of the same individual at different detectors. The `Individuals' column indicates whether or not it is possible to have independence between individuals.}
+  \label{tab:det-types-table}
+  \begin{tabular}{llccl}
+    \toprule
+    & & \multicolumn{2}{c}{Independence} & \\
+    \cmidrule{3-4}
+    Type & Response & Detectors & Individuals & Name in \texttt{secr} \\
+    \midrule
+    Proximity & Binary & \ding{51} & \ding{51} & \texttt{"proximity"} \\
+    Proximity & Count & \ding{51} & \ding{51} & \texttt{"count"} \\
+    Multi-catch & Binary & \ding{55} & \ding{51} & \texttt{"multi"} \\
+    Single-catch & Binary & \ding{55} & \ding{55} & \texttt{"single"} \\ \bottomrule
+  \end{tabular}
+\end{table}
+  
 \section{Proximity detectors}
 \label{sec:det-types-proximity}
 
