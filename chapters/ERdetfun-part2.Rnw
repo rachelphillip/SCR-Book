@@ -32,6 +32,7 @@ where
 \item[$T_k$] is the duration of the $k$th occasion.
 \ed
 \end{svgraybox}
+\todo[inline]{BCS: I find it a little more natural to order the products as such: (1) Individuals, (2) Occasions, (3) Detectors. At the moment detectors come before occasions. It's equivalent here, but when we start talking about multi-catch traps, for example, we have to do it in the order I have specified above, as we don't have independence across detectors.}
 
 \section{Strata: no recaptures across space and time}
 \label{sec:ER+detfun.strata}
