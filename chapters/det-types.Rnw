@@ -267,6 +267,6 @@ must comprise more than one occasion. As per Section
 \ref{sec:ER+detfun.occasions}, encounters are considered independent
 across both individuals and occasions, conditional on the activity
 centre locations: 
-%% \be 
-%%    [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod 
-%% \ee
+\be 
+    [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i]
+\ee
