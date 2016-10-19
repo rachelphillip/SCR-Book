@@ -270,3 +270,10 @@ centre locations:
 \be 
     [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i]
 \ee
+
+Here, $\bm{\omega}_{i \dot k}$ contains the observed detection data of
+the $i$th individual on the $k$th occasion. For a survey that uses $J$
+multi-catch traps, there are $J + 1$ possible outcomes that
+$\bm{\omega}_{i \dot k}$ may take: we either observe which of the $J$
+traps detected invidiual $i$ on occasion $k$, or we observe that
+individual $i$ was not detected by any trap.
