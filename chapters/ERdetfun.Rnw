@@ -241,6 +241,7 @@ er.hn.fit <- secr.fit(kruger.capt, mask=kruger.mask,
 We will also fit an encounter rate model with ``hazard rate'' shape. \todo[inline]{move out of this application section}This is defined as follows
 \be
 \lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right).
+\label{eq:ERdetfun-lambda-hr}
 \ee
 \noindent 
 It has one more parameter ($b$) than a Gaussian model and is hence more flexible. Its shape can be seen in Figure~\ref{fig:ERdetfun.hrfit}. 
