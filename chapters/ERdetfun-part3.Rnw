@@ -1,28 +1,104 @@
-\section{Individual effects (behaviour and heterogeneity)}
+\section{Individual effects (trap response and heterogeneity)}
 
-It is useful to classify covariates that are attached to individuals into the followin hierarchy:
+\todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify to individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
-\item Covariates that are known for some individuals (usually those that were captured at least once) at all times, and
-\item Covariates that are known only for the captured individuals and only at the times of their capture.
 \item Covariates that are known for no individuals.
+\item Covariates that are known for some individuals (usually those that were captured at least once) at all times,
+\item Covariates that are known only for the captured individuals and only at the times of their capture, and
 \een
-Incorporating these covariates in SCR models becomes increasingly difficult as one moves down this list - because as we more down the list more and more covariates are unobserved, or ``latent'' And it is more difficult incorporating latent variables, which you don't observe, than variables that you do observe.\todo{Confusing use of `variable' and `covariate'. Resolve somehow.}
 
-\subsection{Behavioural effects}
-
-The easiest kind of covariate, that of type 1. above, is one that the survey itself attaches to individuals (at least conceptually, but sometimes also physically). It is an indicator variable that records the occasions on which an individual was detected. It is a binary variable that we will call $c_{ijkl}$, and which is 1 if individual $i$ was detected on detector $j$ on occasion $k$ in stratum $l$, and zero otherwise. The resaon we know it for all individuals, even though we don't know how many individuals there are, is that it is by definition zero for any uncaptured individual.
-
-\subsection{Partially observed variables}
+Except in the case of the first item above, the values of some individual-level covariates in the population of interest are unobserved, and are therefore latent variables. The way we deal with latent variables is by modelling their probability distribution. This adds complexity, so let's deal with the first item above first. What is this covariate that we know for individuals that we never detect?
 
 
+\subsection{Trap response}
+
+Behvioural response to catpure or detection can be modelled using an indicator variable that indicates whether or not an individual has been detected previously. If we define it to be $b_{ik}=1$ if individual $i$ was detected at least once before occasion $k$ and $b_{ik}=0$ if not, then each individual has a vector $\bm{b}_i=(b_{i1},\ldots,b_{iK})$ attached to it, and we know that for individuals that were never detected, this is a vector of zeros. To model a behavioural effect (``trap happiness'' or ``trap shyness'') we just add this covariate to the linear predictor at the relevant level.
+
+For example, suppose that we are currently using a linear predictor $\eta_{ijk}$ for a model in which individuals have no behavioural response to being detected (or captured) and we want to investigate whether detection probability changes after first capture. We could fit a model with linear predictor
+\be
+\eta_{ijk}^*&=&\eta_{ijk} + \beta_b b_{ijk}
+\label{eq:ERdetfun-eta_b}
+\ee
+\noindent
+and if $\beta_b$ was significantly different from zero, we would conclude that detection probability does change after first capture. If the estimate $\hat{\beta}_b$ was negative we would conclude that animals became trap-shy, while if it was positive we would conclude that they became trap-happy.
+
+Depending on the model, the link function in Eqn~\eqref{eq:ERdetfun-eta_b} might be that for a detection function with cloglog link, or for $g_0$ (if modelling detection probability) or $\lambda_0$ (if modelling encounter rate) and/or or $\sigma$ (see Table~\ref{tab:ERdetfun-invlinks}).
+
+You can use $\bm{b}_i$ to model more complicated trap-response too. You might, for example, model the response as being transient - with the effect of capture on one occasion lasting only until the next capture occasion. This kind of model can be implemented by simply setting $b_{ik}=1$ only if the individual was captured on the previous occasion ($k-1$), and setting $b_{ik}=0$ otherwise. Various other more complex models are possible too, in which memory of capture fades with time since last capture. 
+
+You might also want behavioural response to depend on detector, i.e., consider models in which individuals have a learned response not to detectors in general, but only to the detectors at which they have been previously captured. To do this, we just construct a covariate $b_{ijk}$ that is 1 only if individual $i$ was captured at detector $j$ prior to occasion $k$ (for a permanent behavoural response), or is 1 only if the individual was captured there on occasion $k-1$.
+
+
+\vspace{24pt}\underline{Example analyses}
+
+\todo[inline]{David's initial thoughts: Demonstrate models (in secr-speak): b, B, bk and Bk. (Not so sure about k and K, which seem a bit weird to me - can you think of situations in which they would be appropriate?). Andy's 2011 paper wolverine data are one example dataset that we could use (they used bk, I think). The data is in his scrbook package, available here: https://sites.google.com/site/spatialcapturerecapture/scrbook-r-package. I have the data from a previous version of the package and I have code that knocks it into secr-shape and fits some models, but I don't have a current version of the library, and it now only available as executable for Windows. I suspect the data has not changed.
+
+The code is here: .../scrmlebook/inst/code/wolverine4secr.r and the data is here: .../scrmlebook/data/wch.prox.rda (formulated as binary proximity detectors) and here: .../scrmlebook/data/wch.count.rda (formulated as single-occasion count data),
+
+I think it is quite a useful dataset, and it also has variable-effort.
+
+Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture–reecapture models. Journal of Wildlife Management 75, 604–611.}
 
 \subsection{Entirely latent variables}
 
+Covariates that affect encounter rate or detection probability but are not observed can be added to the linear predictors of these models just like covariates that are observed. The difficulty comes in evaluating the models. If we don't know what values these unobserved covariates take, what values should we use for them in the model? 
+
+The answer is that we assign the values according to some probability model for the covariate and then evaluate the encounter rate or detection function models for every possible value of the unobserved covariates. This is called ``marginalising'' over the unknown covariate. The cost in terms of parameters is that we need additional parameters for the covariate probability model. We also of course need to specify a suitable probability model. 
+
+There are two kinds of such model: probability density functions (PDFs), which treat the unobserved covariate as a continuous random variable (one that can take on an infinite number of values on the real line), and probability mass functions (PMFs) which treat it as a discrete random variable (one that can take on only a finite number of values). It is usually the case that you don't know what the unobserved covariates are (or at least you don't know what all of them are - there is usually more than one thing affecting encounter rate and detection probability). The choice between continuous and discrete latent random variables is usually therefore one of convenience and modelling preference.
+
+Discrete latent covariate models in CR were first developed by \cite{Pledger:00}. Continuous models for latent capture probabilities were first developed by \cite{Burnham:72} and more recently by \cite{Dorazio+Royle:03}. There has been a lively debate about the advantages and disadvantages of each approach. \todo{Byron's approach?} The discrete covariate approach is usually called a ``finite mixture model'' and the approach developed for non-spatial CR by \cite{Pledger:00} was adapted by \cite{Borchers+Efford:08} for SCR. The continuous covariate approach is sometimes called an ``infinite mixture model''.\todo{Are there Bayesian SCR implementations?}
+
+In the case of a discrete latent covariate $z$, we hypothesize that there are $h$ possible (unkonwn and unobserved) values $u_1,\ldots,u_h$ that the covariate can take and we assume a particular form for the PMF $f(z)$ from which these values are drawn. The most commonly-used PMF in this context for SCR models is a multinomial with $(h-1)$ parameters. This involves no assumptions about the shape of the PMF. If we use a two-part mixture model $h=2$, this leads to a Bernoulli PMF with a single parameter $\phi_1$. For $h>2$, we have a parameter vector of probabilities $\bm{\phi}_z=(\phi_1,\ldots,\phi_{h-1})$. (In all cases $\phi_h=1-\sum_{v=1}^{h-1}\phi_v$.)
+
+As with any covariate, we model the effect of latent covariates via the relevant linear predictor(s) for $g_0$ or $\lambda_0$, $\sigma$ or the detection function if it is being modelled directly using a \{link function; linear predictor\} detection function form:
+\be
+\eta_{ijk}^*&=&\eta_{ijk} + \beta_z z_i
+\label{eq:ERdetfun-eta_u}
+\ee
+\noindent
+where $\eta_{ijk}$ is the linear predictor of a model for individual $i$ at detector $j$ on occasion $k$ that does not include the latent covariate $a_i$ for the individual, and $\eta_{ijk}^*$ is the linear predicture including the latent covariate.
+
+Marginalising over the $z_i$s involves a weighted sum over $z_i=u_1,\ldots,u_h$ in which the weights are $f(u_1),\ldots,f(u_h)$. Details are given in Appendix~??\todo{insert math details}. 
+
+In the case of continuous $z_i$ (an ``infinite mixture model''), $f(z)$ is a PDF on some interval on the real line, and it is parameterised by an unknown parameter vector $\bm{\phi}$. Marginalising over the $z_i$s in this case involves a weighted integral over the interval on the real line on which $f(z)$ is non-zero, with weight $f(z)$ at $z$. Details are given in Appendix~??\todo{insert math details}.
+
+With both finite and infinite mixture models, including a latent covariate $z$ involves estimating the linear predictor parameter(s) $\beta_z$ associated with it for each linear predictor in the model, and the parameter vector $\bm{\phi}$ of the PDF or PMF $f(z)$. In the case of a finite mixture model with multinomial $f(z)$, the parameters $\phi_1,\ldots,\phi_h$ can be interpreted as the proportion of the population that has the (unobserved and unknown) latent covariate value $u_z,\ldots,u_h$ associated with them. And if we think of $u_z,\ldots,u_h$ as defining $h$ classes of individual, $\phi_1,\ldots,\phi_h$ can be interpreted as the proportion of the population in each class.
+
+\todo[inline]{Maybe insert a plot of example PMF and PDF?}
+
+\vspace{24pt}\underline{Example analyses}
+
+\todo[inline]{David's initial thoughts: Note that secr only does finite mixture. Show how to use (in secr-speak) models h2 and h3, and choose between them using AIC. Consider them in $\lambda_0$ and/or in $\sigma$ Interpret the parameters and relate them to the algebraic parameters above (and if possible, explicitly to the linear predictor form above - maybe show how to calculate it from the estimates?). Hopefully, demonstrate that neglecting latent variables (i.e. allowing unmodelled heterogeneity) leads to lower density and abundance estimates, as is consistent with these estimates being negatively biased.
+
+Dataset: Kruger data is an obvious candidate. Might be possible to continue wolverine dataset, just for continuity with previous example? But I don't know if Mh models are supported by the wolverine data.}
+
+\subsection{Time-constant partially observed latent covariates}
+
+Suppose now that we observe the sex of some individuals (perhaps all those we detect, but perhaps only some of those that we detect). In this case sex is a partially observed latent variable and although we know it for some individuals, we don't know it for all individuals and so we again need a probability model for the unobserved sexes, and we need to marginalise over sex for individuals whose sex we did not observe. 
+
+We deal with this in the same way that we dealt with entirely latent variables, except that we marginalise over the latent variable $z$ (sex, in this example) only for those individuals for which $z$ is unknown. For the individuals with known $z$, we can evaluate the linear predictor(s) that include $z$ and we therefore don't need to marginalise over $z$ for them. Mathematical details are given in Appendix~??.\todo{Insert maths}.
+
+Note that a model can have multiple partially-observed latent covariates (both sex and size, for example) in addition to an entirely latent covariate. You need to specify a PMF or PDF for each partially observed covariate as well as for an entirely latent covariate if that is in the model, and marginalising occurs over all latent covariates. (Actually, you need to specify the joint PMF or PDF of all partially observed and entirely latent covariates, but in practice this is most easily done by specifying a separate PDF or PMF for each and assuming independence between them.)
+
+\vspace{24pt}\underline{Example analyses}
 
 
-\subsection{Example analyses}
+\todo[inline]{David's initial thoughts: Note that secr allows EITHER exactly one entirely latent covariate, OR exactly one partially-observed latent covariate, and in both cases only does the discrete variable case (finite mixture). Show how to use (in secr-speak) models h2 and h3 with argument hcov. Consider them in $\lambda_0$ and/or in $\sigma$ Interpret the parameters and relate them to the algebraic parameters above (and if possible, explicitly to the linear predictor form above - maybe show how to calculate it from the estimates?). Perhaps compare estimates from model that treates a variable (e.g. sex) as entirely latent, and one that treats it as partially observed? Might be a useful point in there about value of observing a variable - I am not sure. 
 
+Dataset: Kruger data is an obvious candidate.Also possible to continue wolverine dataset, as this does have sex recorded for all detected individuals.}
+
+\subsection{Time-varying latent covariates}
+
+When entirely latent or partially-observed covariates change between occasions, things can become complicated! If the covariate values are entirely latent and independent on each occasion, there is probably no need to model the latent covariates at all. This is because unmodelled heterogeneity causes bias because it leads to detection and redetection (or capture and recapture) of the more detectable individuals across all occasions, and so detection probability estimates are biased towards the detectoin probability of the more detectable individuals\todo{Refer to (currently missing) unmodelled heterogeneity discussion above.}. But when detectability of any individual varies randomly across occasions, then detection probability on any one occasion is independent of detection probability on other occasions and this bias no longer applies.\todo{Need to think through carefully.}
+
+The complicated scenario is when detection probability on one occasion is related to, but not necessarily equal to, detection probability on previous occasion(s). In this case we need a PDF or PMF for the latent covariate(s) that on any one occasion is related to, but not necessarily equal to, the PDF or PMF for the latent covariate(s) on previous occasions. If detection probability depends on an individual's weight, for example, we can't observe the weight on any occasion on which the individual is not detected, but its weight on these occasions will be related to any previously observed weights. 
+
+
+
+
+\vspace{24pt}\underline{Example analyses}
 
 
 
