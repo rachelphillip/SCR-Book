@@ -289,7 +289,7 @@ The probability of the $i$th individual remaining undetected on the
 $k$th occasion is simply the probability that it does not encounter
 any of the detectors. The probability that it does not encounter the
 $j$th detector is $1 - p_{ijk}$, and so, assuming independence across
-detectors, we obtain 
+detectors, we obtain
 \be \mathbb{P}(\bm{\omega}_{i \cdot k} = \bm{0} |
 \bm{s}_i) = \prod_{j = 1}^J \left ( 1 - p_{ijk} \right ) = 1 - p_{i \cdot k} \label{eq:det-types-multi-nondet}
 \ee
@@ -304,7 +304,9 @@ second (i.e., $\lambda_{i1k} = 2\lambda_{i2k}$), then the probability
 that the $i$th individual is captured by the first trap is twice as
 large as the probability that it is captured by the second. Therefore,
 the probability that th $j$th detector detected the $i$th individual
-on the $k$th occasion is 
+on the $k$th occasion is\todo{Does this need more explanation? Add
+  plot with encounter rates and probabilities of detection at each
+  trap.}
 \be 
 \mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}. \label{eq:det-types-multi-det}
 \ee
@@ -319,10 +321,15 @@ Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
 \end{cases}
 \ee
 
+The encounter rates, $\lambda_{ijk}$, are interpreted as the number of
+encounters we would expect between the $i$th individual and the $j$th
+trap on the $k$th occasion if the detectors did not detain individuals
+upon detection.
+
 \subsection{In \texttt{secr}}
 \label{sec:det-types-multi-secr}
 
-\todo{Probably need to wait until other software sections have been written first.}
+\todo[inline]{Probably need to wait until other software sections have been written first.}
 
 \subsection{Example analyses}
 \label{sec:det-types-multi-example}
