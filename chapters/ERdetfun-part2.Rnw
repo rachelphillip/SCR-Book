@@ -73,7 +73,7 @@ where
 
 \subsection{Link functions and linear predictors}
 
-Encounter rates and detection probabilities often depend on variables associated with the detectors, the environment, individual animals and other things. While there is no single correct way to model the dependence of encounter rate and detection probability on the covariates, there are two ways in which it is commonly done:
+Encounter rates and detection probabilities often depend on variables associated with the detectors, the environment, individual animals and other things. While there is no single correct way to model the dependence of encounter rate and detection probability on the covariates, it is commonly done
 \ben
 \item by making the intercept of the encounter rate function ($\lambda_0$) or the detection function ($g_0$) depend on covariates and/or
 \item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
@@ -118,7 +118,13 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 
 \subsection{Link function formulation for encounter rate and detection probability}
 
-The distance $d$ from a detector to an activity centre is the most important covariate in SCR analyses, although it is usually not observed. As noted above, there is a variety of possible functional forms that are used to model the dependence of encounter rate and detection probability on this distance, the Gaussian and hazard-rate forms being among the most commonly used. The Gaussian model for encounter rate is readily formulated in terms of a log link function as follows:
+The GLM \{link function; linear predictor\} form for modelling detection probability is commonplace in non-spatial capture-recapture literature. An alternative \{intercept; scale\} form, in which $g_0$ or $\lambda_0$ is the intercept and a ``key function'' or ``kernel'' with a scale parameter $\sigma$, is used in the distance sampling literature, and has been adopted by SCR models. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$, where $d$ is distance from a detector to an activity centre. 
+
+Because the capture history likelihoods obtained above are just products of Poisson (in the case of count data) or Bernoulli (in the case of binary data) likelihoods, one might expect that the Poisson mean ($\lambda(d)$) and Bernoulli mean $(p(d)$) would be linked to the explanatory variable $d$ using the GLM inverse link functions for these two distributions (the inverse log link, and the inverse logit or cloglog link functions, respectively -- see Table~\ref{tab:ERdetfun-invlinks}). 
+
+Some encounter rate and detection function forms that are commonly used in SCR models can be written in GLM \{link function; linear predictor\} form, but not all can be. 
+
+The Gaussian model for expected encounter rate (Eqn~\ref{eq:ER+detfun.lambda.hn}) is and example in which the mean encounter rate is readily formulated like this. It can be written using an inverse log link function as
 \be
 \lambda(d)\;=\;\lambda_0\exp\left\{-\frac{d^2}{2\sigma^2}\right\}&=&\exp\{\beta_0\}\exp\{\beta_d d^2\} \nonumber \\
 &=&\exp\{\beta_0 + \beta_d d^2\}\;=\;e^{\eta}
@@ -131,13 +137,11 @@ where $\lambda_0=\exp\{\beta_0\}$, $\beta_d=-1/(2\sigma^2)$, and $\eta=\beta_0 +
 \label{eq:ERdetfun-negexp-lambda}
 \ee
 \noindent
-and this gives a negative exponential form for the encounter rate function. 
+and this gives a negative exponential form for the encounter rate function, which we see can also be written in GLM \{link function; linear predictor\} form. 
 
-Not all commonly-used encounter rate function forms fit into this \{link function; linear predictor\} form. The hazard rate function is one that does not. 
+The hazard rate form for mean encounter rate (Eqn~\ref{eq:ERdetfun-negexp-lambda}) cannot be written in this form, while the hazard rate from for detection probability can only be written in this form if $g_0=1$ (with an inverse cloglog link and linear predictor $\beta_0 + \beta_d\log(d)$, in which $\beta_0=b\log(\sigma)$ and $\beta_d= -b$). The Gaussian detection function model cannot be written in this form. 
 
-Nor do all detection proability models follow the \{link function; linear predictor\} form. The Gaussian form for the detection function does not, for example. 
-
-However, the cloglog link function provides a natural link between any encounter rate function that can be expressed in the $\lambda(d)=e^{\eta}$ form and detection functions and leads to a natural way of incorporating survey effort into detection probability functions (see Section~\ref{sec:ERdetfund-effort}). If we combine $\lambda(d)=e^{\eta}$ with Eqn~\eqref{eq:ER+detfun.binaryp} (and use $T=1$ for simplicity), we get
+If we can write the encounter rate function as $\lambda(d)=e^{\eta}$, where $\eta$ is a linear predictor (i.e. a linear function of parameters), then the detection function can be expressed in \{link function; linear predictor\} form using the cloglog link function. This provides a natural way of incorporating survey effort into detection probability functions (see Section~\ref{sec:ERdetfund-effort}). If we combine $\lambda(d)=e^{\eta}$ with Eqn~\eqref{eq:ER+detfun.binaryp} (and use $T=1$ for simplicity), we get
 \be
 p(d)&=&1-\exp[-\exp\{\eta\}] 
 \label{eq:ERdetfun-cloglogp(d)}
@@ -145,11 +149,10 @@ p(d)&=&1-\exp[-\exp\{\eta\}]
 \noindent
 which links the detection probability, $p(d)$, to a linear predictor $\eta$ with the inverse cloglog link function.
 
-The \{link function; linear predictor\} form for modelling detection probability is ubiquitous in GLM and non-spatial capture-recapture literature. An alternative \{intercept; scale\} form, in which $g_0$ or $\lambda_0$ is the intercept and a ``key function'' or ``kernel'' with a scale parameter $\sigma$, is used in the distance sampling literature. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$. 
+When the intercept of an encounter rate model that can be written in terms of an inverse log link, is made to depend on covariates via and inverse log link, this just adds a term to the linear predictor. For example, if we make $\lambda_0$ depend on a covariate $z$ thus: $\lambda_0(z)=\exp\{\beta_0+\beta_z z\}$, then Eqn~\eqref{eq:ERdetfun-negexp-lambda} becomes $\lambda(d,z)=\exp\{\beta_0+\beta_d d^2 + \beta_z z\}$. 
 
-Sometimes one can write models in either form (as was shown in the case of the Gaussian model above), but not always. And when the scale parameter $\sigma$ in an \{intercept; scale\} model is made to depend on covariates, it is not possible to write this in the standard \{link function; linear predictor\} form. For example, making $\sigma$ a function of covariates in Eqn~\eqref{eq:ER+detfun.p.hn} or Eqn~\eqref{eq:ERdetfun-hr} amounts to making the parameter $\beta_d$ a function of the covariates (because $\beta_d=-1/(2\sigma^2)$), and making parameters functions of covariates does not fit in the standard \{link function; linear predictor\} framework.
+But when the scale parameter $\sigma$ in an \{intercept; scale\} model is made to depend on covariates, it is not possible to write this in the standard \{link function; linear predictor\} form. For example, making $\sigma$ a function of covariates in Eqn~\eqref{eq:ER+detfun.p.hn} or Eqn~\eqref{eq:ERdetfun-lambda-hr} amounts to making the parameter $\beta_d$ a function of the covariates (because $\beta_d=-1/(2\sigma^2)$), and having parameters that are functions of covariates does not fit in the standard GLM \{link function; linear predictor\} framework.
 
-If one wants to retain the familiar \{link function; linear predictor\} form, then the formulation of the detection function as $p(d)=g_0g(d)$ in much of the SCR literature (where $g(d)$ is some monotonically declining function of distance $d$ and $g(0)=1$) is not always possible. SCR models tend to adopt the \{intercept; scale\} form, having borrowed it from the distance sampling literature.% But the $g(d)$ forms in the distance sampling literature were developed for situations in which detection at distance zero is certain ($g(0)=1$) and in most SCR applications this is not the case. Multiplying $g(d)$ by a $g_0$ term is a way to ``fix'' this, but arguably not the most elegant or useful way. Indeed much of the ``mark-recapture distance sampling'' (MRDS) literature (which deals specifically with distance sampling surveys in which $g(0)$ is less than 1) abandoned the $g_0g(d)$ formulation in favour of a \{link function; linear predictor\} formulation. All of which argues in favour of the \{link function; linear predictor\} form for $p(d)$. That said, the relative merits of the $g_0g(d)$ formulation compared to the \{link function; linear predictor\} formulation for detection functions for analysing SCR surveys have not been investigated.
 
 
 
@@ -161,7 +164,7 @@ Variables other than $d$ that affect encounter rate and detection probability (`
 \item at the individual level (covariates like sex or age), and
 \item at points in space (covariates like habitat type or elevation).
 \een
-These three levels correspond to the three kinds of data required for SCR analyses (detector data, capture history data and spatial data) and the level at which covariates act determines to which data type the covariate should be attached. Generic data structures, with covariates, for each kind of data are shown in Tables~\ref{tab:ERdetfun-detdata}, \ref{tab:ERdetfun-capdata} and \ref{tab:ERdetfun-meshdata}. 
+These three levels correspond to the three kinds of data required for SCR analyses (detector data, capture history data and spatial data) and the level at which covariates act determines  which data type the covariate should be attached. Generic data structures, with covariates, for each kind of data are shown in Tables~\ref{tab:ERdetfun-detdata}, \ref{tab:ERdetfun-capdata} and \ref{tab:ERdetfun-meshdata}. 
 
 
 \begin{center}
@@ -265,9 +268,9 @@ The \texttt{secr} package automatically selects the log link for $\sigma$ and $\
 \subsection{Effort effects}
 \label{sec:ERdetfund-effort}
 
-Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. 
+Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)
 
-Each additional unit of effort adds one ``encounter rate unit''. As a result, when effort comes in discrete units (like the individual detectors in an array) the total expected encounter rate of the array ($\lambda_{ijk}(C_{jk})$ for individual $i$ with the $j$th cluster $C_{jk}$ detectors on occasion $k$) is the sum of the individual encounter rates ($\lambda_{ijk}$ for detector $j$ in the cluster):
+Each additional unit of independent effort adds one ``expected encounter rate unit''. As a result, when effort comes in discrete units (like the individual detectors in an array) the total expected encounter rate of the array ($\lambda_{ijk}(C_{jk})$ for individual $i$ with the $j$th cluster $C_{jk}$ detectors on occasion $k$) is the sum of the individual encounter rates ($\lambda_{ijk}$ for detector $j$ in the cluster):
 \be
 \lambda_{ijk}(C_{jk})&=&\sum_{j=1}^J\lambda_{ijk}\;=\;\lambda_{ijk}C_{jk}
 \label{ERdetfn-ertot-C}
@@ -292,19 +295,29 @@ and we use $T_{jk}$ to denote generic effort ($C_{jk}$ or $T_{jk}$ in the above 
 This describes how effort affects expected encounter rate. How does it affect detection probability? To see this, we use Eqn~\ref{eq:ERdetfun-cloglogp(d)} (with $\eta=\eta_{ijk}+\log(T_{jk})$):
 \begin{svgraybox}
 \be
-p_{ijk}(T_{jk})&=&1-\exp[-\exp\{\eta_{ijk}+\log(T_{jk})\}].
+p_{ijk}(T_{jk})&=&1-\exp\{-\lambda_{ijk}T_{jk}\}\;=\;1-\exp\left\{-e^{\eta_{ijk}+\log(T_{jk})}\right\}.
 \label{eq:ERdetfun-p-logoffset}
 \ee
 \end{svgraybox}
 Notice that if we set $T_{jk}=0$ this makes both the expected encounter rate and the detection probability zero. We can therefore use a binary effort variable ($T_{jk}=1$ if detector $j$ was operating on occasion $k$ and $T_{jk}=0$ otherwise) to ``switch'' detectors on and off in an SCR analysis.
 
-With both expected encounter rate functions and detection probability functions, effort, $T_{jk}$, enters as an offset $\log(T_{jk})$ in the linear predictor. This makes effort a different kind of covariate than others, which would normally enter the linear predictor in linear form with an unknown parameter: $\eta_{ijk}+\beta_T T_{jk}$. This form results in expected encounter rate being proportional to $\exp\{\beta_T T_{jk}\}$, not $T_{jk}$. When effort units act independently this is not an appropriate relationship between effort and expected encounter rate. It corresponds to each additional unit of effort causing greater increase in the expected encounter rate that the previous additional unit, or an ``acceleration'' in the effort effect. 
+In the case of both expected encounter rate functions and detection probability functions, effort, $T_{jk}$, enters as an offset $\log(T_{jk})$ in the linear predictor. This makes effort a different kind of covariate than others, which would normally enter the linear predictor in linear form with an unknown parameter: $\eta_{ijk}+\beta_T T_{jk}$. This form results in expected encounter rate being proportional to $\exp\{\beta_T T_{jk}\}$, not $T_{jk}$. When effort units act independently this is not an appropriate relationship between effort and expected encounter rate. It corresponds to each additional unit of effort causing greater increase in the expected encounter rate that the previous additional unit, or an ``acceleration'' in the effort effect. 
+
+Suppose that we have a detection function $p_{ijk}^*=p_{ijk}(T_{jk}^*)$ that was specified to have a certain form (Gaussian/hazard-rate/inverse cloglog/...) for some default effort level, $T_{jk}^*$. What is the detection function for some other effort level $T_{jk}$? This is easy to specify in terms of expected encounter rates because this is proportional to effort: $\lambda_{ijk}(T_{jk})=\lambda_{ijk}(T_{jk}^*)\times\frac{T_{jk}}{T_{jk}^*}$. And from Eqn~\eqref{eq:ER+detfun.p.to.lambda}: $\lambda_{ijk}(T_{jk}^*)=-\log(1-p_{ijk}^*)/T_{jk}^*$. Hence
+\begin{svgraybox}
+\be
+p_{ijk}(T_{jk})&=&1-\exp\left\{\frac{T_{jk}}{T_{jk}^*}\log(1-p_{ijk}^*)\right\}.
+\label{eq:ERdetfun-p2pT}
+\ee
+\end{svgraybox}
+
 
 \todo[inline]{Maybe need to cover effort in multi-catch trap scenario when we deal with mult-catch traps?}
 
 \subsection{Example variable-effort analyses}
 
-\todo[inline]{David's initial thoughts on this: Show data structure and importing here; Note difference between continuous and binary effort. Workshop example shows spatial effect of ignoring effort, which is fine, but does mean we have to tell them about density models and how to specify these in secr - I had hoped we could delay that until after dealing with spatial models. Might be worth ignoring the spatial model in this example (at least in fitting) and comparing the AICcs and estimates with and without effort? That makes things simpler. (And we could give the problem with spatial model as an exercies/example in a later chapter?) Also, having mentioned effort entering as a log-linear effect rather than offset, I wonder if it is worth looking at this model in the example? (Depends on what results it gives!)}
+\todo[inline]{David's initial thoughts on this: Show data structure and importing here; Note difference between continuous and binary effort. Workshop example shows spatial effect of ignoring effort, which is fine, but does mean we have to tell them about density models and how to specify these in secr - I had hoped we could delay that until after dealing with spatial models. Might be worth ignoring the spatial model in this example (at least in fitting) and comparing the AICcs and estimates with and without effort? That makes things simpler.(And we could give the problem with spatial model as an exercies/example in a later chapter?) Also, having mentioned effort entering as a log-linear effect rather than offset, I wonder if it is worth looking at this model in the example? (Depends on what results it gives!) 
+Alternatively, the wolverine data (see next Example box) might be useful here?}
 
 
 
