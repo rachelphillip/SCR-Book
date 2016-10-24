@@ -318,3 +318,17 @@ Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
   p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}} & \text{if trapped by detector $j$.}
 \end{cases}
 \ee
+
+\subsection{In \texttt{secr}}
+\label{sec:det-types-multi-secr}
+
+\todo{Probably need to wait until other software sections have been written first.}
+
+\subsection{Example analyses}
+\label{sec:det-types-multi-example}
+
+\section{Single-catch traps}
+\label{sec:det-types-single}
+
+\section{Discussion}
+\label{sec:det-types-discussion}
