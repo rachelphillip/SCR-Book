@@ -273,7 +273,7 @@ print(xtable(predict(er.hr.fit)[,c("estimate","lcl","ucl")], digits=4,
              caption="Parameter estimates and 95\\% confidence bounds for density, $\\lambda_0$ and hazard rate parameter $b$.",
              label="tab:ERdetfun.countests"))
 @
-} 
+}\todo[inline]{The density parameter could do with more significant digits? A CI of (0.0001, 0.0003) is not particularly informative as relative rounding error is large.}
 
 
 A plot similar to Figure~\ref{fig:ER+detfun_EandN} would show how the capture frequencies have informed the encounter rate model, as explained above. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. Instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. Because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the positive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
