@@ -271,9 +271,50 @@ centre locations:
     [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i]
 \ee
 
-Here, $\bm{\omega}_{i \dot k}$ contains the observed detection data of
-the $i$th individual on the $k$th occasion. For a survey that uses $J$
-multi-catch traps, there are $J + 1$ possible outcomes that
-$\bm{\omega}_{i \dot k}$ may take: we either observe which of the $J$
-traps detected invidiual $i$ on occasion $k$, or we observe that
-individual $i$ was not detected by any trap.
+Here, $\bm{\omega}_{i \cdot k}$ contains the observed detection data
+of the $i$th individual on the $k$th occasion. An individual may only
+be detected by one of the detectors on a given occasion. Thus, for a
+survey that uses $J$ multi-catch traps, there are $J + 1$ possible
+outcomes that $\bm{\omega}_{i \cdot k}$ may take: we either observe
+which of the $J$ traps detected invidiual $i$ on occasion $k$ (and so
+$\bm{\omega}_{ijk} = 1$ if it was the $j$th detector made a
+detection), or we observe that individual $i$ was not detected by any
+trap (and so $\bm{\omega}_{i \cdot k} = \bm{0}$). The term
+$[\bm{\omega}_{i \cdot k} | \bm{s}_i]$ is therefore the probability
+associated with whichever of these outcomes that
+$\bm{\omega}_{i \cdot k}$ represents, conditional on the $i$th
+individual's activity centre location.
+
+The probability of the $i$th individual remaining undetected on the
+$k$th occasion is simply the probability that it does not encounter
+any of the detectors. The probability that it does not encounter the
+$j$th detector is $1 - p_{ijk}$, and so, assuming independence across
+detectors, we obtain 
+\be \mathbb{P}(\bm{\omega}_{i \cdot k} = \bm{0} |
+\bm{s}_i) = \prod_{j = 1}^J \left ( 1 - p_{ijk} \right ) = 1 - p_{i \cdot k} \label{eq:det-types-multi-nondet}
+\ee
+where $p_{i \cdot k}$ is the probability that any of the detectors
+detect the individual.  This is no different to the formulation of the
+equivalent probability for proximity detectors.
+
+The probabilities associated with captures at each of the $J$ traps
+are proportional to their respective encouter rates. For example, if
+the first trap has an encounter rate that is twice as large as the
+second (i.e., $\lambda_{i1k} = 2\lambda_{i2k}$), then the probability
+that the $i$th individual is captured by the first trap is twice as
+large as the probability that it is captured by the second. Therefore,
+the probability that th $j$th detector detected the $i$th individual
+on the $k$th occasion is 
+\be 
+\mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}. \label{eq:det-types-multi-det}
+\ee
+
+Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
+\eqref{eq:det-types-multi-det} together, we obtain
+\be
+[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
+\begin{cases}
+  1 - p_{i \cdot k} & \text{if not detected by any detector,} \\
+  p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}} & \text{if trapped by detector $j$.}
+\end{cases}
+\ee
