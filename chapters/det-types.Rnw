@@ -363,5 +363,76 @@ upon detection.
 \section{Single-catch traps}
 \label{sec:det-types-single}
 
+Like with multi-catch traps, detections can be considered independent
+across occasions, allowing
+\be
+[\bm{\Omega}_n | \bm{S}_n] = \prod_{k = 1}^K [\bm{\omega}_{\cdot \cdot k} | \bm{S}_n],
+\ee
+where $\bm{\omega}_{\cdot \cdot k}$ holds information about whether or
+not each individual was captured on the $k$th occasion, and, if so, in
+which detector it was trapped. Unfortunately, however, the
+probabilities of where one individual may be captured are affected by
+the capture records of all others, and so we may \emph{not} assume
+independence between animals: a detector is deactivated every time an
+individual is captured, increasing the probabilies of each remaining
+individual evading detection during the occasion. Moreover, the
+detection probabilities are affected by \emph{when} the other
+individuals were detected: if other individuals are captured early in
+the occasion, then remaining individuals are fairly safe from capture
+over almost the entire occasion, but if they are detected later in the
+occasion, then remaining individuals are at a higher risk of capture.
+\todo[inline]{Not sure if this last bit is explained very clearly.}
+
+<<det-types-single, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textwidth, out.width = add.in(textwidth), out.height = add.in(0.4*textwidth), fig.pos = "tb", eval.after = "fig.cap", fig.cap = paste("A hypothetical array of single-catch traps, in the same configuration as Figure \\ref{fig:det-types-multi}. The same encounter rate function is used, thus giving the same encounter rates (in grey). Capture probabilities (in black) are provided for a situation where the two traps nearest the individual's activity centre are filled by other individuals at the very beginning of the survey occasion (open points), and the others (solid points) do not make any further captures. The probability of the individual evading capture for the occasion has now risen substantially to $1 - p_{i \\cdot k} = ", format(round(p.evade.all, 3), nsmall = 3), "$, and the capture probabilities at the seven open traps have all risen.", sep = "")>>=
+par(mar = rep(0, 4), oma = rep(0.1, 4))
+plot.new()
+plot.window(xlim = xlim, ylim = ylim, asp = 1)
+trap.pch <- rep(16, 9)
+trap.pch[c(3, 6)] <- 1
+points(traps, pch = trap.pch)
+points(ac.loc[1], ac.loc[2], pch = 4, cex = 2, lwd = 1.5)
+ers[c(3, 6)] <- 0
+p.det <- 1 - dpois(0, ers)
+p.evade.all <- prod(1 - p.det)
+p.det.any <- 1 - p.evade.all
+p.capture <- p.det.any*ers/(sum(ers))
+er.labels <- format(round(ers, 3), nsmall = 3)
+er.labels[c(3, 6)] <- ""
+prob.labels <- format(round(p.capture, 3), nsmall = 3)
+prob.labels[c(3, 6)] <- ""
+text(traps.x, traps.y, labels = er.labels, c(-0.05, -0.15), col = "grey")
+text(traps.x, traps.y, labels = prob.labels, c(-0.05, 1.15))
+@
+
+Single-catch traps do not usually record when detections occur, and so
+this makes it difficult to correctly specify $[\bm{\Omega}_n |
+  \bm{S}_n]$. In order to appropriately specify the dependence between
+individuals' detection records, one may consider the time each
+detection took place as a latent variable. However, one must then
+marginalise over these\todo{Back-reference to first mention of latent
+  variables}, resulting in the evaluation of an integral of
+dimension\todo{Too technical?}  $\sum \bm{\omega}_{\cdot \cdot k}$,
+the number of detections made, for each occasion---a very substantial
+computational obstacle.
+
+A maximum-likelihood estimator for standard single-catch traps
+therefore remains elusive. At the time of writing there exist
+three\todo{Four if you count Beth Gardner's ISEC talk in 2012?}
+alternative methods for obtaining inference: \todo{Check that this
+  inline list style is consistent with the rest of the book}(1) affix
+timers to traps to collect precise detection times, (2) an
+inverse-prediction estimation approach, and (3) use of the multi-catch
+trap estimator. Collecting detection times results in a likelihood
+function that \emph{is} tractable---this approach is not covered here,
+and is instead discussed in Chapter \ref{chap:continuous-time}. The
+second and third approaches are provided in further detail directly
+below.
+
+\subsection{Inverse prediction}
+\label{sec:det-types-single-inverse}
+
+\subsection{Multi-catch trap estimator for single-catch traps}
+\label{sec:det-types-single-multi}
+
 \section{Discussion}
 \label{sec:det-types-discussion}
