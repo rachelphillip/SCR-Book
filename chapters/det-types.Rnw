@@ -431,8 +431,51 @@ below.
 \subsection{Inverse prediction}
 \label{sec:det-types-single-inverse}
 
+Using inverse prediction to obtain inference about animal density from
+single-catch traps was first proposed by \cite{Efford:04}. While
+evaluating the likelihood function for a single-catch trap model is
+extremely difficult, simulation from such a model is comparatively
+easy: for each of the $N$ individuals in the survey area there exist
+competing temporal Poisson processes---one at each trap---where an
+event is the individual being captured. Simulation from such processes
+can be carried out in continuous time, and whenever a detection
+occurs, simulation from all processes associated with the animal and
+trap in question is terminated (and so individuals and traps may each
+only be involved in a single capture event). This can then be repeated
+for each survey occasion.
+
+Estimation of model parameters (density and the detection function)
+may then be achieved by successively simulating a large number of data
+sets at various parameter values. The final estimates are the
+parameter values that result in simulated data that match the closest
+to the data obtained from the field.\todo{Is this an accurate enough
+  explanation?}
+
+Due to the computationally expensive procedure of simulating a large
+number of data sets, estimation by inverse prediction is relatively
+slow. Moreover, variance estimates (standard errors and confidence
+intervals) are not available directly from asymptotic likelihood
+theory, and one must again rely on simulation-based methods, which
+further increases computation time. Other likelihood-based
+tools---such as AIC for model selection---cannot be used.
+
+Estimation by inverse prediction can be carried out using the
+\texttt{ip.secr} function in the \texttt{secr} package. It only
+supports a restricted range of detection functions and does not
+support inhomogeneous Poisson processes for the spatial model
+component.
+
 \subsection{Multi-catch trap estimator for single-catch traps}
 \label{sec:det-types-single-multi}
+
+%% Relatively robust, regain the use of likelihood machinery, can use
+%% covariates in the software, etc.
+
+\subsection{In \texttt{secr}}
+\label{sec:det-types-single-secr}
+
+%% Inverse prediction and multi-catch trap analysis, ideally showing
+%% that the estimates are very similar.
 
 \section{Discussion}
 \label{sec:det-types-discussion}
