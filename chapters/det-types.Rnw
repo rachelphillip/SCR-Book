@@ -39,7 +39,7 @@ plausible that a detection by one camera trap or hair snare does not
 affect encouter rates at any others. An individual is unaffected when
 it is detected. Here, we call such detectors \emph{proximity
   detectors}\index{Proximity detectors}---a term first coined by
-\cite{Efford+al:09b}\todo{Is this correct?}. Further examples of
+\cite{Efford+al:09b} \todo{Is this correct?}. Further examples of
 proximity detectors include various types of acoustic and visual
 detectors, which may either be electronic devices (e.g., microphones
 or hydrophones) or human observers.
@@ -409,15 +409,15 @@ this makes it difficult to correctly specify $[\bm{\Omega}_n |
   \bm{S}_n]$. In order to appropriately specify the dependence between
 individuals' detection records, one may consider the time each
 detection took place as a latent variable. However, one must then
-marginalise over these\todo{Back-reference to first mention of latent
+marginalise over these \todo{Back-reference to first mention of latent
   variables}, resulting in the evaluation of an integral of
-dimension\todo{Too technical?}  $\sum \bm{\omega}_{\cdot \cdot k}$,
+dimension \todo{Too technical?}  $\sum \bm{\omega}_{\cdot \cdot k}$,
 the number of detections made, for each occasion---a very substantial
 computational obstacle.
 
 A maximum-likelihood estimator for standard single-catch traps
 therefore remains elusive. At the time of writing there exist
-three\todo{Four if you count Beth Gardner's ISEC talk in 2012?}
+three \todo{Four if you count Beth Gardner's ISEC talk in 2012?}
 alternative methods for obtaining inference: \todo{Check that this
   inline list style is consistent with the rest of the book}(1) affix
 timers to traps to collect precise detection times, (2) an
@@ -448,7 +448,7 @@ Estimation of model parameters (density and the detection function)
 may then be achieved by successively simulating a large number of data
 sets at various parameter values. The final estimates are the
 parameter values that result in simulated data that match the closest
-to the data obtained from the field.\todo{Is this an accurate enough
+to the data obtained from the field. \todo{Is this an accurate enough
   explanation?}
 
 Due to the computationally expensive procedure of simulating a large
@@ -457,7 +457,8 @@ slow. Moreover, variance estimates (standard errors and confidence
 intervals) are not available directly from asymptotic likelihood
 theory, and one must again rely on simulation-based methods, which
 further increases computation time. Other likelihood-based
-tools---such as AIC for model selection---cannot be used.
+tools---such as AIC for model selection and likelihood-ratio
+hypothesis tests and confidence intervals---cannot be used.
 
 Estimation by inverse prediction can be carried out using the
 \texttt{ip.secr} function in the \texttt{secr} package. It only
@@ -468,12 +469,74 @@ component.
 \subsection{Multi-catch trap estimator for single-catch traps}
 \label{sec:det-types-single-multi}
 
+In the absence of a tractable likelihood function for single-catch
+trap models, the multi-catch trap likelihood is often used
+instead. \todo{Insert some citations?} The data violate the
+assumptions for such a model---namely, that individuals' detection
+histories are independent---and the extent to which this occurs
+depends on the proportion of traps that are typically filled over the
+course of an occasion, known as the \emph{trap saturation}.
+
+The justification for a multi-catch trap likelihood for single-catch
+trap data chiefly comes from \cite{Efford+al:09a}, who found that the
+resulting estimate for average density was remarkably robust in a
+variety of situations, and only showed non-negligible bias at extreme
+levels \todo{What value?}  of trap saturation. This estimator also
+performed best when animal density is constant (or nearly so). These
+findings were also echoed by \cite{Distiller+Borchers:15}.
+
+However, while the multi-catch trap estimator for average density
+appears robust for use with single-catch traps, this does not hold for
+estimators for the density \emph{surface}, nor the encounter rate
+parameters. Density estimates are typically negatively biased for
+areas of high density, and positively biased for areas of low
+density. Furthermore, the intercept parameter for the encouter rate
+function is typically negatively biased, and the scale parameter is
+typically positively biased. It appears that the compensatory
+relationship between these two pairs of estimates give rise to the
+negligibly biased average density.
+
+There is therefore general support for using a multi-catch trap
+estimator for single-catch trap data when the primary interest in
+estimating average density. This provides a number of advantages over
+using the inverse-prediction estimator from Section
+\ref{sec:det-types-single-inverse}: the use of a likelihood function
+allows (1) faster estimation, (2) variance estimates from asymptotic
+likelihood theory, and (3) use of likelihood-based tools. Moreover, it
+allows the use of \texttt{secr.fit}, rather than \texttt{ip.secr}, to
+fit the model, which allows (1) estimation of a density
+surface\footnote{Although recall that the estimated density surface is
+  typically too flat; high-density areas are underestimated and
+  low-density areas are overestimated. However, this may be preferable
+  to a model that assumes a flat density.}, and (2) a choice from the
+usual range of encounter rate and detection functions in the
+\texttt{secr} package. These advantages are not inherent to the
+estimation approach, but rather due to what has been implemented in
+the software. \todo{Is this correct? I'm not totally familiar with
+  inverse prediction.}
+
+However, if there is particular interest in the encounter rate
+function (e.g., to gain information space-use or animal movement),
+then using a multi-trap catch estimator is unlikely to be
+suitable---one should therefore use either inverse prediction or the
+continuous-time model in Chapter \ref{chap:continuous-time}. If there
+is particular importance in precise, unbiased estimation of a
+detection surface, then the continuous-time model is the only
+appropriate method that is currently available (and requires timers on
+traps to record the exact time of each capture).
+
 %% Relatively robust, regain the use of likelihood machinery, can use
 %% covariates in the software, etc.
+
+
 
 \subsection{In \texttt{secr}}
 \label{sec:det-types-single-secr}
 
+\todo[inline]{Analysis of a single-catch trap data set using both
+  inverse prediction and the multi-catch trap estimator. Ideally this
+  will show density estimates that are similar, but different
+  estimated encounter rate functions that are different.}
 %% Inverse prediction and multi-catch trap analysis, ideally showing
 %% that the estimates are very similar.
 
