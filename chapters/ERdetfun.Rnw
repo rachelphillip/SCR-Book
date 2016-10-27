@@ -92,7 +92,7 @@ Whenever events occur independently at some fixed average rate ($\lambda(d)$ in 
 \noindent
 (Note that we need the activity centre $\bm{s}_i$ to be known to know $d_{ij}$.)
 
-Assuming that detections occur independently at each of $J$ detectors (as might be reasonable for camera trap surveys, or acoustic surveys), the capture history for individual $i$ is distributed as the product of independent Poisson random variables\todo{BCS: Nitpicky point, but to me ``distribution of a product of independent Poisson random variables'' to me sounds as though we are generating a bunch of Poisson random variables, then multiplying them together. That is, $X_i \sim \mathrm{Pois}(\lambda_i)$, and we want the distribution of $Y_i = \prod_i X_i$. However, this is actually trying to say that the \textbf{PMF} of the $i$th capture history is the product of Poisson \textbf{PMF}s.}:
+Assuming that detections occur independently at each of $J$ detectors (as might be reasonable for camera trap surveys, or acoustic surveys), the capture history for individual $i$ is distributed as the product of independent Poisson random variables\todo{BCS: Nitpicky point, but to me ``distribution of a product of independent Poisson random variables'' sounds as though we are generating a bunch of Poisson random variables, then multiplying them together. That is, $X_i \sim \mathrm{Pois}(\lambda_i)$, and we want the distribution of $Y = \prod_i X_i$. However, this is actually trying to say that the \textbf{PMF} of the $i$th capture history is the product of Poisson \textbf{PMF}s.}:
 \be
 [\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
 \ee
@@ -273,7 +273,7 @@ print(xtable(predict(er.hr.fit)[,c("estimate","lcl","ucl")], digits=4,
              caption="Parameter estimates and 95\\% confidence bounds for density, $\\lambda_0$ and hazard rate parameter $b$.",
              label="tab:ERdetfun.countests"))
 @
-} 
+}\todo[inline]{The density parameter could do with more significant digits? A CI of (0.0001, 0.0003) is not particularly informative as relative rounding error is large.}
 
 \todo[inline]{David: 
 
