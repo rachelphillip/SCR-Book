@@ -542,12 +542,10 @@ traps to record the exact time of each capture).
   will show density estimates that are similar, but different
   estimated encounter rate functions that are different.}
 
-\section{Discussion}
+\section{Possible extensions}
 \label{sec:det-types-discussion}
 
-\todo[inline]{Is this section all a bit too negative? It reflects
-  concerns that I have about SCR that I have not really heard
-  elsewhere.}
+\todo[inline]{Is this section all a bit too negative?}
 
 In this chapter we have made particular assumptions about how animals
 interact with detectors, and how they interact with one
@@ -556,8 +554,12 @@ assumes within-occasion independence between individuals for both
 proximity detectors (e.g., Eqn \eqref{eq:ER+detfun.P.Omega.count}) and
 multi-catch traps (Eqn \eqref{eq:det-types-multi-lik}), and
 within-occasion independence between detectors for proximity
-detectors, conditional on activity centre locations. There are a
-variety of mechanisms that may violate these assumptions.
+detectors, conditional on activity centre locations. 
+
+There are a variety of mechanisms that may violate these assumptions,
+which are discussed below. Methods do not yet exist to account for
+these---but their development is a possible direction for future
+research.
 
 \subsection{Independence between individuals}
 \label{sec:det-types-discussion-individuals}
@@ -614,9 +616,3 @@ time later, as the animal is roaming close to the detectors. If one
 camera trap makes a larger number of detections than what would be
 expected given the encounter rate function, then it is likely that the
 other will, too.
-
-%% Conditional independence across traps (proximity):
-%% Two traps near each other are likely to return similar counts
-
-%% Poisson response assumption?
-%% Why not try out a more general response distribution?
