@@ -605,7 +605,15 @@ violated to a lesser degree.
 \label{sec:det-types-discussion-detectors}
 
 Independence across detectors, given an individual's activity centre
-location, is an important assumption for proximity detectors.
+location, is an important assumption for proximity detectors. It is
+reasonable to think, however, that this may be violated in some
+situations. For example, consider two camera traps in close
+proximity. A detection of an individual at one camera trap may
+indicate that the other is likely to also make a detection a short
+time later, as the animal is roaming close to the detectors. If one
+camera trap makes a larger number of detections than what would be
+expected given the encounter rate function, then it is likely that the
+other will, too.
 
 %% Conditional independence across traps (proximity):
 %% Two traps near each other are likely to return similar counts
