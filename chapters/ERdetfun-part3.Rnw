@@ -1,5 +1,5 @@
 \section{Individual effects (trap response and heterogeneity)}
-blah blah
+blah blah blah
 \todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify to individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
