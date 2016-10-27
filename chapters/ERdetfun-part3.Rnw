@@ -91,14 +91,13 @@ Dataset: Kruger data is an obvious candidate.Also possible to continue wolverine
 
 \subsection{Time-varying latent covariates}
 
-When entirely latent or partially-observed covariates change between occasions, things can become complicated! If the covariate values are entirely latent and independent on each occasion, there is probably no need to model the latent covariates at all. This is because unmodelled heterogeneity causes bias because it leads to detection and redetection (or capture and recapture) of the more detectable individuals across all occasions, and so detection probability estimates are biased towards the detectoin probability of the more detectable individuals\todo{Refer to (currently missing) unmodelled heterogeneity discussion above.}. But when detectability of any individual varies randomly across occasions, then detection probability on any one occasion is independent of detection probability on other occasions and this bias no longer applies.\todo{Need to think through carefully.}
+When entirely latent or partially-observed covariates change between occasions, things can become complicated! 
 
-The complicated scenario is when detection probability on one occasion is related to, but not necessarily equal to, detection probability on previous occasion(s). In this case we need a PDF or PMF for the latent covariate(s) that on any one occasion is related to, but not necessarily equal to, the PDF or PMF for the latent covariate(s) on previous occasions. If detection probability depends on an individual's weight, for example, we can't observe the weight on any occasion on which the individual is not detected, but its weight on these occasions will be related to any previously observed weights. 
+The simple case is when the covariate values are entirely latent and are independent on each occasion. In this case, there is probably no need to model the latent covariates at all. This is because unmodelled heterogeneity causes bias when it leads to detection and redetection (or capture and recapture) of the more detectable individuals across all occasions, and so detection probability estimates are biased towards the detectoin probability of the more detectable individuals\todo{Refer to (currently missing) unmodelled heterogeneity discussion above.}. But when detectability of any individual varies randomly across occasions, then detection probability on any one occasion is independent of detection probability on other occasions and this bias no longer applies.\todo{Need to think through carefully.}
 
+The complicated scenario is when detection probability on one occasion is related to, but not necessarily equal to, detection probability on previous occasion(s). In this case we need a PDF or PMF for the latent covariate(s) that on any one occasion is related to, but not necessarily equal to, the PDF or PMF for the latent covariate(s) on previous occasions. If detection probability depends on an individual's weight, for example, we can't observe the weight on any occasion on which the individual is not detected, but its weight on these occasions will be related to any previously observed weights and any subsequently observed weights. 
 
-
-
-\vspace{24pt}\underline{Example analyses}
+?? ... ??\todo{Look up and insert citations} have developed non-spatial CR models that accommodate this kind of temporal dependence in partially-observed latent covariate values, but no such methods have as yet been developed for SCR. Use of Hidden Markov models to model temporal dependence would seem to be a promising approach to pursue. 
 
 
 

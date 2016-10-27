@@ -241,7 +241,6 @@ er.hn.fit <- secr.fit(kruger.capt, mask=kruger.mask,
 We will also fit an encounter rate model with ``hazard rate'' shape. \todo[inline]{move out of this application section}This is defined as follows
 \be
 \lambda(d)&=&\lambda_0\left(1-\exp\left\{-\left[\frac{d}{\sigma}\right]^{-b}\right\}\right).
-\label{eq:ERdetfun-lambda-hr}
 \ee
 \noindent 
 It has one more parameter ($b$) than a Gaussian model and is hence more flexible. Its shape can be seen in Figure~\ref{fig:ERdetfun.hrfit}. 
@@ -276,6 +275,11 @@ print(xtable(predict(er.hr.fit)[,c("estimate","lcl","ucl")], digits=4,
 @
 } 
 
+\todo[inline]{David: 
+
+(1) Maybe confusion calling the shape parameter $z$, because this is used later as symbol for covariates?
+
+(2) I think we should perhaps interpret parameters explicitly, to link better with explanations that went before? For example, say that the expected encounter rate at distance zero is 1.9105 per survey duration ($T=1$), and maybe also (a) calculate the expected number of encounters at some other given distance(s), and (b) calculate the probability of detection for $T=1$ at distance zero and at some other given distance(s)? Can give CIs too.}
 
 A plot similar to Figure~\ref{fig:ER+detfun_EandN} would show how the capture frequencies have informed the encounter rate model, as explained above. However, because we have 62 detectors here rather than just 5, a plot like Figure~\ref{fig:ER+detfun_EandN} is too messy to be useful. Instead of using exact distances to detectors, we will use distance intervals and count the average number of detections for all detectors in each distance interval. Because we are operating in two spatial dimensions, negative and positive distances are not well defined, so we will do a plot only on positive distances (as if the negative distances had been folded over onto the positive ones). Doing this with the \texttt{scrmlebook} library function \texttt{plot.er.fit}, we get Figure~\ref{fig:ERdetfun.hrfit}. 
 
