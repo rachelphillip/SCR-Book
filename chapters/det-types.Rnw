@@ -261,14 +261,18 @@ earlier; refer to Section \ref{sec:ER+detfun.count+binary.eg} instead.
 \section{Multi-catch traps}
 \label{sec:det-types-multi}
 
+Examples of multi-catch traps include mist nets and pitfall
+traps. \todo{Insert picture?} Here we assume that these have no
+capacity limit, and therefore are never `full'.
+
 In order to obtain the spatial recaptures required to fit an SCR
 model, any survey that uses traps that physically detain individuals
 must comprise more than one occasion. As per Section
 \ref{sec:ER+detfun.occasions}, encounters are considered independent
-across both individuals and occasions, conditional on the activity
+across both individuals and occasions, conditional on the activity  
 centre locations: 
 \be 
-    [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i]
+    [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i] \label{eq:det-types-multi-lik}
 \ee
 
 Here, $\bm{\omega}_{i \cdot k}$ contains the observed detection data
@@ -540,3 +544,71 @@ traps to record the exact time of each capture).
 
 \section{Discussion}
 \label{sec:det-types-discussion}
+
+\todo[inline]{Is this section all a bit too negative? It reflects
+  concerns that I have about SCR that I have not really heard
+  elsewhere.}
+
+In this chapter we have made particular assumptions about how animals
+interact with detectors, and how they interact with one
+another. Namely, the likelihood component $[\bm{\Omega}_n | \bm{S}_n]$
+assumes within-occasion independence between individuals for both
+proximity detectors (e.g., Eqn \eqref{eq:ER+detfun.P.Omega.count}) and
+multi-catch traps (Eqn \eqref{eq:det-types-multi-lik}), and
+within-occasion independence between detectors for proximity
+detectors, conditional on activity centre locations. There are a
+variety of mechanisms that may violate these assumptions.
+
+\subsection{Independence between individuals}
+\label{sec:det-types-discussion-individuals}
+
+We have already mentioned that detection data may not be independent
+across individuals due to dependence in activity centre locations.
+\todo{insert section references} Individuals may live in groups,
+whereby individuals in the same group have the same (or similar)
+activity centres and we would therefore expect them to have similar
+detection records. Alternatively, individuals may be territorial and
+have activity centres that repel each other. We would therefore expect
+different individuals to be detected in different locations.
+
+However, there is an additional level of possible dependence. That is,
+we may expect dependence between individuals' detection records even
+once we condition on their activity centre locations. For example,
+groups of individuals may not only live together, but also \emph{move}
+together. Thus, if one group member is detected by a particular trap,
+it is likely that other group members will also be detected at the
+same proximity detector or multi-catch trap on the same occasion.
+
+There are additional issues for multi-catch traps: the probability of
+an individual being caught in a multi-catch trap may be affected by
+other individuals detected by the same trap. For example, a trapped
+individual may warn others away (decreasing their detection
+probabilities), or alternatively attract them towards the detector
+(increasing their detection probabilities). \todo{These possibilities
+  sound reasonable to me, but then again I'm not a biologist.} There
+are similarities to the single-catch trap situation here:
+detectability of one individual is affected by the detection of
+others, and so we may not assume independence between
+individuals. This results in a likelihood function that is likely to
+be intractible.
+
+A special case of this is that we have assumed that the traps have
+infinite capacity. Of course, they may fill up if they capture enough
+individuals, reducing detection probabilities for all other animals to
+zero. However, recall that the multi-catch trap density estimator for
+single-catch trap data (where trap capacity is $1$) is fairly
+robust---and when trap capacity is greater than $1$ (but not infinite)
+we would expect further increased robustness as the assumption is
+violated to a lesser degree.
+
+\subsection{Independence between detectors}
+\label{sec:det-types-discussion-detectors}
+
+Independence across detectors, given an individual's activity centre
+location, is an important assumption for proximity detectors.
+
+%% Conditional independence across traps (proximity):
+%% Two traps near each other are likely to return similar counts
+
+%% Poisson response assumption?
+%% Why not try out a more general response distribution?
