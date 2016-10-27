@@ -537,8 +537,6 @@ traps to record the exact time of each capture).
   inverse prediction and the multi-catch trap estimator. Ideally this
   will show density estimates that are similar, but different
   estimated encounter rate functions that are different.}
-%% Inverse prediction and multi-catch trap analysis, ideally showing
-%% that the estimates are very similar.
 
 \section{Discussion}
 \label{sec:det-types-discussion}
