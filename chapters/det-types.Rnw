@@ -10,36 +10,46 @@
   the assumptions these models make, and how they can be fitted using
   available software.}
 
-\section{Why different models?}
-\label{sec:det-types-different-models}
+\section{Introduction}
+\label{det-types-intro}
 
-There are two reasons why the type of detector deployed on a survey
-affects the statistical model that is fitted. The first is related to
-whether or not detectors physically detain individuals---this affects
-assumptions that can plausibly be made about dependence between
-detections within the same occasion. The second is related to the
-response data that are collected by the detectors.
+While CR models were traditionally formulated with capture, mark, and
+release survey protocol in mind, SCR methods offer the flexibility to
+model data collected in all sorts of ways---and with rapid
+advancements in wildlife monitoring technology, we are now able to
+detect animals using a wide variety of detector types. We have already
+met two such modern advancements in earlier chapters: camera traps,
+with individuals identified by natural markings, and hair snares, with
+individuals identified genetically.
+
+However, the exact formulation of the SCR model to be fitted varies
+depending on the type of detectors that are deployed. There are two
+reasons why this is the case. The first is related to whether or not
+detectors physically detain individuals---this affects assumptions
+that can plausibly be made about dependence between detections within
+the same occasion. The second is related to the response data that are
+collected by the detectors.
 
 \subsection{Inter-detection dependence}
 \label{sec:det-types-independence}
 
-So far we have considered only two types of detectors: camera traps
-and hair snares (Chapter \ref{chap:ER+detfun}). In both cases, the
-number of times an individual is expected to encounter a detector was
-assumed to depend on the detector's distance from its activity centre
-(e.g., Eqn \eqref{eq:ER+detfun.lambda.hn}). Conditional on the
+So far we have only considered modelling data collected by camera
+traps and hair snares (Chapter \ref{chap:ER+detfun}). In both cases,
+the number of times an individual is expected to encounter a detector
+was assumed to depend on the detector's distance from its activity
+centre (e.g., Eqn \eqref{eq:ER+detfun.lambda.hn}). Conditional on the
 location of the activity centre, encounters were assumed to be
 independent across the traps (Eqns \eqref{eq:ER+detfun.count.wi} and
 \eqref{eq:ER+detfun.binary.wi}), and independent across individuals
 (Eqns \eqref{eq:ER+detfun.P.Omega.count} and
-\eqref{eq:ER+detfun.P.Omega.binary}). 
+\eqref{eq:ER+detfun.P.Omega.binary}).
 
 These assumptions may be reasonable in this context, as it is
 plausible that a detection by one camera trap or hair snare does not
 affect encouter rates at any others. An individual is unaffected when
 it is detected. Here, we call such detectors \emph{proximity
   detectors}\index{Proximity detectors}---a term first coined by
-\cite{Efford+al:09b} \todo{Is this correct?}. Further examples of
+\cite{Efford+al:09b}. \todo{Is this correct?} Further examples of
 proximity detectors include various types of acoustic and visual
 detectors, which may either be electronic devices (e.g., microphones
 or hydrophones) or human observers.
@@ -335,7 +345,7 @@ p.det <- 1 - dpois(0, ers)
 p.evade.all <- prod(1 - p.det)
 p.det.any <- 1 - p.evade.all
 p.capture <- p.det.any*ers/(sum(ers))
-text(traps.x, traps.y, labels = format(round(ers, 3), nsmall = 3), c(-0.05, -0.15), col = "grey")
+text(traps.x, traps.y, labels = format(round(ers, 3), nsmall = 3), c(-0.05, -0.15), col = "darkgrey")
 text(traps.x, traps.y, labels = format(round(p.capture, 3), nsmall = 3), c(-0.05, 1.15))
 #text(xlim[2], ylim[2], paste("Probability of no capture: ", format(round(p.evade.all, 3), nsmall = 3), sep = ""),
 #     adj = c(1.05, 1.05))   
@@ -404,7 +414,7 @@ er.labels <- format(round(ers, 3), nsmall = 3)
 er.labels[c(3, 6)] <- ""
 prob.labels <- format(round(p.capture, 3), nsmall = 3)
 prob.labels[c(3, 6)] <- ""
-text(traps.x, traps.y, labels = er.labels, c(-0.05, -0.15), col = "grey")
+text(traps.x, traps.y, labels = er.labels, c(-0.05, -0.15), col = "darkgrey")
 text(traps.x, traps.y, labels = prob.labels, c(-0.05, 1.15))
 @
 
