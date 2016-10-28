@@ -1,14 +1,14 @@
 \chapter{Detector types}
 \label{chap:det-types}
 
-\abstract{Traditionally, CR surveys involved the physical trapping and
-  marking of individuals. Nowadays, animals can be detected and
-  identified by deploying one of a wide variety of detector types;
-  however, the way we model the data that are collected depends on
-  which was used. This chapter describes the types of detectors that
-  can be used on SCR surveys, how the resulting data can be modelled,
-  the assumptions these models make, and how they can be fitted using
-  available software.}
+\abstract{Early CR surveys traditionally involved the physical
+  trapping and marking of individuals. Nowadays, animals can be
+  detected and identified by deploying one of a wide variety of
+  detector types---however, the way we model the data that are
+  collected depends on which was used. This chapter describes the
+  types of detectors that can be used on SCR surveys, how the
+  resulting data can be modelled, the assumptions these models make,
+  and how they can be fitted using available software.}
 
 \section{Introduction}
 \label{det-types-intro}
@@ -35,28 +35,26 @@ collected by the detectors.
 
 So far we have only considered modelling data collected by camera
 traps and hair snares (Chapter \ref{chap:ER+detfun}). In both cases,
-the number of times an individual is expected to encounter a detector
-was assumed to depend on the detector's distance from its activity
-centre (e.g., Eqn \eqref{eq:ER+detfun.lambda.hn}). Conditional on the
-location of the activity centre, encounters were assumed to be
-independent across the traps (Eqns \eqref{eq:ER+detfun.count.wi} and
-\eqref{eq:ER+detfun.binary.wi}), and independent across individuals
-(Eqns \eqref{eq:ER+detfun.P.Omega.count} and
+an individual may encounter multiple detectors over the course of an
+occasion, and so detection at one detector does not necessarily affect
+detections at any others. As a result it may be plausible to assume
+that, conditional on the location of the activity centre, encounters
+are assumed to be independent across the traps (Eqns
+\eqref{eq:ER+detfun.count.wi} and \eqref{eq:ER+detfun.binary.wi}), and
+independent across individuals (Eqns
+\eqref{eq:ER+detfun.P.Omega.count} and
 \eqref{eq:ER+detfun.P.Omega.binary}).
 
-These assumptions may be reasonable in this context, as it is
-plausible that a detection by one camera trap or hair snare does not
-affect encouter rates at any others. An individual is unaffected when
-it is detected. Here, we call such detectors \emph{proximity
+Here, we call detectors that allow this \emph{proximity
   detectors}\index{Proximity detectors}---a term first coined by
-\cite{Efford+al:09b}. \todo{Is this correct?} Further examples of
+\todo{Is this correct?} \cite{Efford+al:09b}.  Further examples of
 proximity detectors include various types of acoustic and visual
 detectors, which may either be electronic devices (e.g., microphones
 or hydrophones) or human observers.
 
-We can also use SCR methods when the detectors that are deployed
-physically capture the individuals they detect. Indeed, this was the
-context in which the very first SCR methods were developed
+We can also use SCR methods when the detectors physically capture the
+individuals upon detection. Indeed, this was the context in which the
+very first SCR methods were developed
 \citep{Efford:04,Borchers+Efford:08}. In such situations we must
 operate under the familiar CR framework of capturing individuals over
 a set of discrete sampling occasions: in order to obtain recaptures
@@ -66,7 +64,7 @@ such detectors: \emph{multi-catch traps}\index{multi-catch traps},
 which can accommodate many individuals at once, and \emph{single-catch
   traps}\index{single-catch traps} (Figure \ref{fig:bunny-rabbit}),
 which close after a single animal is trapped, preventing any further
-detections of any other indviduals for the rest of the occasion.
+detections of any other indviduals for the remainder of the occasion.
 
 \begin{figure}[tb]
   \centering
@@ -78,12 +76,13 @@ detections of any other indviduals for the rest of the occasion.
 However, the between-individual and between-trap independence
 assumptions discussed above may not hold when detectors physically
 detain animals. In such cases, an individual that encounters one
-detector prevents further detection of that individual by any other
-detector for the remainder of the occasion, and so there is strict
-\emph{dependence} between encounters across the traps. Likewise, if
-single-catch traps are used, then a trap is disabled when it detects
-an animal; this decreases the probability of any other individual
-being detected, and so one cannot assume independent encounters across
+detector cannot be detected by any other detector for the remainder of
+the occasion, and so there is strict \emph{dependence} between
+encounters across the traps. Likewise, if single-catch traps are used,
+then a trap is disabled when it detects an animal. With fewer active
+detectors, the probabilities of other individuals being detected are
+reduced. As the detection of one individual affects the probability of
+detection of another, one cannot assume independent encounters across
 individuals.
 
 \subsection{Response data}
@@ -95,17 +94,23 @@ already seen one example of this: in Section
 camera traps and hair snares. While a camera trap is able to
 \emph{count} the number of times it detects each individual, a hair
 snare only provides \emph{binary} data indicating if at least one
-interaction occured. Count data provide richer spatial information
+interaction has occured. Count data provide richer spatial information
 over and above what can be inferred from binary data alone---not only
 is an individual's activity centre more likely to be located nearest
 the detectors at which it was detected, but it is particularly likely
-to be located nearest those that made a large number of
+to be located nearest those that made large numbers of
 detections. With a better idea of the detected individuals' activity
 centre locations we obtain more a precise estimate of the detection
-function, and therefore also of animal density.
+function, and therefore also of animal density.\todo{It is interesting
+  to note that the Royle textbook specifically \emph{dis}courages
+  using detection counts, even if they are available, in favour of
+  binary data.}
+
+\todo[inline]{Below two paragraphs are probably better suited in a
+  different chapter; they seem out of place here.}
 
 There are other possible response data types that may be observed in
-addition to the capture histories that also provide additional spatial
+addition to the capture histories that provide additional spatial
 information. On acoustic surveys, the activity centre associated with
 a detected individual may be conceptualised as its physical location
 at the time it produces a call. If microphones are used to detect
@@ -133,14 +138,13 @@ in further detail in Chapter \ref{chap:continuous-time}.
 
 The type of detector deployed on a survey directly affects the type of
 data we collect about each individual (given by $\bm{\omega}_i$ for
-the $i$th individual), but not its activity centre
-location. Therefore, the likelihood component that is affected by the
-choice of detector type is $[\bm{\Omega}_n | \bm{S}_n]$, but not
-$[\bm{S}_n]$ itself. Throughout the remainder of this chapter, this
-likelihood component is provided for various detector and response
-types, along with examples of how to fit these models using
-\texttt{secr}. Even if detectors are unable to count encounters (e.g.,
-hair snares) or physically detain individuals (e.g., single- or
+the $i$th individual). Therefore, the likelihood component that is
+affected by the choice of detector type is
+$[\bm{\Omega}_n | \bm{S}_n]$. Throughout the remainder of this
+chapter, this likelihood component is provided for various detector
+and response types, along with examples of how to fit these models
+using \texttt{secr}. Even if detectors are unable to count encounters
+(e.g., hair snares) or physically detain individuals (e.g., single- or
 multi-catch traps), this likelihood component can nevertheless be
 formulated by considering the spatial encounter-rate process that was
 introduced in Section \ref{sec:ER+detfun.simple.ER.model}, and used
@@ -178,17 +182,18 @@ further detail in the relevant sections below.
 \subsection{Incorporating additional information}
 \label{sec:det-types-additional-info}
 
-\todo{This section will probably be moved elsewhere.}A variety of
-additional response data types may be observed from each detection;
-for example, an acoustic survey may record both the received signal
-strength and time of arrival of each detection of a call. Let $\bm{Y}$
-hold all additional data observed from all detections, and let each
-element be indexed by the same subscripts used in Sections
-\ref{sec:ER+detfun.occasions} and \ref{sec:ER+detfun.strata}, in
-addition to the subscript $m$, which indexes the additional
-information type. For example, $y_{ijkm}$ is the $m$th additional data
-type collected from the $i$th individual's detection at the $j$th
-detector on the $k$th occasion.
+\todo[inline]{Likewise, this section will probably be moved elsewhere.}
+
+A variety of additional response data types may be observed from each
+detection; for example, an acoustic survey may record both the
+received signal strength and time of arrival of each detection of a
+call. Let $\bm{Y}$ hold all additional data observed from all
+detections, and let each element be indexed by the same subscripts
+used in Sections \ref{sec:ER+detfun.occasions} and
+\ref{sec:ER+detfun.strata}, in addition to the subscript $m$, which
+indexes the additional information type. For example, $y_{ijkm}$ is
+the $m$th additional data type collected from the $i$th individual's
+detection at the $j$th detector on the $k$th occasion.
 
 When additional data are collected, we must build it into the
 likelihood. This is achieved by specifying
@@ -256,7 +261,8 @@ binary-response model to data collected by proximity detectors
 requires setting the detector type to \texttt{"proximity"}, and
 fitting a count-response model requires setting the detector type to
 \texttt{"count"}, even though we are fitting models to data collected
-on the same survey (Table \ref{tab:det-types-table}).
+by the same detectors on the same survey (Table
+\ref{tab:det-types-table}).
 
 If the detector type is either \texttt{"proximity"} or
 \texttt{"count"}, independence is assumed both between detectors
@@ -276,26 +282,26 @@ traps. \todo{Insert picture?} Here we assume that these have no
 capacity limit, and therefore are never `full'.
 
 In order to obtain the spatial recaptures required to fit an SCR
-model, any survey that uses traps that physically detain individuals
-must comprise more than one occasion. As per Section
+model, any survey using traps that physically detain individuals must
+comprise more than one occasion. For a survey with $J$ multi-catch
+traps, there are $J + 1$ possible outcomes for each individual on each
+occasion: we either observe in which of the $J$ detectors it was
+caught, or we observe that it evaded capture entirely. As per Section
 \ref{sec:ER+detfun.occasions}, encounters are considered independent
-across both individuals and occasions, conditional on the activity  
-centre locations: 
-\be 
-    [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} | \bm{s}_i] \label{eq:det-types-multi-lik}
-\ee
+across both individuals and occasions, conditional on the activity
+centre locations: \be [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n
+\prod_{k = 1}^K [\bm{\omega}_{i \cdot k} |
+\bm{s}_i] \label{eq:det-types-multi-lik} \ee
 
 Here, $\bm{\omega}_{i \cdot k}$ contains the observed detection data
-of the $i$th individual on the $k$th occasion. An individual may only
-be detected by one of the detectors on a given occasion. Thus, for a
-survey that uses $J$ multi-catch traps, there are $J + 1$ possible
-outcomes that $\bm{\omega}_{i \cdot k}$ may take: we either observe
-which of the $J$ traps detected invidiual $i$ on occasion $k$ (and so
-$\bm{\omega}_{ijk} = 1$ if it was the $j$th detector made a
-detection), or we observe that individual $i$ was not detected by any
-trap (and so $\bm{\omega}_{i \cdot k} = \bm{0}$). The term
-$[\bm{\omega}_{i \cdot k} | \bm{s}_i]$ is therefore the probability
-associated with whichever of these outcomes that
+of the $i$th individual on the $k$th occasion. If detector $j$
+detected the $i$th individual on the $k$th occasion, then
+$\omega_{ijk} = 1$ and all other elements of $\bm{\omega}_{i \cdot k}$
+are $0$. If individual $i$ was not detected by any trap, then
+$\bm{\omega}_{i \cdot k} = \bm{0}$ (i.e., all elements of
+$\bm{\omega}_{i \cdot k}$ are $0$). The term
+$[\bm{\omega}_{i \cdot k} | \bm{s}_i]$ is the probability associated
+with whichever of the $J + 1$ possible outcomes that
 $\bm{\omega}_{i \cdot k}$ represents, conditional on the $i$th
 individual's activity centre location.
 
@@ -305,7 +311,7 @@ any of the detectors. The probability that it does not encounter the
 $j$th detector is $1 - p_{ijk}$, and so, assuming independence across
 detectors, we obtain
 \be \mathbb{P}(\bm{\omega}_{i \cdot k} = \bm{0} |
-\bm{s}_i) = \prod_{j = 1}^J \left ( 1 - p_{ijk} \right ) = 1 - p_{i \cdot k} \label{eq:det-types-multi-nondet}
+\bm{s}_i) = \prod_{j = 1}^J \left ( 1 - p_{ijk} \right ) = 1 - p_{i \cdot k}, \label{eq:det-types-multi-nondet}
 \ee
 where $p_{i \cdot k}$ is the probability that any of the detectors
 detect the individual.  This is no different to the formulation of the
@@ -317,7 +323,7 @@ the first trap has an encounter rate that is twice as large as the
 second (i.e., $\lambda_{i1k} = 2\lambda_{i2k}$), then the probability
 that the $i$th individual is captured by the first trap is twice as
 large as the probability that it is captured by the second. Therefore,
-the probability that th $j$th detector detected the $i$th individual
+the probability that the $j$th detector detected the $i$th individual
 on the $k$th occasion is
 \be 
 \mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}, \label{eq:det-types-multi-det}
@@ -378,14 +384,14 @@ upon detection.
 \label{sec:det-types-single}
 
 Like with multi-catch traps, detections can be considered independent
-across occasions, allowing
+across occasions, giving
 \be
 [\bm{\Omega}_n | \bm{S}_n] = \prod_{k = 1}^K [\bm{\omega}_{\cdot \cdot k} | \bm{S}_n],
 \ee
 where $\bm{\omega}_{\cdot \cdot k}$ holds information about whether or
 not each individual was captured on the $k$th occasion, and, if so, in
 which detector it was trapped. Unfortunately, however, the
-probabilities of where one individual may be captured are affected by
+probabilities of detection for one individual is affected by
 the capture records of all others, and so we may \emph{not} assume
 independence between animals: a detector is deactivated every time an
 individual is captured, increasing the probabilies of each remaining
@@ -419,12 +425,11 @@ text(traps.x, traps.y, labels = prob.labels, c(-0.05, 1.15))
 @
 
 Single-catch traps do not usually record when detections occur, and so
-this makes it difficult to correctly specify $[\bm{\Omega}_n |
-  \bm{S}_n]$. In order to appropriately specify the dependence between
-individuals' detection records, one may consider the time each
-detection took place as a latent variable. However, one must then
-marginalise over these \todo{Back-reference to first mention of latent
-  variables}, resulting in the evaluation of an integral of
+this makes it difficult to correctly specify
+$[\bm{\Omega}_n | \bm{S}_n]$. In order to do so, one may consider the
+time each detection took place as a latent variable. However, one must
+then marginalise over these \todo{Back-reference to first mention of
+  latent variables}, resulting in the evaluation of an integral of
 dimension \todo{Too technical?}  $\sum \bm{\omega}_{\cdot \cdot k}$,
 the number of detections made, for each occasion---a very substantial
 computational obstacle.
@@ -461,18 +466,18 @@ for each survey occasion.
 Estimation of model parameters (density and the detection function)
 may then be achieved by successively simulating a large number of data
 sets at various parameter values. The final estimates are the
-parameter values that result in simulated data that match the closest
+parameter values that result in simulated data that are most similar
 to the data obtained from the field. \todo{Is this an accurate enough
   explanation?}
 
-Due to the computationally expensive procedure of simulating a large
-number of data sets, estimation by inverse prediction is relatively
-slow. Moreover, variance estimates (standard errors and confidence
-intervals) are not available directly from asymptotic likelihood
-theory, and one must again rely on simulation-based methods, which
-further increases computation time. Other likelihood-based
-tools---such as AIC for model selection and likelihood-ratio
-hypothesis tests and confidence intervals---cannot be used.
+Due to its computationally intensive nature, estimation by inverse
+prediction is relatively slow. Moreover, variance estimates (standard
+errors and confidence intervals) are not available directly from
+asymptotic likelihood theory, and one must again rely on
+simulation-based methods, which further increases computation
+time. Other likelihood-based tools---such as AIC for model selection
+and likelihood-ratio hypothesis tests and confidence
+intervals---cannot be used.
 
 Estimation by inverse prediction can be carried out using the
 \texttt{ip.secr} function in the \texttt{secr} package. It only
@@ -493,17 +498,17 @@ course of an occasion, known as the \emph{trap saturation}.
 
 The justification for a multi-catch trap likelihood for single-catch
 trap data chiefly comes from \cite{Efford+al:09a}, who found that the
-resulting estimate for average density was remarkably robust in a
-variety of situations, and only showed non-negligible bias at extreme
-levels \todo{What value?}  of trap saturation. This estimator also
-performed best when animal density is constant (or nearly so). These
-findings were also echoed by \cite{Distiller+Borchers:15}.
+resulting estimate for average density was remarkably robust, and only
+showed non-negligible bias at extreme levels \todo{What value?}  of
+trap saturation. This estimator performed best when animal density is
+constant (or nearly so). These findings were also echoed by
+\cite{Distiller+Borchers:15}.
 
 However, while the multi-catch trap estimator for average density
 appears robust for use with single-catch traps, this does not hold for
 estimators for the density \emph{surface}, nor the encounter rate
-parameters. Density estimates are typically negatively biased for
-areas of high density, and positively biased for areas of low
+function parameters. Density estimates are typically negatively biased
+for areas of high density, and positively biased for areas of low
 density. Furthermore, the intercept parameter for the encouter rate
 function is typically negatively biased, and the scale parameter is
 typically positively biased. It appears that the compensatory
@@ -513,18 +518,17 @@ negligibly biased average density.
 There is therefore general support for using a multi-catch trap
 estimator for single-catch trap data when the primary interest in
 estimating average density. This provides a number of advantages over
-using the inverse-prediction estimator from Section
-\ref{sec:det-types-single-inverse}: the use of a likelihood function
-allows (1) faster estimation, (2) variance estimates from asymptotic
-likelihood theory, and (3) use of likelihood-based tools. Moreover, it
-allows the use of \texttt{secr.fit}, rather than \texttt{ip.secr}, to
-fit the model, which allows (1) estimation of a density
-surface\footnote{Although recall that the estimated density surface is
-  typically too flat; high-density areas are underestimated and
-  low-density areas are overestimated. However, this may be preferable
-  to a model that assumes a flat density.}, and (2) a choice from the
-usual range of encounter rate and detection functions in the
-\texttt{secr} package. These advantages are not inherent to the
+using the inverse-prediction estimator: the use of a likelihood
+function allows (1) faster estimation, (2) variance estimates from
+asymptotic likelihood theory, and (3) use of likelihood-based
+tools. Moreover, it allows the use of \texttt{secr.fit}, rather than
+\texttt{ip.secr}, to fit the model, which allows (1) estimation of a
+density surface\footnote{Although recall that the estimated density
+  surface is typically too flat; high-density areas are underestimated
+  and low-density areas are overestimated. However, this may be
+  preferable to a model that assumes a flat density.}, and (2) a
+choice from the usual range of encounter rate and detection functions
+in the \texttt{secr} package. These advantages are not inherent to the
 estimation approach, but rather due to what has been implemented in
 the software. \todo{Is this correct? I'm not totally familiar with
   inverse prediction.}
@@ -574,14 +578,15 @@ research.
 \subsection{Independence between individuals}
 \label{sec:det-types-discussion-individuals}
 
-We have already mentioned that detection data may not be independent
-across individuals due to dependence in activity centre locations.
-\todo{insert section references} Individuals may live in groups,
-whereby individuals in the same group have the same (or similar)
-activity centres and we would therefore expect them to have similar
-detection records. Alternatively, individuals may be territorial and
-have activity centres that repel each other. We would therefore expect
-different individuals to be detected in different locations.
+In previous chapters we have mentioned that detection data may not be
+independent across individuals due to dependence in activity centre
+locations.  \todo{insert section references} Individuals may live in
+groups, whereby individuals in the same group have the same (or
+similar) activity centres and we would therefore expect them to have
+similar detection records. Alternatively, individuals may be
+territorial and have activity centres that repel each other. We would
+therefore expect different individuals to be detected in different
+locations.
 
 However, there is an additional level of possible dependence. That is,
 we may expect dependence between individuals' detection records even
@@ -601,8 +606,8 @@ probabilities), or alternatively attract them towards the detector
 are similarities to the single-catch trap situation here:
 detectability of one individual is affected by the detection of
 others, and so we may not assume independence between
-individuals. This results in a likelihood function that is likely to
-be intractible.
+individuals. This results in a likelihood function that is also likely
+to be intractable.
 
 A special case of this is that we have assumed that the traps have
 infinite capacity. Of course, they may fill up if they capture enough
