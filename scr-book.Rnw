@@ -67,6 +67,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 \usepackage[colorinlistoftodos,linecolor=gray,backgroundcolor=white]{todonotes} % To annotate
 
+\usepackage{afterpage}       % to do more elegant \clearpage (without forced pagebreak)
+
 % see the list of further useful packages
 % in the Reference Guide
 
@@ -124,10 +126,9 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %\Sexpr{knit_child('chapters/introduction.Rnw')}
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
 \Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
-\Sexpr{knit_child('chapters/ERdetfun-part3.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/spatial-distribution.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
-% \Sexpr{knit_child('chapters/explaining-diff-detection.Rnw')} %DLB & EH
+\Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
 % \Sexpr{knit_child('chapters/detector-types.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/non-euclidian.Rnw')}  %DLB
@@ -141,6 +142,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
+
+\clearpage
 
 
 % Bibliography %
