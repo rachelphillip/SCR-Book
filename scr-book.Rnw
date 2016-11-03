@@ -61,9 +61,11 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \usepackage{layouts}
 
 \usepackage{bm}              % bold math and greek symbols
+\usepackage{booktabs}        % for nicer tables
 \usepackage{afterpage}       % allows \clearpage without inserting a page break
 \usepackage{amsfonts}        % gives things like \mathbb{P} (fancy P for probabilities n)
 \usepackage{amsmath}         % for \eqref
+\usepackage{pifont}          % for check and cross symbols
 
 \usepackage[colorinlistoftodos,linecolor=gray,backgroundcolor=white]{todonotes} % To annotate
 
@@ -139,6 +141,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % \Sexpr{knit_child('chapters/open-popns.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/unmarked-telemetry.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/synthesis.Rnw')}  %DLB
+
+\Sexpr{knit_child('chapters/det-types.Rnw')}
 
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}

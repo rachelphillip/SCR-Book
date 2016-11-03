@@ -94,7 +94,7 @@ Whenever events occur independently at some fixed average rate ($\lambda(d)$ in 
 
 Assuming that detections occur independently at each of $J$ detectors (as might be reasonable for camera trap surveys, or acoustic surveys), the capture history for individual $i$ is distributed as the product of independent Poisson random variables\todo{BCS: Nitpicky point, but to me ``distribution of a product of independent Poisson random variables'' sounds as though we are generating a bunch of Poisson random variables, then multiplying them together. That is, $X_i \sim \mathrm{Pois}(\lambda_i)$, and we want the distribution of $Y = \prod_i X_i$. However, this is actually trying to say that the \textbf{PMF} of the $i$th capture history is the product of Poisson \textbf{PMF}s.}:
 \be
-[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right).
+[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Po}\left(n_{ij};\lambda(d_{ij})T\right). \label{eq:ER+detfun.count.wi}
 \ee
 
 And if encounters by different individuals with detectors are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$, given the activity centres $\bm{S}_n=(\bm{s}_1,\ldots,\bm{s}_n)$ of all $n$ detected individuals, is also distributed as the product of independent Poisson random variables, and constitutes 
@@ -152,7 +152,7 @@ The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambd
 
 Using $\delta_{ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta_{ij}=1$ if detected, $\delta_{ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta_{i1},\ldots,\delta_{iJ})$. Assuming that encounters occur independently on each detector, then an individual's capture history is distributed as the product of Bernoulli random variable with ``success'' probabilities $p(d_{ij},T)$ ($j=1,\ldots,J$), and we write
 \be
-[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right).
+[\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right). \label{eq:ER+detfun.binary.wi}
 \ee
 
 If encounters by different individuals are also independent then the set of $n$ observed capture histories $\bm{\Omega}_n=(\bm{\omega}_1,\ldots,\bm{\omega}_n)$ is  distributed as the product of independent Bernoulli random variables:
