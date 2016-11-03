@@ -93,6 +93,41 @@ dev.off()
 
 
 
+## Logit, cloglog, and log links
+## ===================
+cloglog=function(p) log(-log(1-p))
+invcloglog=function(lp) 1-exp(-exp(lp))
+
+x=seq(-10,10,length=200)
+g0.1 = plogis(x/2)
+g0.2 = plogis(-x/2)
+
+lambda.1=exp(x/3)
+lambda.2=exp(-x/3)
+
+g0.1.cll=invcloglog(x/3-0.5)
+g0.2.cll=invcloglog(-x/3-0.5)
+
+pdf("./keepfigure/linkfuns.pdf",h=3,w=8)
+par(mfrow=c(1,2))
+plot(x,g0.1,type="l",lwd=2,xlab=expression(eta==beta[0]+beta[1]*x),ylab=expression(g[0]))
+lines(x,g0.2,lty=2,lwd=2)
+lines(x,g0.1.cll,lty=1,lwd=2,col="gray")
+lines(x,g0.2.cll,lty=2,lwd=2,col="gray")
+plot(x,lambda.1,type="l",lwd=2,xlab=expression(eta==beta[0]+beta[1]*x),ylab=expression(lambda[0]))
+lines(x,lambda.2,lty=2,lwd=2)
+dev.off()
+
+
+
+
+
+
+
+
+
+
+# Stuff I think is unused:
 sex2.fit=secr.fit(bchist,model=list(g0~h2,sigma~h2),hcov="sex",mask=bmask)
 sexg0.fit=secr.fit(bchist,model=list(g0~h2),hcov="sex",mask=bmask) # Hessian does not converge
 sexsig.fit=secr.fit(bchist,model=list(sigma~h2),hcov="sex",mask=bmask)
