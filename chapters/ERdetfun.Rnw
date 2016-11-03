@@ -1,7 +1,7 @@
 \chapter{Spatial encounter rates and detection probabilities}
 \label{chap:ER+detfun}
 
-\abstract{This chapter concerns models for spatial encounter rates and detection probabilities, and how they are related. It includes details of how encounter rates and detection probabilities can be made to depend on survey effort, individual-level variables, detector-specific variables, occasion-specific variables, and habitat or environmental variables. A key concept for all of these is the expected encounter rate.}
+\abstract{This chapter concerns models for spatial encounter rates and detection probabilities. It covers spatial capture histories, introduces the key concept of spatial expected encounter rate and shows how this is estimated from spatial capture histories, and how it relates to detection probability. It also introduces the basic SCR data types and data structure.}
 
 \section{A simple spatial encounter rate model}
 \label{sec:ER+detfun.simple.ER.model}

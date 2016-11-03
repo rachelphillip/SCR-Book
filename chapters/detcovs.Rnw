@@ -1,6 +1,7 @@
 \chapter{Incorporating covariates in encounter rate and detection probability}
 \label{ch:detcovs}
 
+\abstract{This chapter concerns the dependence of encounter rates and detection probabilities on covariates. It shows how they can be made to depend on survey duration and survey effort, on detector, occasion and session, on individual-level covariates (behavioural response and sex, for example), and importantly, on spatial covariates. It also deals with the interpretation of models fitted with these kinds of dependence.}
 
 \todo[inline]{Needs proper introduction.
 
