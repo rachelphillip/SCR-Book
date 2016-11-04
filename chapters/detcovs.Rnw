@@ -301,41 +301,67 @@ But this takes account only of $z$ at the detector location, not the location of
 
 To account for the location of the detector \textit{and} the location of an individual's activity centre ($\bm{s}_i$ for individual $i$), we might want our linear predictor(s) to include  the difference between the habitat covariate value at detector $k$ ($z(\bm{s}_k)$) and the habitat covariate value at the activity centre $i$ ($z_i$): $\Delta_{ik}=\Delta(\bm{s}_i,\bm{x}_k)=z(\bm{x}_k)-z(\bm{s}_i)$. Including this in a linear predictor, we have $\eta_{ijk}^*=\eta_{ijk} + \beta_z \Delta_{ik}$, where $\eta_{ijk}$ is whateer the linear predictor for before the inclusion of $\Delta_{ik}$. This could be a linear predictor for the intercept and/or scale parameter.
 
-Taking this line of thinking a step further, it is reasonable to expect that an individual's expected encounter rate at the location of a detector depends not only on the difference between the spatially referenced covariate at the detector and at the activity centre, but on all the other values of the spatially referenced covariate that are available to the individual. For example, an individual will have a lower expected encounter rate with the detector if there are many other more attracive $z$ values available to it than if there are no other more attractive $z$ values available to it.\todo[inline]{Insert something on habitat availability metrics here?}
+Taking this line of thinking a step further, it is reasonable to expect that an individual's encounter rate at the location of a detector depends not only on the difference between the spatially referenced covariate at the detector and at the activity centre, but on all the other values of the spatially referenced covariate that are available to the individual. For example, an individual will have a lower expected encounter rate with the detector if there are many other more attracive $z$ values available to it than if there are no other more attractive $z$ values available to it.\todo[inline]{Insert something on habitat availability metrics here?}
 
 \cite{Royle+al:13a} proposed a way of incorporating all $z$ values that are available to an individual, into expected encounter rate or detection probability models. This is to scale distance according to some habitat-dependent movement cost and then to use the least-cost distance instead of the straight-line distance between activity centre and detector in encounter rate and detection functions. There are other ways of using a habitat-dependent movement cost to define distance, which we speculate on after dealing with least-cost distances.
 
-\subsection{Least cost paths and scaled distances}
+\subsection{least-cost paths and scaled distances}
 
 \cite{Royle+al:13a} proposed that the least-cost path between two points $\bm{s}_k$ and $\bm{s}_i$ be used to measure the distance between them from an animal's perspective. This begs the question ``What is a least-cost path?''. Read on to find out.
 
-Moving has a cost (energetically, at least), so that distance travelled (by individuals, or in the case of acoustic surveys, by sound) is a measure of cost. The farther the movement, the greater the cost. When cost is measured only by distance, the least cost path between any two points is just the shortest path between them (i.e. a straight line between them) and the least-cost distance is the straight-line distance between them (or great circle distance if the distance is big enough that curvature of the earth matters). So all SCR models involve using a least-cost path and a least-cost distance, albeit a particilarly simple one.
+Moving has a cost (energetically, at least), so that distance travelled (by individuals, or in the case of acoustic surveys, by sound) is a measure of travelling cost. The farther the movement, the greater the cost. When cost is measured only by distance, the least-cost path between any two points is just the shortest path between them (i.e. a straight line between them) and the least-cost distance is the straight-line distance between them (or great circle distance if the distance is big enough that curvature of the earth matters). So all SCR models involve using a least-cost path and a least-cost distance, albeit a particilarly simple one.
 
-Note that the scale parameter, $\sigma$, scales the distance $d$ by dividing it. (This is what a scale parameter does, by definition.) The larger $\sigma$, the farther the individual moves. For example, an individual with $\sigma=2$ has a home range radius twice that of an individual with $\sigma=1$. So we could say that in some sense the cost to an individual with $\sigma=2$ of moving any distance $d$ is half the cost of moving this same distance, to an individual with $\sigma=1$. With this interpretation, $d/\sigma$ is the cost of travelling a distance $d$ for any individual, and $\sigma^{-1}$ is the cost per unit distance, i.e. the rate at which cost accumulates per distance unit travelled.
+\subsubsection{Scaled distance}
 
-Things get more difficult and more interesting when this cost per unit distance changes depending on where the individual is at the time -- if it depends on the habitat at each point in space, for example.
+The thing that multiplies $d$ in an encounter rate or detection function model can be interpreted as the cost per unit distance of travel. In models that use straight-line distance, it is $1/\sigma$ that multiplies $d$. If travelling is costly, $1/\sigma$ is large and individuals (or their sounds on an acoustic survey) are not detected far from their activity centres. If $1/\sigma$ is small, individuals (or their sounds) range far. In these models $\sigma^{-1}$ can be interpreted as the cost per unit distance, i.e. the rate at which cost accumulates per distance unit travelled.
+
+Things get more difficult and more interesting when this cost per unit distance depends on where the individual is at the time -- if it depends on the habitat at each point in space, for example.
 
 All implementations of SCR models to date involve discretising continuous space into $M$ separate cells, with the location of cell $m$ being $\bm{s}_m$. A path from $\bm{s}_i$ to $\bm{s}_k$ is defined by the ordered set of cells that are visited in moving from $\bm{s}_i$ to $\bm{s}_k$, and the cost of any path is the sum of the costs of the individual movements from one cell to the next in the path. Finding the path with lowest cost requires a cost rate function (giving the cost per unit distance moved) to be defined for every possible movement from one cell to a neighbouring cell, and a method for finding the path with the lowest possible sum of individual movement costs.
 
-Efficient methods for finding least cost paths are not trivial, but fortunately the \texttt{R} libraries \texttt{igraph} and \texttt{gdistance} (which uses \texttt{igraph}) implement efficient methods to find least cost paths, using Dijkstra's algorithm, \todo{insert ref} so the user need not worry about the method.
-
-The cost rate function, however, is up to the user to define. With the above definition of cost, the cost of travelling between $\bm{s}_m$ and $\bm{s}_{m^*}$ is  
+Given a cost rate function, there are efficient algorithms for finding least-cost paths (see next section). The cost rate function, however, is up to the user to define. With the above definition of cost, the cost of travelling between neighbouring cells $\bm{s}_m$ and $\bm{s}_{m^*}$ is  
 \be
 d^{(c)}(\bm{s}_m,\bm{s}_{m^*})&=&c(\bm{s}_m,\bm{s}_{m^*})d(\bm{s}_{m},\bm{s}_{m^*}),
 \label{eq:detcovs_ecoldist}
 \ee
 \noindent
-where $d(\bm{s}_{m},\bm{s}_{m^*})=||\bm{s}_{m}-\bm{s}_{m^*}||$ is the Euclidian (straight-line) distance between $\bm{s}_{m}$ and $\bm{s}_{m^*}$  and $c(\bm{s}_m,\bm{s}_{m^*})$ is the cost rate function that reflects the cost per unit distance of moving between $\bm{s}_m$ and $\bm{s}_{m^*}$. (In the context of least-cost paths, this is sometimes referred to as the \textit{resistance}, while its inverse $\sigma(\bm{s}_m,\bm{s}_{m^*})=c(\bm{s}_m,\bm{s}_{m^*})^{-1}$ would be referred to as the \textit{conductance}.)
+where $d(\bm{s}_{m},\bm{s}_{m^*})=||\bm{s}_{m}-\bm{s}_{m^*}||$ is the Euclidian (straight-line) distance between $\bm{s}_{m}$ and $\bm{s}_{m^*}$  and $c(\bm{s}_m,\bm{s}_{m^*})$ is the cost rate function that reflects the cost per unit distance of moving between $\bm{s}_m$ and $\bm{s}_{m^*}$. (In the context of least-cost paths, this is sometimes referred to as the \textit{resistance}, while its inverse $\sigma(\bm{s}_m,\bm{s}_{m^*})=c(\bm{s}_m,\bm{s}_{m^*})^{-1}$ would be referred to as the \textit{conductance}.) %Models that use straight-line distances have $c(\bm{s}_m,\bm{s}_{m^*})=\sigma^{-1}$.
 
 \cite{Royle+al:13a} and \cite{Sutherland+al:14}\todo{And others?} used the following cost rate function:
 \be
-c(\bm{s}_m,\bm{s}_{m^*})&=&\exp\left\{\alpha\frac{z(\bm{s}_m)+z(\bm{s}_{m^*})}{2}\right\},
+c(\bm{s}_m,\bm{s}_{m^*})&=&\frac{c^{(e)}(\bm{s}_m,\bm{s}_{m^*})}{\sigma_0}\;=\;\frac{\exp\left\{\beta_c\frac{z(\bm{s}_m)+z(\bm{s}_{m^*})}{2}\right\}}{\sigma_0},
 \label{eq:detcovs_royle_cost_fn}
 \ee
 \noindent
-where $z(\bm{s}_m)$ and $z(\bm{s}_{m^*})$ are the values of some habitat variable that is expected to affect the cost of travelling between neighbouring cells $\bm{s}_m$ and $\bm{s}_{m^*}$, and $\alpha$ is a parameter that quantifies the strength of the effect. They call $d^{(c)}(\bm{s}_m,\bm{s}_{m^*})$ the ``ecological distance''. Note that when $\alpha=0$ the ecological distance is equal to the Euclidean distance, and that $\alpha$ determines the strength of the effect of the spatially referenced covariate $z$ on the cost of movement. Usually $\alpha$ would be unknown and would be estimated from the SCR survey. An estimate of $\alpha$ has a useful ecological interpretation as a measure of the strength of the effect of $z$ on the cost of movement between neighbouring cells. 
+where $z(\bm{s}_m)$ and $z(\bm{s}_{m^*})$ are the values of some habitat variable that is expected to affect the cost of travelling between neighbouring cells $\bm{s}_m$ and $\bm{s}_{m^*}$,  $\beta_c$ is a parameter that quantifies the strength of the effect, and $\sigma_0$ is the usual Euclidean distance scale parameter. They call $c^{(e)}(\bm{s}_m,\bm{s}_{m^*})d(\bm{s}_m,\bm{s}_{m^*})$ the ``ecological distance'', in which case $c^{(e)}(\bm{s}_m,\bm{s}_{m^*})$ can be interpreted as the ecological cost of travelling a unit distance. Note that when $\beta_c=0$ the ecological distance is equal to the Euclidean distance.
 
-Figure~\ref{fig:detcovs-igraphplot} illustrates the implementation of a cost rate function on a simple 4$\times$4 cell discretisation of space. In the left plot, dark shaded cells have $z(\bm{s})=1$, light shaded cells have $z(\bm{s})=100$ and white cells are excluded (individuals can't move into them). The set of cells is represented as a network in the right plot of Figure~\ref{fig:detcovs-igraphplot}, with vertex number corresponding to cell number in the left plot, neighbouring cells are joined by lines, and the ecological distance between neighbours, using the cost rate function shown in Eqn~\eqref{eq:detcovs_royle_cost_fn}, shown on each line. The least-cost path between cells 16 and 2 is shown in Figure~\ref{fig:detcovs-lcpath}. 
+If we rewrite Eqn~\eqref{eq:detcovs_royle_cost_fn} in terms of the location-specific scale parameter, $\sigma(\bm{s}_m,\bm{s}_{m^*})$, we have 
+\be
+\sigma(\bm{s}_m,\bm{s}_{m^*})&=&\exp\left\{\beta_0-\beta_c\left[\frac{z(\bm{s}_m)+z(\bm{s}_{m^*})}{2}\right]\right\}.
+\label{eq:detcovs_royle_sigma_fn}
+\ee
+\noindent
+where $\sigma_0=\exp\{\beta_0\}$. Hence use of the ecological distance amounts to adding a location-specific covariate ($[z(\bm{s}_m)+z(\bm{s}_{m^*})]/2$ above) to the linear predictor of the scale parameter. This particular covariate is just one of any number of possible location-specific covariates, and will not be most appropriate for all applications. Notice, for example, that the assocaiated cost rate function is symmetric: the cost of moving from $\bm{s}_m$ to $\bm{s}_{m^*}$ is identical to the cost of moving from $\bm{s}_{m^*}$ and $\bm{s}_m$. If $z(\bm{s})$ was elevation, a cost rate function in which the cost of going uphill from $\bm{s}_m$ to $\bm{s}_{m^*}$ was greater than the cost of going downhill from $\bm{s}_{m^*}$ and $\bm{s}_m$ seems more appropriate. One might prefer a function similar to that below in this case:
+\be
+\sigma(\bm{s}_m,\bm{s}_{m^*})&=&\exp\left\{\beta_0-\beta_c[z(\bm{s}_m)-z(\bm{s}_{m^*})]\right\}.
+\label{eq:detcovs_elev_sigma_fn}
+\ee
+
+Another potentially very useful option, suggested by \cite(secr:16)\todo{fix citation/bib file}, is to allow $\sigma$ to be density-dependent by using the covariate $[D(\bm{s}_m)+D(\bm{s}_{m^*})]/2$, where $D(\bm{s})$ is individual density at $\bm{s}$:
+\be
+\sigma(\bm{s}_m,\bm{s}_{m^*})&=&\exp\left\{\beta_0-\beta_c\left[\frac{D(\bm{s}_m)-D(\bm{s}_{m^*})}{2}\right]\right\}.
+\label{eq:detcovs_elev_sigma_D_fn}
+\ee
+
+The is no one-size-fits-all cost rate function, and it is up to the user to define sensible cost rate functions (or equivalently, location specific covariates that affect cost) for their applications, but the option to do so adds very substantially to the power of SCR analyses. You can select between cost rate functions using likelihood-based model selection criteria such as AIC or AIC$_c$, in the same way that you can select between encounter rate functions, detection functions, or density surface models. 
+
+\subsubsection{Least-cost paths}
+
+Efficient methods for finding least-cost paths when costs are not the same everywhere are not trivial, but fortunately the \texttt{R} libraries \texttt{igraph} and \texttt{gdistance} (which uses \texttt{igraph}) implement efficient methods to find least-cost paths, using Dijkstra's algorithm, so the user need not worry about the method. Here we illustrate the idea, without giving details of the algorithm, which is due to \cite{Dijkstra:59}.
+
+Figure~\ref{fig:detcovs-igraphplot} illustrates the implementation of a cost rate function on a simple 4$\times$4 cell discretisation of space. In the left plot, dark shaded cells have $z(\bm{s})=1$, light shaded cells have $z(\bm{s})=100$ and white cells are excluded (individuals can't move into them). The set of cells is represented as a network in the right plot of Figure~\ref{fig:detcovs-igraphplot}, with vertex number corresponding to cell number in the left plot, neighbouring cells are joined by lines, and the ecological distance between neighbours is shown on each line, using the cost rate function of Eqn~\eqref{eq:detcovs_royle_cost_fn} with $\beta_0=0$ and $\beta_c=1$. 
+
+Dijkstra's algorithm is an efficient way of finding the least-cost path across networks like this. With this simple network it is easy to find the least-cost path between cells 16 and 2, for example, by inspection. It goes via cells 11, 8 and 3 and is of length $140+71+1.4+1=213.4$. This path is shown in Figure~\ref{fig:detcovs-lcpath}. In larger problems, finding the least-cost path by inspection in this way is infeasible, and Dijkstra's algorithm finds it efficiently for us. (There are other efficient algorithms, but Dijkstra's is readily available to us in the \texttt{igraph} \texttt{R} library.)
 \begin{figure}[ht]
 \caption{\small A simple example of a 4$\times$4 cell discretisation of space (left) and corresponding network with ``ecological distances'' between cells (right). Cells are numbered 1 to 16; white cells are obstacles, light gray cells have habitat that facilitates movement, dark gray cells have habitat that inhibits movement. See text for deails.}
 \centering
@@ -344,28 +370,21 @@ Figure~\ref{fig:detcovs-igraphplot} illustrates the implementation of a cost rat
 \end{figure}
 
 \begin{figure}[ht]
-\caption{\small The least cost path between cells 16 and 2, calculated using the distances shown in the right plot of Figure~\ref{fig:detcovs-igraphplot}.}
+\caption{\small The least-cost path between cells 16 and 2, calculated using the distances shown in the right plot of Figure~\ref{fig:detcovs-igraphplot}.}
 \centering
 \includegraphics[width=6cm]{keepfigure/lcpath.pdf}
 \label{fig:detcovs-lcpath}
 \end{figure}
 
 
-The cost rate function function defined by Eqn~\eqref{eq:detcovs_royle_cost_fn} will not be appropriate for all situations. Notice, for example, that this function is symmetric: the cost of moving from $\bm{s}_m$ to $\bm{s}_{m^*}$ is identical to the cost of moving from $\bm{s}_{m^*}$ and $\bm{s}_m$. If $z(\bm{s})$ was elevation, for example, a cost rate function in which the cost of going uphill from $\bm{s}_m$ to $\bm{s}_{m^*}$ was greater than the cost of going downhill from $\bm{s}_{m^*}$ and $\bm{s}_m$ seems more appropriate. One might prefer a function similar to that below in this case:
-\be
-c(\bm{s}_m,\bm{s}_{m^*})&=&\exp\left\{\alpha[z(\bm{s}_m)-z(\bm{s}_{m^*})]\right\},
-\label{eq:detcovs_elev_cost_fn}
-\ee
-
-But this is detail -- the basic idea of using ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:14} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
-
-The is no one-size-fits-all cost rate function, and it is up to the user to define sensible cost rate functions for their applications, but the option to do so adds very substantially to the power of SCR analyses. You can select between cost rate functions using likelihood-based model selection criteria such as AIC or AIC$_c$, in the same way that you can select between encounter rate functions, detection functions, or density surface models. 
-
-
 \subsection{Other cost-based distance measures}
 
 \todo[inline]{Average cost distance; Markov model stationary distribution idea?}
 
+
+\subsection{Summary}
+
+The idea of using spatial covariates to scale distance differently at different points in space, or of ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective, is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:14} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
 
 \textit{Mention least-cost distance in acoustic surveys more? Would be nice to have an application!}
 
@@ -405,7 +424,7 @@ The is no one-size-fits-all cost rate function, and it is up to the user to defi
 
 
 \begin{figure}[ht]
-\caption{\small Plot of least cost paths between a few selected points (from green dots to red dots), as estimated by the SCR analysis. The paths are superimposed on a map of terrain ruggedness. Note how they tend to follow the more rugged regions.}
+\caption{\small Plot of least-cost paths between a few selected points (from green dots to red dots), as estimated by the SCR analysis. The paths are superimposed on a map of terrain ruggedness. Note how they tend to follow the more rugged regions.}
 \centering
 \includegraphics[width=12cm]{keepfigure/someLCpaths.pdf}
 \label{fig:detcovs-Tost-someLCpaths}
