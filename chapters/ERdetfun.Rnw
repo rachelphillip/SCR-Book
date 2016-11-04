@@ -1,7 +1,7 @@
 \chapter{Spatial encounter rates and detection probabilities}
 \label{chap:ER+detfun}
 
-\abstract{This chapter concerns models for spatial encounter rates and detection probabilities. It covers spatial capture histories, introduces the key concept of spatial expected encounter rate and shows how this is estimated from spatial capture histories, and how it relates to detection probability. It also introduces the basic SCR data types and data structure.}
+\abstract{This chapter concerns models for spatial encounter rates and detection probabilities. It covers spatial capture histories, introduces the key concept of spatial expected encounter rate and shows how this is estimated from spatial capture histories, and is related to detection probability. It also introduces the basic SCR data types and data structure.}
 
 \section{A simple spatial encounter rate model}
 \label{sec:ER+detfun.simple.ER.model}
@@ -19,7 +19,7 @@ Of course, it is not only the individual's distance from the detector that deter
 \item how individuals use their habitat (if there is a lot of unsuitable habitat between a detector and an individual's activity centre, it may venture near the detector less often than otherwise, for example).  
 \end{itemize}
 
-We will deal with each of these sources of difference in expected encounter rate in turn below, but we start by expanding on the idea of a spatial encounter rate.
+We deal with each of these sources of difference in expected encounter rate in Chapter~\ref{ch:detcovs}. Here we start by expanding on the idea of a spatial encounter rate.
 
 An important definition: by ``encounter'' we mean an interaction between individual and detector that results in a detection. If an individual walks in front of a camera trap but is not photographed, no encounter occurred. If an individual makes a noise that is not detected by a microphone on an acoustic survey, no encounter occurred. \todo[inline]{Need to deal with issue of correlated encounters over short time somewhere (Andy's book pp249-50).}
 
