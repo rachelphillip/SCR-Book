@@ -1,5 +1,5 @@
 \chapter{Spatial encounter rates and detection probabilities}
-\label{chap:ER+detfun}
+\label{chap:ERdetfun}
 
 \abstract{This chapter concerns models for spatial encounter rates and detection probabilities. It covers spatial capture histories, introduces the key concept of spatial expected encounter rate and shows how this is estimated from spatial capture histories, and is related to detection probability. It also introduces the basic SCR data types and data structure.}
 
