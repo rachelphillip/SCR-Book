@@ -218,7 +218,7 @@ plot.Dsurface=function(Dsurface,covariate="D.0",scale=1,contour=TRUE,addpoly=TRU
   if(!is.null(attr(Dsurface,"poly.habitat"))) {
     if(attr(Dsurface,"poly.habitat") & addpoly) {
       require(sp)
-      plot(attr(Dsurface,"polygon"),add=TRUE)
+      sp:::plot(attributes(Dsurface)$polygon,add=TRUE)
     }
   }
   invisible(plotdat)
