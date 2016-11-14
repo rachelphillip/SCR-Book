@@ -17,16 +17,12 @@ data("ERdetfun-data")
 data("ERdetfun-fits")
 data("kruger-popn")
 
+# crop kruger boundary to focus plots on area with data
 cpoly = crop(attributes(kruger.mask)$polygon,extent(4079702,4144000,-3328069,-3257132))
 attributes(kruger.mask)$polygon = cpoly
 
-model=list(D~1,lambda0~1,sigma~1)
-fit0=secr.fit(kruger.capt,model=model,mask=kruger.mask,detectfn="HHN")
-predict(fit0)
-
 habitat.model=list(D~habitat.cov,lambda0~1,sigma~1)
 habitat.fit=secr.fit(kruger.capt,model=habitat.model,mask=kruger.mask,detectfn="HHN")
-
 
 Ds = predictDsurface(habitat.fit) # get density surface from fitted model in fit
 a = attributes(kruger.mask)$area # get cell area
@@ -56,7 +52,6 @@ pdf("./keepfigure/KrugerPop.pdf",h=6*asp*0.8,w=6)
 plot(kruger.popn$x,kruger.popn$y,pch=19,cex=1.25,xlim=xlim,ylim=ylim,
      bty="n",xaxt="n",yaxt="n",xlab="Easting",ylab="Northing",asp=1)
 plot(attr(Ds,"polygon"),xlim=xlim,add=TRUE)
-points(kruger.cams,col="darkgray")
 points(kruger.cams,pch="+",col="darkgray")
 dev.off()
 
@@ -64,6 +59,22 @@ dev.off()
 pdf("./keepfigure/KrugerHabitat.pdf",h=5,w=10)
 par(mfrow=c(1,2))
 Dplot=plot(Ds,covariate="habitat.cov",contour=FALSE,bty="n",xaxt="n",yaxt="n",xlab="Easting",ylab="Northing",col=terrain.colors(40))
+dev.off()
+
+
+# This is a quick-fix. Really need the data on detections from Ben
+# --------------------
+ch=sim.capthist(kruger.cams,kruger.popn,detectfn="HHN",renumber=FALSE,seed=12345,noccasions=1,
+                detectpar=list(lambda0=exp(coefficients(habitat.fit)["lambda0",1]),
+                               sigma=exp(coefficients(habitat.fit)["sigma",1])))
+seen = dimnames(ch)[[1]]
+kruger.dets = kruger.popn[seen,]
+pdf("./keepfigure/KrugerThinnedPop.pdf",h=6*asp*0.8,w=6)
+plot(kruger.popn$x,kruger.popn$y,pch=1,cex=1.25,xlim=xlim,ylim=ylim,
+     bty="n",xaxt="n",yaxt="n",xlab="Easting",ylab="Northing",asp=1)
+points(kruger.dets$x,kruger.dets$y,pch=19,cex=1.25)
+plot(attr(Ds,"polygon"),xlim=xlim,add=TRUE)
+points(kruger.cams,pch="+",col="darkgray")
 dev.off()
 
 
