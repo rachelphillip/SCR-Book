@@ -396,6 +396,8 @@ The idea of using spatial covariates to scale distance differently at different 
 
 \todo[inline]{David's initial thoughts:
 
+(0) Some examples of how to use gdistance and igraph in SCR context might be very useful!
+
 (1) Need to make point that you get negative bias if there is ecological cost in highly structured habitat and you ignore it. Also illustrate landscape connectivity. 
 
 (2) Would be nice to provide some user-friendly distance functions in package scrmlebook, and to illustrate their use.
