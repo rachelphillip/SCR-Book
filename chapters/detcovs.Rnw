@@ -331,7 +331,7 @@ d^{(c)}(\bm{s}_m,\bm{s}_{m^*})&=&c(\bm{s}_m,\bm{s}_{m^*})d(\bm{s}_{m},\bm{s}_{m^
 \noindent
 where $d(\bm{s}_{m},\bm{s}_{m^*})=||\bm{s}_{m}-\bm{s}_{m^*}||$ is the Euclidian (straight-line) distance between $\bm{s}_{m}$ and $\bm{s}_{m^*}$  and $c(\bm{s}_m,\bm{s}_{m^*})$ is the cost rate function that reflects the cost per unit distance of moving between $\bm{s}_m$ and $\bm{s}_{m^*}$. (In the context of least-cost paths, this is sometimes referred to as the \textit{resistance}, while its inverse $\sigma(\bm{s}_m,\bm{s}_{m^*})=c(\bm{s}_m,\bm{s}_{m^*})^{-1}$ would be referred to as the \textit{conductance}.) %Models that use straight-line distances have $c(\bm{s}_m,\bm{s}_{m^*})=\sigma^{-1}$.
 
-\cite{Royle+al:13a} and \cite{Sutherland+al:14}\todo{And others?} used the following cost rate function:
+\cite{Royle+al:13a} and \cite{Sutherland+al:15}\todo{And others?} used the following cost rate function:
 \be
 c(\bm{s}_m,\bm{s}_{m^*})&=&\frac{c^{(e)}(\bm{s}_m,\bm{s}_{m^*})}{\sigma_0}\;=\;\frac{\exp\left\{\beta_c\frac{z(\bm{s}_m)+z(\bm{s}_{m^*})}{2}\right\}}{\sigma_0},
 \label{eq:detcovs_royle_cost_fn}
@@ -388,7 +388,7 @@ Dijkstra's algorithm is an efficient way of finding the least-cost path across n
 
 \subsection{Summary}
 
-The idea of using spatial covariates to scale distance differently at different points in space, or of ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective, is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, it better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:14} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
+The idea of using spatial covariates to scale distance differently at different points in space, or of ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective, is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, it better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:15} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
 
 \textit{Mention least-cost distance in acoustic surveys more? Would be nice to have an application!}
 
