@@ -6,7 +6,85 @@
 \section{Introduction}
 \label{sec:area-transect-intro}
 
-Thus far we have considered different ways of detecting individuals
-with various types of equipment, including traps that physically
-detain individuals, cameras, hair snares, microphones, and
-hydrophones.
+Thus far, we have considered detecting individuals with various types
+of equipment, including live-capture traps, cameras, hair snares,
+microphones, and hydrophones. In each case, a single detector is
+positioned at a \emph{discrete} point in space that can be represented
+by a single pair of Cartesian coordinates. However, some species are
+more readily detected by a search of one or more areas, or by
+travelling along one or more line transects. Such surveys can be
+conducted through an active search by human surveyors travelling by
+foot \citep[e.g.,][]{Royle+Young:08} or vehicle, \todo{Insert
+  Conservation Biology paper I recently reviewed; should be online
+  sometime soon} or by using passive detection technologies such as
+satellites \citep[e.g.,][]{Fretwell+al:14} or drones equipped with
+high-definition video cameras
+\citep[e.g.,][]{Stevenson+al:inprep}. \todo{Maybe this will be
+  published before this book?} The surveys may attempt to find the
+animals themselves, or \emph{cues} they leave behind that can somehow
+be attributed to individuals. Examples include feces, hair,
+footprints, nests, and burrows, where individual identification may be
+possible through microsatellite DNA, or some other distinctive
+feature(s) of the cues.
+
+Many of the concepts discussed in previous chapters do not translate
+directly across once the spatial nature of the detectors changes from
+discrete (i.e., zero-dimensional) points to either one-dimensional
+line transects or two-dimensional areas. For example, probabilities of
+detection can no longer simply depend on the distance between an
+activity centre and the point at which a detector is
+deployed---instead, we must also consider the lengths of the line
+transects and the paths they take, or the shapes and sizes of the
+areas searched. Nevertheless, the SCR framework we have developed in
+earlier chapters can be easily extended to neatly encompass the
+modelling of data from such surveys.
+
+These surveys consist of one or more occasions, on which one or more
+(potentially different) areas are searched or line transects are
+travelled. The precise location of every detection is recorded. There are two possible scenarios:
+\begin{enumerate}
+\item If the survey aims to physically detect the animals themselves,
+  then it is usually only possible for each individual to be detected
+  no more than once over the course of an occasion---in which case it
+  is necessary for the survey to have multiple occasions in order to
+  obtain spatial and temporal recaptures. 
+\item If the survey aims to detect
+  cues from animals, then it is possible to detect cues from the same
+  animal at multiple points in space, possibly all within the same
+  searched area or transect, or across multiple such areas or
+  transects---in which case a single occasion provides the spatial
+  recaptures required to fit an SCR model.
+\end{enumerate}
+In both cases, any given area or transect may detect multiple
+individuals in a single occasion.
+
+This distinction is equivalent to that seen between multi-catch traps
+and proximity detectors in Chapter \ref{chap:det-types}: both are
+capable of detecting numerous individuals on an occasion, however (1)
+on a multi-catch trap survey any given individual can only be detected
+by, at most, one detector, and multiple occasions are required, but
+(2) on a proximity detector survey individuals can be detected by any
+number of detectors (and may even be detected by the same detector
+numerous times).
+
+Methods for area search and line transect data are presented in
+Sections \ref{sec:area-transect-area} and
+\ref{sec:area-transect-transect}, respectively, along with how the
+\texttt{secr} package can be used to fit the corresponding models. If
+there is spatial heterogeneity in either detectability or effort
+across the areas or transects, then these methods must be extended;
+this is presented in Section \ref{sec:area-transect-spatial}.
+
+\section{Area searches}
+\label{sec:area-transect-area}
+
+
+
+\section{Line transects}
+\label{sec:area-transect-transect}
+
+\section{Spatial heterogeneity in detectability and effort}
+\label{sec:area-transect-spatial}
+
+\section{Summary}
+\label{sec:area-transect-summary}
