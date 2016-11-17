@@ -1,0 +1,12 @@
+\chapter{Area and transect detectors}
+\label{chap:area-transect}
+
+\abstract{}
+
+\section{Introduction}
+\label{sec:area-transect-intro}
+
+Thus far we have considered different ways of detecting individuals
+with various types of equipment, including traps that physically
+detain individuals, cameras, hair snares, microphones, and
+hydrophones.

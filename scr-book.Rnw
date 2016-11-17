@@ -132,7 +132,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
 \Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
 \Sexpr{knit_child('chapters/det-types.Rnw')}  %Ben
-% \Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
+\Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/non-euclidian.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/trend-models.Rnw')}  %EH
 % \Sexpr{knit_child('chapters/survey-design.Rnw')}  %EH
