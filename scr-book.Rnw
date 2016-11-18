@@ -125,7 +125,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
-%\Sexpr{knit_child('chapters/introduction.Rnw')}
+\Sexpr{knit_child('chapters/introduction.Rnw')}
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
 \Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
 \Sexpr{knit_child('chapters/spmod.Rnw')} %DLB
