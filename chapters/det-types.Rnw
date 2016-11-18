@@ -578,14 +578,14 @@ cannot be zero if a detection has occured.
 The product $[\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 |
   \bm{\Omega}_n, \bm{S}_n]$ evaluates the the same likelihood value as
 simply considering the counts as Poisson random variables. This
-formulation may seem a little more complex, but offers great
-flexibility in the types of data we can model using SCR methods---for
-each type of additional information, all we require is to add another
-`building block'term, $[\bm{Y}_\cdot | \bm{\Omega}_n, \bm{S}_n]$, to
-our likelihood specification. Further, the above specification works
-with all detector types---for example, multi-catch or single-catch
-traps may collect detection times, and they can be built into the
-likelihood in this very way.
+formulation may seem a little more complex, but this framework offers
+great flexibility in the types of data we can model using SCR
+methods---for each type of additional information, all we require is
+to add another `building block'term, $[\bm{Y}_\cdot | \bm{\Omega}_n,
+  \bm{S}_n]$, to our likelihood specification. Further, the above
+specification works with all detector types---for example, multi-catch
+or single-catch traps may collect detection times, and they can be
+built into the likelihood in this very way.
 
 \subsection{In \texttt{secr}}
 \label{sec:det-types-single-secr}
