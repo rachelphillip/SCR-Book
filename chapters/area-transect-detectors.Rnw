@@ -39,9 +39,10 @@ areas searched. Nevertheless, the SCR framework we have developed in
 earlier chapters can be easily extended to neatly encompass the
 modelling of data from such surveys.
 
-These surveys consist of one or more occasions, on which one or more
-(potentially different) areas are searched or line transects are
-travelled. The precise location of every detection is recorded. There are two possible scenarios:
+These surveys may consist of one or more occasions, and on each one or
+more (potentially different) areas are searched or line transects are
+travelled. The precise location of every detection is recorded. There
+are two possible scenarios:
 \begin{enumerate}
 \item If the survey aims to physically detect the animals themselves,
   then it is usually only possible for each individual to be detected
