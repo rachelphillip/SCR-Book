@@ -39,34 +39,60 @@ areas searched. Nevertheless, the SCR framework we have developed in
 earlier chapters can be easily extended to neatly encompass the
 modelling of data from such surveys.
 
-These surveys may consist of one or more occasions, and on each one or
-more (potentially different) areas are searched or line transects are
-travelled. The precise location of every detection is recorded. There
-are two possible scenarios:
+These surveys may consist of one or more occasions, and, on each, one
+or more (potentially different) areas are searched or line transects
+are travelled.
 \begin{enumerate}
 \item If the survey aims to physically detect the animals themselves,
   then it is usually only possible for each individual to be detected
   no more than once over the course of an occasion---in which case it
   is necessary for the survey to have multiple occasions in order to
-  obtain spatial and temporal recaptures. 
-\item If the survey aims to detect
-  cues from animals, then it is possible to detect cues from the same
-  animal at multiple points in space, possibly all within the same
-  searched area or transect, or across multiple such areas or
-  transects---in which case a single occasion provides the spatial
-  recaptures required to fit an SCR model.
+  obtain spatial and temporal recaptures.
+\item If the survey aims to detect cues from animals, then it is
+  possible to detect cues from the same animal at multiple points in
+  space, possibly all within the same searched area or transect, or
+  across multiple such areas or transects---in which case a single
+  occasion provides enough information to fit an SCR model.
 \end{enumerate}
 In both cases, any given area or transect may detect multiple
-individuals in a single occasion.
+individuals in a single occasion. 
 
-This distinction is equivalent to that seen between multi-catch traps
-and proximity detectors in Chapter \ref{chap:det-types}: both are
-capable of detecting numerous individuals on an occasion, however (1)
+The distinction above is equivalent to that seen between multi-catch
+traps and proximity detectors in Chapter \ref{chap:det-types}: both
+are capable of detecting numerous individuals on an occasion, however
 on a multi-catch trap survey any given individual can only be detected
-by, at most, one detector, and multiple occasions are required, but
-(2) on a proximity detector survey individuals can be detected by any
-number of detectors (and may even be detected by the same detector
-numerous times).
+by, at most, one detector, and multiple occasions are required, but on
+a proximity detector survey individuals can be detected by any number
+of detectors (and may even be detected by the same detector numerous
+times).
+
+In order to formulate the likelihood for area searches and line
+tranescts below, we use the `building block' framework introduced in
+Secton \ref{sec:det-types-building-blocks}. On each occassion, each
+area that is seached or transect that is travelled provides up toq two
+types of additional information about each individual, over and above
+a binary capture history that indicates whether or not the $i$th
+individual was detected in the $j$th area on the $k$th occasion:
+\begin{enumerate}
+\item if cues are detected, then we observe a count of how many times
+  the individual was detected, and
+\item for each detection of an individual or cue, we observe the exact
+  coordinates at which the detection took place within the area
+  searched or along the transect travelled.
+\end{enumerate}
+For surveys where cues are the unit of detection, let $n_{ijk}$ be the
+number of cues from the $i$th individual were detected in the $j$th
+area on the $k$th occasion, with such information about all detected
+individuals held in $\bm{N}_s$, and let $\bm{y}_{ijkl}$ be the
+coordinates of the location at which the $l$th such detection took
+place. For surveys where animals are the unit of detection themselves,
+let $y_{ik}$ be the location at which the $i$th individual was
+detected (within one of the $j$ detectors) on the $k$th occasion.
+
+Note that it is \emph{not} necessary to search more than one unique
+area or travel more than one unique trasect---the exact location of
+each detection is recorded, and so a single area or line transect can
+provide the spatial recaptures that are required.
 
 Methods for area search and line transect data are presented in
 Sections \ref{sec:area-transect-area} and
@@ -78,6 +104,17 @@ this is presented in Section \ref{sec:area-transect-spatial}.
 
 \section{Area searches}
 \label{sec:area-transect-area}
+
+Many areas may be searched over the course of an area search survey,
+and these can take the shape of any polygon. Let the region of the
+survey area enclosed by the $j$th such polygon be
+$\mathcal{A}_j$. \todo{Why on earth is this mathcal A so ridiculous?}
+
+
+First we will consider surveys on which areas are searched for
+individuals, and so different areas behave like multi-catch traps in
+that individuals can only be detected at one location within an
+occasion.
 
 
 
