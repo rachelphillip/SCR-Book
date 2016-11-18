@@ -545,6 +545,7 @@ traps to record the exact time of each capture).
 
 
 \section{Alternative formulation using `building blocks'}
+\label{sec:det-types-building-blocks}
 
 For proximity detectors we have considered $[\bm{\Omega}_n |
   \bm{S}_n]$ as consisting of products over Bernoulli PMFs for binary
