@@ -11,37 +11,40 @@ of equipment, including live-capture traps, cameras, hair snares,
 microphones, and hydrophones. In each case, a single detector is
 positioned at a \emph{discrete} point in space that can be represented
 by a single pair of Cartesian coordinates. However, some species are
-more readily detected by a search of one or more areas, or by
-travelling along one or more line transects. Such surveys can be
-conducted through an active search by human surveyors travelling by
-foot \citep[e.g.,][]{Royle+Young:08} or vehicle, \todo{Insert
-  Conservation Biology paper I recently reviewed; should be online
-  sometime soon} or by using passive detection technologies such as
-satellites \citep[e.g.,][]{Fretwell+al:14} or drones equipped with
+more readily detected by searching one or more areas, or by travelling
+along one or more line transects. Such surveys can be conducted
+through an active search by human surveyors travelling by foot
+\citep[e.g.,][]{Royle+Young:08} or vehicle, \todo{Insert Conservation
+  Biology paper I recently reviewed; should be online sometime soon}
+or by using passive detection technologies such as satellites
+\citep[e.g.,][]{Fretwell+al:14} or drones equipped with
 high-definition video cameras
 \citep[e.g.,][]{Stevenson+al:inprep}. \todo{Maybe this will be
   published before this book?} The surveys may attempt to find the
 animals themselves, or \emph{cues} they leave behind that can somehow
-be attributed to individuals. Examples include feces, hair,
-footprints, nests, and burrows, where individual identification may be
-possible through microsatellite DNA, or some other distinctive
+be attributed to individuals. Examples of such cues include feces,
+hair, footprints, nests, and burrows, where individual identification
+may be possible through microsatellite DNA, or some other distinctive
 feature(s) of the cues.
 
-Many of the concepts discussed in previous chapters do not translate
-directly across once the spatial nature of the detectors changes from
-discrete (i.e., zero-dimensional) points to either one-dimensional
-line transects or two-dimensional areas. For example, probabilities of
-detection can no longer simply depend on the distance between an
-activity centre and the point at which a detector is
-deployed---instead, we must also consider the lengths of the line
-transects and the paths they take, or the shapes and sizes of the
-areas searched. Nevertheless, the SCR framework we have developed in
-earlier chapters can be easily extended to neatly encompass the
-modelling of data from such surveys.
+In this chapter, we introduce SCR models for area search and line
+transect surveys. These surveys may consist of one or more occasions,
+and, on each, one or more (potentially different) areas are searched
+or line transects are travelled. Each such area or line transect can
+be thought of as a detector. Many of the concepts discussed in
+previous chapters do not translate directly across once the spatial
+nature of these detectors changes from discrete (zero-dimensional)
+points to either one-dimensional line transects or two-dimensional
+areas. For example, probabilities of detection can no longer simply
+depend on the distance between an activity centre and the point at
+which a detector is deployed---instead, we must also consider the
+lengths of the line transects and the paths they take, or the shapes
+and sizes of the areas searched. Nevertheless, the SCR framework we
+have developed in earlier chapters can be easily extended to neatly
+encompass the modelling of data from such surveys.
 
-These surveys may consist of one or more occasions, and, on each, one
-or more (potentially different) areas are searched or line transects
-are travelled.
+The type of data we observe and the survey we require depends on
+whether individuals or cues are the unit of detection:
 \begin{enumerate}
 \item If the survey aims to physically detect the animals themselves,
   then it is usually only possible for each individual to be detected
@@ -55,44 +58,17 @@ are travelled.
   occasion provides enough information to fit an SCR model.
 \end{enumerate}
 In both cases, any given area or transect may detect multiple
-individuals in a single occasion. 
-
-The distinction above is equivalent to that seen between multi-catch
-traps and proximity detectors in Chapter \ref{chap:det-types}: both
-are capable of detecting numerous individuals on an occasion, however
-on a multi-catch trap survey any given individual can only be detected
-by, at most, one detector, and multiple occasions are required, but on
-a proximity detector survey individuals can be detected by any number
-of detectors (and may even be detected by the same detector numerous
-times).
-
-In order to formulate the likelihood for area searches and line
-tranescts below, we use the `building block' framework introduced in
-Secton \ref{sec:det-types-building-blocks}. On each occassion, each
-area that is seached or transect that is travelled provides up toq two
-types of additional information about each individual, over and above
-a binary capture history that indicates whether or not the $i$th
-individual was detected in the $j$th area on the $k$th occasion:
+individuals in a single occasion. The distinction above is equivalent
+to that seen between multi-catch traps and proximity detectors in
+Chapter \ref{chap:det-types}:
 \begin{enumerate}
-\item if cues are detected, then we observe a count of how many times
-  the individual was detected, and
-\item for each detection of an individual or cue, we observe the exact
-  coordinates at which the detection took place within the area
-  searched or along the transect travelled.
+\item On a multi-catch trap survey, any given individual can only be
+  detected by, at most, one detector, and multiple occasions are
+  required.
+\item On a proximity detector survey, individuals can be detected by
+  any number of detectors, and may even be detected by the same
+  detector numerous times.
 \end{enumerate}
-For surveys where cues are the unit of detection, let $n_{ijk}$ be the
-number of cues from the $i$th individual were detected in the $j$th
-area on the $k$th occasion, with such information about all detected
-individuals held in $\bm{N}_s$, and let $\bm{y}_{ijkl}$ be the
-coordinates of the location at which the $l$th such detection took
-place. For surveys where animals are the unit of detection themselves,
-let $y_{ik}$ be the location at which the $i$th individual was
-detected (within one of the $j$ detectors) on the $k$th occasion.
-
-Note that it is \emph{not} necessary to search more than one unique
-area or travel more than one unique trasect---the exact location of
-each detection is recorded, and so a single area or line transect can
-provide the spatial recaptures that are required.
 
 Methods for area search and line transect data are presented in
 Sections \ref{sec:area-transect-area} and
@@ -102,24 +78,95 @@ there is spatial heterogeneity in either detectability or effort
 across the areas or transects, then these methods must be extended;
 this is presented in Section \ref{sec:area-transect-spatial}.
 
-\section{Area searches}
-\label{sec:area-transect-area}
+\section{The capture history likelihood component}
+
+On each occassion, each area that is seached or transect that is
+travelled provides up to two types of additional information about
+each individual, over and above a binary capture history that
+indicates whether or not the $i$th individual was detected by the
+$j$th area or transect on the $k$th occasion:
+\begin{enumerate}
+\item If cues are detected, then we observe a count of how many times
+  the individual was detected.
+\item For each detection (either individuals or cues), we observe the
+  exact coordinates at which the detection took place within the area
+  searched or along the transect travelled.
+\end{enumerate}
+For surveys where cues are the unit of detection, let $\bm{Y}_1$ hold
+the counts for all detected individuals, where $y_{ijk1}$\todo{Change
+  this to $n_{ijk}$?}  is the number of cues from the $i$th individual
+were detected in the $j$th area or transect on the $k$th
+occasion. Further, let $\bm{Y}_2$ hold the coordinates of all
+locations at which the these detections took place, where
+$\bm{y}_{ijk2}$ holds locations of all detected cues associated with
+the $i$th individual in the $j$th area or transect on the $k$th
+occation. For surveys where animals are the unit of detection
+themselves we only observe the additional information $Y_2$, and we
+can only have one detection location per individual per occasion.
+
+As per Chapter \ref{chap:det-types}, the likelihood component that is
+affected by the detection process is $[\bm{\Omega}_n | \bm{S}_n]$.
+Using the `building block' framework introduced in Section
+\ref{sec:det-types-building-blocks}, when cues are the unit of
+detection this is given by
+\begin{equation}
+  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n], \nonumber
+\end{equation}
+and when individuals are th eunit of detection this is given by
+\begin{equation}
+  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n], \nonumber
+\end{equation}
+where $[\bm{\Omega}_n | \bm{S}_n]$ deals with the (binary) detection
+of individuals across the $J$ searched areas or transects,
+$[\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n]$ deals with the number of cues
+detected within each area on each occasion, and
+$[\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n]$ deals with the precise
+locations within the areas or transects that these detections are
+made. Note that the above assumes independence between the number of
+cues detected and their locations.
+
+Note that it is \emph{not} necessary to search more than one unique
+area or travel more than one unique trasect---the exact location of
+each detection is recorded, and so a single area or line transect can
+provide the spatial recaptures that are required.
+
+\section{Cue-based area search and line transect surveys}
+\label{sec:area-transect-er}
+
+As before, here we conceptualise the encounter rate $\lambda_{ijk}$ as
+the number of detections of the $i$th individual at the $j$th detector
+on the $k$th occasion per unit time. This was previously
+conceptualised as a function of distance between the detector and the
+individual's activity centre.
+
+Intuitively, more cues are likely to be found at areas to an
+individual's activity centre. In order to model this, let
+$d(\bm{x}, \bm{s})$ be the distance between some location $\bm{x}$ and
+a hypothetical activity centre location $\bm{s}$. We redefine the
+encounter rate function $\lambda(d)$ to be the density of cues that
+one would expect to find upon searching a location that is distance
+$d$ from its activity centre. Therefore, if an individual's entire
+home range was searched, the total number of its cues found is a
+Poisson random variable with expectation
+$\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}$, and these
+have probability density
+$\lambda(d(\bm{x}, \bm{s})) d\bm{x}/\int_{\mathcal{R}^2}
+\lambda(d(\bm{x}, \bm{s})) d\bm{x}$
+(refer to Section \ref{sec:spmod-pps} for a summary of Poisson point
+processes).
 
 Many areas may be searched over the course of an area search survey,
 and these can take the shape of any polygon. Let the region of the
 survey area enclosed by the $j$th such polygon be
-$\mathcal{A}_j$. \todo{Why on earth is this mathcal A so ridiculous?}
+$\mathcal{A}_j$. Thus, the expected number of cues from the $i$th
+individual with activity centre $\bm{s}_i$ found upon searching the
+$j$th area is a Poisson random variable with expectation
+$\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}$, and so
+\begin{equation}
+  [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] = \prod_i^n \prod_j^J \prod_k^K \mathrm{Poisson} \left (\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}\right) \nonumber
+\end{equation}
+\todo[inline]{This is super cryptic. Need to make clearer.}
 
-
-First we will consider surveys on which areas are searched for
-individuals, and so different areas behave like multi-catch traps in
-that individuals can only be detected at one location within an
-occasion.
-
-
-
-\section{Line transects}
-\label{sec:area-transect-transect}
 
 \section{Spatial heterogeneity in detectability and effort}
 \label{sec:area-transect-spatial}
