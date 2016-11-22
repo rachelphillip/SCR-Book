@@ -31,17 +31,7 @@ In this chapter, we introduce SCR models for area search and line
 transect surveys. These surveys may consist of one or more occasions,
 and, on each, one or more (potentially different) areas are searched
 or line transects are travelled. Each such area or line transect can
-be thought of as a detector. Many of the concepts discussed in
-previous chapters do not translate directly across once the spatial
-nature of these detectors changes from discrete (zero-dimensional)
-points to either one-dimensional line transects or two-dimensional
-areas. For example, probabilities of detection can no longer simply
-depend on the distance between an activity centre and the point at
-which a detector is deployed---instead, we must also consider the
-lengths of the line transects and the paths they take, or the shapes
-and sizes of the areas searched. Nevertheless, the SCR framework we
-have developed in earlier chapters can be easily extended to neatly
-encompass the modelling of data from such surveys.
+be thought of as a detector.
 
 The type of data we observe and the survey we require depends on
 whether individuals or cues are the unit of detection:
@@ -58,9 +48,13 @@ whether individuals or cues are the unit of detection:
   occasion provides enough information to fit an SCR model.
 \end{enumerate}
 In both cases, any given area or transect may detect multiple
-individuals in a single occasion. The distinction above is equivalent
-to that seen between multi-catch traps and proximity detectors in
-Chapter \ref{chap:det-types}:
+individuals in a single occasion. This means that it is \emph{not}
+necessary to search more than one unique area or travel more than one
+unique trasect---the exact location of each detection is recorded, and
+so a single area or line transect can provide the spatial recaptures
+that are required. The distinction above is equivalent to that seen
+between multi-catch traps and proximity detectors in Chapter
+\ref{chap:det-types}:
 \begin{enumerate}
 \item On a multi-catch trap survey, any given individual can only be
   detected by, at most, one detector, and multiple occasions are
@@ -70,103 +64,219 @@ Chapter \ref{chap:det-types}:
   detector numerous times.
 \end{enumerate}
 
-Methods for area search and line transect data are presented in
-Sections \ref{sec:area-transect-area} and
-\ref{sec:area-transect-transect}, respectively, along with how the
+The SCR framework we have established is extended in Section
+\ref{sec:area-transect-likelihood} for area and line transect survey
+data. Specifically, methods for cue- and individual-based data are
+presented in Sections \ref{sec:area-transect-cue} and
+\ref{sec:area-transect-individual}, respectively, along with how the
 \texttt{secr} package can be used to fit the corresponding models. If
 there is spatial heterogeneity in either detectability or effort
 across the areas or transects, then these methods must be extended;
 this is presented in Section \ref{sec:area-transect-spatial}.
 
 \section{The capture history likelihood component}
-
-On each occassion, each area that is seached or transect that is
-travelled provides up to two types of additional information about
-each individual, over and above a binary capture history that
-indicates whether or not the $i$th individual was detected by the
-$j$th area or transect on the $k$th occasion:
-\begin{enumerate}
-\item If cues are detected, then we observe a count of how many times
-  the individual was detected.
-\item For each detection (either individuals or cues), we observe the
-  exact coordinates at which the detection took place within the area
-  searched or along the transect travelled.
-\end{enumerate}
-For surveys where cues are the unit of detection, let $\bm{Y}_1$ hold
-the counts for all detected individuals, where $y_{ijk1}$\todo{Change
-  this to $n_{ijk}$?}  is the number of cues from the $i$th individual
-were detected in the $j$th area or transect on the $k$th
-occasion. Further, let $\bm{Y}_2$ hold the coordinates of all
-locations at which the these detections took place, where
-$\bm{y}_{ijk2}$ holds locations of all detected cues associated with
-the $i$th individual in the $j$th area or transect on the $k$th
-occation. For surveys where animals are the unit of detection
-themselves we only observe the additional information $Y_2$, and we
-can only have one detection location per individual per occasion.
+\label{sec:area-transect-likelihood}
 
 As per Chapter \ref{chap:det-types}, the likelihood component that is
 affected by the detection process is $[\bm{\Omega}_n | \bm{S}_n]$.
-Using the `building block' framework introduced in Section
-\ref{sec:det-types-building-blocks}, when cues are the unit of
-detection this is given by
-\begin{equation}
-  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n], \nonumber
-\end{equation}
-and when individuals are th eunit of detection this is given by
-\begin{equation}
-  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n], \nonumber
-\end{equation}
-where $[\bm{\Omega}_n | \bm{S}_n]$ deals with the (binary) detection
-of individuals across the $J$ searched areas or transects,
-$[\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n]$ deals with the number of cues
-detected within each area on each occasion, and
-$[\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n]$ deals with the precise
-locations within the areas or transects that these detections are
-made. Note that the above assumes independence between the number of
-cues detected and their locations.
+Many of the concepts discussed in previous chapters do not translate
+directly across once the spatial nature of these detectors changes
+from discrete (zero-dimensional) points to either one-dimensional line
+transects or two-dimensional areas. For example, probabilities of
+detection can no longer simply depend on the distance between an
+activity centre and the point at which a detector is
+deployed---instead, we must also consider the lengths of the line
+transects and the paths they take, or the shapes and sizes of the
+areas searched. Nevertheless, the SCR framework we have developed in
+earlier chapters can be easily extended to neatly encompass the
+modelling of data from such surveys.
 
-Note that it is \emph{not} necessary to search more than one unique
-area or travel more than one unique trasect---the exact location of
-each detection is recorded, and so a single area or line transect can
-provide the spatial recaptures that are required.
+On each of $K$ occasions, $J$ areas are searched or line transects are
+travelled. Areas may take the shape of any polygon, and line transects
+may follow any path. Let $A_j \subset R^2$ be the region enclosed by
+the $j$th such polygon (for area searches) or the path taken by the
+$j$th line transect (for line transects). Thus, $A_j$ is a
+two-dimensional subspace of $R^2$ for area search surveys, and a
+one-dimensional subspace of $R^2$ for line transect surveys.
 
-\section{Cue-based area search and line transect surveys}
-\label{sec:area-transect-er}
+In previous chapters, detectors have either provided binary or count
+detection data, and this remains the same for area searches and line
+transects: if cues are the detection unit then we observe
+$\omega_{ijk}$ as a count of how many cues from the $i$th individual
+were detected in the $j$th area or line transect on the $k$th
+occasion, and if individuals are the detection unit then we observe
+$\omega_{ijk}$ binary data indicating whether or not the $i$th
+individual was detected in the $j$th area or transect on the $k$th
+occasion (although recall only one such area or transect can detect a
+particular individual on an occasion).
+
+In addition to $\bm{\Omega}_n$, we also observe the precise location
+that each detection was made within the areas or along the
+transects. Let $\bm{y}_{ijk}$ contain all detection locations
+associated with the $i$th individual in the $j$th area or transect on
+the $k$th occasion, and let all such information be held in
+$\bm{Y}_n$. This can be modelled as additional information (Section
+\ref{sec:det-types-additional-data}), providing the likelihood
+\begin{equation}
+  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n]. \nonumber
+\end{equation}
+
+Below we separately deal with the terms in the likelihood above for
+cue- and individual-based surveys.
+
+
+\subsection{Cue-based area search and line transect surveys}
+\label{sec:area-transect-cue}
+
+Models for area search and line transect surveys for which cues are
+detection units behave similarly to those for proximity detector
+surveys: (1) the same individual can be detected by multiple detectors
+(i.e., areas or transects), (2) each detector can make multiple
+detections of the same individual within the same occasion, and (3)
+detection of one individual does not prevent detection of others
+within the same occasion. As per Section
+\ref{sec:det-types-proximity}, we assume independence between
+individuals, detectors, and occasions, giving
+\begin{equation}
+  [\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = \prod_{i = 1}^n \prod_{j = 1}^J \prod_{k = 1}^K [ \omega_{ijk} | \bm{s}_i] \times [\bm{y}_{ijk} | \omega_{ijk}, \bm{s}_i ]. \nonumber
+\end{equation}
+It is possible either $J = 1$ or $K = 1$, or both; that is, we can
+estimate density when the data are from a survey with only a single
+occasion, or if it constitutes only a single area or transect.
 
 As before, here we conceptualise the encounter rate $\lambda_{ijk}$ as
 the number of detections of the $i$th individual at the $j$th detector
-on the $k$th occasion per unit time. This was previously
-conceptualised as a function of distance between the detector and the
-individual's activity centre.
+(i.e., area or transect) on the $k$th occasion per unit time. This was
+previously conceptualised as a function of distance between the
+detector and the individual's activity centre, but this is no longer
+possible once detectors are considered as areas or lines rather than
+points.
 
-Intuitively, more cues are likely to be found at areas to an
-individual's activity centre. In order to model this, let
-$d(\bm{x}, \bm{s})$ be the distance between some location $\bm{x}$ and
-a hypothetical activity centre location $\bm{s}$. We redefine the
-encounter rate function $\lambda(d)$ to be the density of cues that
-one would expect to find upon searching a location that is distance
-$d$ from its activity centre. Therefore, if an individual's entire
-home range was searched, the total number of its cues found is a
-Poisson random variable with expectation
-$\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}$, and these
-have probability density
-$\lambda(d(\bm{x}, \bm{s})) d\bm{x}/\int_{\mathcal{R}^2}
-\lambda(d(\bm{x}, \bm{s})) d\bm{x}$
-(refer to Section \ref{sec:spmod-pps} for a summary of Poisson point
-processes).
+Intuitively, more of an individual's cues are likely to be closer to
+its activity centre. We can model this by treating the locations of
+detected cues as a Poisson point pattern; refer to Section
+\ref{sec:spmod-pps} for a summary of Poisson point processes. We do
+this by fitting a \emph{cue intensity function}, $\Lambda(d)$ instead
+of an encounter rate function, $\lambda(d)$. The former can take the
+same parameters and thus has the same general set of functional forms
+at the latter, but its interpretation is slightly different. Rather
+than being the number of detections per unit time and a detector
+located at a discrete point distance $d$ from an activity centre, it
+is (1) the density of cues per unit area that are found upon a search
+at distance $d$ from an activity centre for area searches, or (2) the
+density of cues per unit distance of the transect travelled at
+distance $d$ from an activity for line transects.
+
+Let $d(\bm{x}, \bm{s})$ the distance between some location $\bm{x}$
+and a hypothetical activity centre $\bm{s}$. Recall from Section
+\ref{sec:spmod-pps} that the expected number of points generated by a
+Poisson point process can be found by integrating over its
+domain. Thus, for area searches, the number of cues we find from one
+particular individual with activity centre $\bm{s}$ upon a total
+search of its home range is a Poisson random variable with expectation
+$\int_{R^2} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}$.
 
 Many areas may be searched over the course of an area search survey,
 and these can take the shape of any polygon. Let the region of the
-survey area enclosed by the $j$th such polygon be
-$\mathcal{A}_j$. Thus, the expected number of cues from the $i$th
-individual with activity centre $\bm{s}_i$ found upon searching the
-$j$th area is a Poisson random variable with expectation
-$\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}$, and so
+survey area enclosed by the $j$th such polygon be $\mathcal{A}_j$. The
+expected number of cues found within $A_j$ can be determined by only
+integrating over this region; that is, the expected number of the $i$th
+individual's cues detected in the $j$th area on the $k$th occasion is
 \begin{equation}
-  [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] = \prod_i^n \prod_j^J \prod_k^K \mathrm{Poisson} \left (\int_{\mathcal{R}^2} \lambda(d(\bm{x}, \bm{s})) d\bm{x}\right) \nonumber
+  \lambda_{ijk} = \int_{A_j} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}.
+  \nonumber
 \end{equation}
-\todo[inline]{This is super cryptic. Need to make clearer.}
+The above also holds for line transect surveys, but the integral is
+now a \emph{line integral}---it reperesents the area beneath the cue
+intensity function along the path of the transect that is travelled.
+As with proximity detectors, due to independence we obtain
+\begin{equation}
+  [ \bm{\omega}_{ijk} | \bm{s}_i ] = \mathrm{Poisson}(\lambda_{ijk}). \nonumber
+\end{equation}
 
+\todo[inline]{Something that I have realised, which I think is a neat
+  thing to point out: When detectors are {\bf two}-dimensional areas,
+  then $\Lambda()$ is expected number of detetections per occasion per
+  km$^\mathbf{2}$ searched and we need to evaluate a {\bf
+    two}-dimensional integral to get $\lambda_{ijk}$. When detectors
+  are {\bf one}-dimensional lines (i.e., transects), then $\Lambda()$
+  is expected number of detections per occasion per km$^\mathbf{1}$
+  travelled and we need to evaluate a {\bf one}-dimensional integral
+  to get $\lambda_{ijk}$. When detectors are {\bf zero}-dimensional
+  points, then $\Lambda()$ (or just $\lambda()$) is expected number of
+  detetections per occasion per km$^\mathbf{0}$ (i.e., just detections
+  per occasion) and we need to evaluate a {\bf zero}-dimensional
+  integral to get $\lambda_{ijk}$ (i.e., we don't actually need to
+  evaluate an integral at all). This is interesting to me as a
+  statistician. But is it interesting to the reader?}
+
+For each detection in the $j$th area or along the $j$th transect we
+observe a detection location within $A_j$. From Chapter
+\ref{chap:sppmod}, the probability density of a point's location is
+proportional to the intensity function of its point
+process. Therefore, assuming independence between the location of cues
+given the individual's activity centre location, the likelihood
+component due to locations of detections by the $j$th area or line
+transect is
+\begin{align}
+  [ \bm{y}_{ijk} | \omega_{ijk}, \bm{s}_i ] &= \prod_{l =
+    1}^{\omega_{ijk}} [ \bm{y}_{ijkl} | \omega_{ijkl}, \bm{s}_i ] \nonumber
+  \\ &= \prod_{l = 1}^{\omega_{ijk}}\frac{\Lambda(d(\bm{y}_{ijkl},
+    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
+    d\bm{x}}, \hspace{2em} \bm{y}_{ijkl} \in A_j, \nonumber
+\end{align}
+where $\bm{y_{ijkl}}$ is the location of the $l$th detected cue from
+the $i$th individual by the $j$th area or line transect on the $k$th
+occasion. The denominator above ensures that $[ \bm{y}_{ijkl} |
+  \omega_{ijkl}, \bm{s}_i ]$ is a valid PDF, in that it integrates to
+1.
+
+<<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = textwidth, out.width = add.in(textwidth), out.height = add.in(textwidth), fig.pos = "tb", fig.cap = "Placeholder caption.">>=
+res <- 700
+unique.x <- seq(-0.5, 0.5, length.out = res)
+unique.y <- seq(-0.5, 0.5, length.out = res)
+z <- matrix(NA, nrow = res, ncol = res)
+for (i in 1:res){
+    for (j in 1:res){
+        dist <- sqrt(unique.x[i]^2 + unique.y[j]^2)
+        z[i, j] <- 10*exp(-dist^2/(2*0.15^2))
+    }
+}
+z.range <- c(0, max(z))
+par(xaxs = "i", las = 1, mar = c(2, 3, 0, 0) + 0.1, mfrow = c(2, 2))
+area.x.lims <- c(0.1, 0.3)
+area.y.lims <- c(-0.3, -0.1)
+area.vertices <- matrix(c(rep(area.x.lims, each = 2), area.y.lims[2], rep(area.y.lims[1], 2), area.y.lims[2]), ncol = 2)
+plot.new()
+plot.window(xlim = c(-0.5, 0.5), ylim = c(-0.5, 0.5), asp = 1)
+image(x = unique.x, y = unique.y, z = z, zlim = z.range, col = rgb(0.15, 0.15, 0.15, (0:1000)/1000), add = TRUE)
+points(0, 0, pch = 4, cex = 2, lwd = 2)
+polygon(area.vertices, border = "red", lwd = 2)
+box()
+plot.new()
+box()
+plot.new()
+box()
+par(new = TRUE)
+z.temp <- matrix(rep(0, 4), nrow = 2, ncol = 2)
+perspmat <- persp(x = c(-0.5, 0.5), y = c(-0.5, 0.5), z = z.temp, zlim = c(0, 1),
+                  col = "white", theta = 30, phi = 30, box = FALSE)
+par(new = TRUE)
+z.out <- z
+z.out[unique.x >= area.x.lims[1] & unique.x <= area.x.lims[2],
+      unique.y >= area.y.lims[1] & unique.y <= area.y.lims[2]] <- NA
+perspmat <- persp(x = unique.x, y = unique.y, z = z.out, zlim = c(0, max(z)),
+                  shade = 0.75, col = "lightgrey", theta = 30, phi = 30,
+                  border = NA, axes = FALSE)
+par(new = TRUE)
+z.in <- z
+z.in[!is.na(z.out)] <- NA
+perspmat <- persp(x = unique.x, y = unique.y, z = z.in, zlim = c(0, max(z)),
+                  shade = 0.75, col = "red", theta = 30, phi = 30,
+                  ltheta = 0, lphi = 0, border = NA, axes = FALSE)
+plot.new()
+box()
+@ 
 
 \section{Spatial heterogeneity in detectability and effort}
 \label{sec:area-transect-spatial}
