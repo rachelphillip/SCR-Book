@@ -1,3 +1,4 @@
+.
 \chapter{Area and transect detectors}
 \label{chap:area-transect}
 
@@ -231,8 +232,19 @@ occasion. The denominator above ensures that $[ \bm{y}_{ijkl} |
   \omega_{ijkl}, \bm{s}_i ]$ is a valid PDF, in that it integrates to
 1.
 
-<<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = textwidth, out.width = add.in(textwidth), out.height = add.in(textwidth), fig.pos = "tb", fig.cap = "Placeholder caption.">>=
-res <- 700
+<<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = 4.80405, out.width = add.in(textwidth), out.height = add.in(4.80405), fig.pos = "tb", fig.cap = "Hypothetical surveys on which two areas are searched (top row) or line transects are travelled (bottom row). The cue intensity function $\\Lambda(\\bm{x})$ is depicted by the darkness of the grey shading in the plots on the left. The expected number of cues detected within $A_1$ and $A_2$ for either survey are found by calculating the volume under the red and blue surfaces (top right) for area searches, or the area beneath the red and blue lines (bottom right) for area search and line transect surveys, respectively.">>=
+par(oma = c(2, 0, 0, 2) + 0.1, mar = rep(0, 4), xaxs = "i", yaxs = "i")
+inches.per.line <- par("omi")[1]/par("oma")[1]
+mar.width <- sum(par("omi")[c(2, 4)])
+mar.height <- sum(par("omi")[c(1, 3)])
+box.width.in <- (textwidth - mar.width)/2
+box.width.cm <- box.width.in*2.54
+## Layout stuff.
+layout.mat <- matrix(c(1, 0, 3, 2, 0, 4), nrow = 3, ncol = 2)
+layout(layout.mat, widths = lcm(rep(box.width.cm, 2)), heights = lcm(c(box.width.cm, 0.5, box.width.cm)), respect = TRUE)
+## Resolution of plots.
+res <- 500
+## Sorting out areas.
 unique.x <- seq(-0.5, 0.5, length.out = res)
 unique.y <- seq(-0.5, 0.5, length.out = res)
 z <- matrix(NA, nrow = res, ncol = res)
@@ -243,39 +255,142 @@ for (i in 1:res){
     }
 }
 z.range <- c(0, max(z))
-par(xaxs = "i", las = 1, mar = c(2, 3, 0, 0) + 0.1, mfrow = c(2, 2))
-area.x.lims <- c(0.1, 0.3)
-area.y.lims <- c(-0.3, -0.1)
-area.vertices <- matrix(c(rep(area.x.lims, each = 2), area.y.lims[2], rep(area.y.lims[1], 2), area.y.lims[2]), ncol = 2)
+area1.x.lims <- c(0.1, 0.3)
+area1.y.lims <- c(-0.3, -0.1)
+area2.x.lims <- c(-0.3, -0.1)
+area2.y.lims <- c(-0.4, -0.2)
+area1.vertices <- matrix(c(rep(area1.x.lims, each = 2), area1.y.lims[2], rep(area1.y.lims[1], 2), area1.y.lims[2]), ncol = 2)
+area2.vertices <- matrix(c(rep(area2.x.lims, each = 2), area2.y.lims[2], rep(area2.y.lims[1], 2), area2.y.lims[2]), ncol = 2)
+in.area1 <- outer(unique.x, unique.y, function(x, y) x >= area1.x.lims[1] & x <= area1.x.lims[2] &
+                  y >= area1.y.lims[1] & y <= area1.y.lims[2])
+in.area2 <- outer(unique.x, unique.y, function(x, y) x >= area2.x.lims[1] & x <= area2.x.lims[2] &
+                  y >= area2.y.lims[1] & y <= area2.y.lims[2])
+## Top left.
 plot.new()
 plot.window(xlim = c(-0.5, 0.5), ylim = c(-0.5, 0.5), asp = 1)
-image(x = unique.x, y = unique.y, z = z, zlim = z.range, col = rgb(0.15, 0.15, 0.15, (0:1000)/1000), add = TRUE)
+col.seq <- seq(1, 0.25, length.out = 1000)
+image(x = unique.x, y = unique.y, z = z, zlim = z.range, col = rgb(col.seq, col.seq, col.seq), add = TRUE)
 points(0, 0, pch = 4, cex = 2, lwd = 2)
-polygon(area.vertices, border = "red", lwd = 2)
+polygon(area1.vertices, border = "red", lwd = 2)
+text(area1.vertices[3, 1], area1.vertices[3, 2], expression(A[1]), adj = c(-0.25, 0), cex = 1.5)
+polygon(area2.vertices, border = "blue", lwd = 2)
+text(area2.vertices[3, 1], area2.vertices[3, 2], expression(A[2]), adj = c(-0.25, 0), cex = 1.5)
 box()
+## Top right.
 plot.new()
-box()
-plot.new()
-box()
 par(new = TRUE)
+## Floor of box.
 z.temp <- matrix(rep(0, 4), nrow = 2, ncol = 2)
 perspmat <- persp(x = c(-0.5, 0.5), y = c(-0.5, 0.5), z = z.temp, zlim = c(0, 1),
                   col = "white", theta = 30, phi = 30, box = FALSE)
 par(new = TRUE)
+## Grey surface.
 z.out <- z
-z.out[unique.x >= area.x.lims[1] & unique.x <= area.x.lims[2],
-      unique.y >= area.y.lims[1] & unique.y <= area.y.lims[2]] <- NA
+z.out[in.area1 | in.area2] <- NA
+ltheta <- -35
+lphi <- 0
 perspmat <- persp(x = unique.x, y = unique.y, z = z.out, zlim = c(0, max(z)),
-                  shade = 0.75, col = "lightgrey", theta = 30, phi = 30,
-                  border = NA, axes = FALSE)
+                  shade = 0.75, col = "grey", theta = 30, phi = 30,
+                  ltheta = ltheta, lphi = lphi, border = NA, axes = FALSE)
 par(new = TRUE)
-z.in <- z
-z.in[!is.na(z.out)] <- NA
-perspmat <- persp(x = unique.x, y = unique.y, z = z.in, zlim = c(0, max(z)),
+## Red surface.
+z.area1 <- z
+z.area1[!in.area1] <- NA
+perspmat <- persp(x = unique.x, y = unique.y, z = z.area1, zlim = c(0, max(z)),
                   shade = 0.75, col = "red", theta = 30, phi = 30,
-                  ltheta = 0, lphi = 0, border = NA, axes = FALSE)
+                  ltheta = ltheta, lphi = lphi, border = NA, axes = FALSE, box = FALSE)
+area1.outline.x <- c(seq(area1.vertices[1, 1], area1.vertices[2, 1], length.out = 100),
+                     seq(area1.vertices[2, 1], area1.vertices[3, 1], length.out = 100),
+                     seq(area1.vertices[3, 1], area1.vertices[4, 1], length.out = 100),
+                     seq(area1.vertices[4, 1], area1.vertices[1, 1], length.out = 100))
+area1.outline.y <- c(seq(area1.vertices[1, 2], area1.vertices[2, 2], length.out = 100),
+                     seq(area1.vertices[2, 2], area1.vertices[3, 2], length.out = 100),
+                     seq(area1.vertices[3, 2], area1.vertices[4, 2], length.out = 100),
+                     seq(area1.vertices[4, 2], area1.vertices[1, 2], length.out = 100))
+area1.outline.z <- apply(cbind(area1.outline.x, area1.outline.y), 1, function(x) 10*exp(-(sqrt(sum(x^2)))^2/(2*0.15^2)))
+area1.outline.trans <- trans3d(x = area1.outline.x, area1.outline.y, area1.outline.z, pmat = perspmat)
+lines(area1.outline.trans$x, area1.outline.trans$y)
+par(new = TRUE)
+## Blue surface.
+z.area2 <- z
+z.area2[!in.area2] <- NA
+perspmat <- persp(x = unique.x, y = unique.y, z = z.area2, zlim = c(0, max(z)),
+                  shade = 0.75, col = "blue", theta = 30, phi = 30,
+                  ltheta = ltheta, lphi = lphi, border = NA, axes = FALSE, box = FALSE)
+area2.outline.x <- c(seq(area2.vertices[1, 1], area2.vertices[2, 1], length.out = 100),
+                     seq(area2.vertices[2, 1], area2.vertices[3, 1], length.out = 100),
+                     seq(area2.vertices[3, 1], area2.vertices[4, 1], length.out = 100),
+                     seq(area2.vertices[4, 1], area2.vertices[1, 1], length.out = 100))
+area2.outline.y <- c(seq(area2.vertices[1, 2], area2.vertices[2, 2], length.out = 100),
+                     seq(area2.vertices[2, 2], area2.vertices[3, 2], length.out = 100),
+                     seq(area2.vertices[3, 2], area2.vertices[4, 2], length.out = 100),
+                     seq(area2.vertices[4, 2], area2.vertices[1, 2], length.out = 100))
+area2.outline.z <- apply(cbind(area2.outline.x, area2.outline.y), 1, function(x) 10*exp(-(sqrt(sum(x^2)))^2/(2*0.15^2)))
+area2.outline.trans <- trans3d(x = area2.outline.x, area2.outline.y, area2.outline.z, pmat = perspmat)
+lines(area2.outline.trans$x, area2.outline.trans$y)
+x.range <- diff(range(unique.x))
+y.range <- diff(range(unique.y))
+title.pos <- trans3d(x = min(unique.x), y = min(unique.y) - 0.05*y.range,
+                     z = mean(c(0, max(z))), pmat = perspmat)
+text(x = title.pos$x, y = title.pos$y, labels = expression(paste(Lambda, "(", bolditalic(x), ")")),  srt = 105)
+## Bottom left.
 plot.new()
+plot.window(xlim = c(-0.5, 0.5), ylim = c(-0.5, 0.5), asp = 1)
+col.seq <- seq(1, 0.25, length.out = 1000)
+image(x = unique.x, y = unique.y, z = z, zlim = z.range, col = rgb(col.seq, col.seq, col.seq), add = TRUE)
+points(0, 0, pch = 4, cex = 2, lwd = 2)
+## Making some transects.
+step.size <- 0.001
+n.steps <- 950
+## Transect 1.
+transect1.x <- numeric(n.steps)
+transect1.y <- numeric(n.steps)
+transect1.bearing.change <- numeric(n.steps)
+n.turny.steps <- 350
+turny.steps <- ceiling((n.steps + 1)/2 - n.turny.steps/2):floor((n.steps + 1)/2 + n.turny.steps/2) + 100
+transect1.bearing.change[turny.steps] <- 0.0075*pi*sin(seq(0, 2*pi, length.out = n.turny.steps))
+transect1.bearing <- 1*pi/3
+transect1.x[1] <- -0.4
+transect1.y[1] <- 0.0
+for (i in 2:n.steps){
+    transect1.bearing <- transect1.bearing + transect1.bearing.change[i - 1]
+    transect1.x[i] <- transect1.x[i - 1] + step.size*sin(transect1.bearing)
+    transect1.y[i] <- transect1.y[i - 1] + step.size*cos(transect1.bearing)
+}
+transect1.z <- apply(cbind(transect1.x, transect1.y), 1, function(x) 10*exp(-(sqrt(sum(x^2)))^2/(2*0.15^2)))
+## Transect 2.
+transect2.x <- numeric(n.steps)
+transect2.y <- numeric(n.steps)
+transect2.bearing.change <- numeric(n.steps)
+n.turny.steps <- n.steps
+turny.steps <- ceiling((n.steps + 1)/2 - n.turny.steps/2):floor((n.steps + 1)/2 + n.turny.steps/2) + 150
+transect2.bearing.change[turny.steps] <- -0.0002*pi
+transect2.bearing <- 5*pi/8
+transect2.x[1] <- -0.475
+transect2.y[1] <- -0.1
+for (i in 2:n.steps){
+    transect2.bearing <- transect2.bearing + transect2.bearing.change[i - 1]
+    transect2.x[i] <- transect2.x[i - 1] + step.size*sin(transect2.bearing)
+    transect2.y[i] <- transect2.y[i - 1] + step.size*cos(transect2.bearing)
+}
+transect2.z <- apply(cbind(transect2.x, transect2.y), 1, function(x) 10*exp(-(sqrt(sum(x^2)))^2/(2*0.15^2)))
+## Plotting the transects.
+lines(transect1.x, transect1.y, col = "red", lwd = 2)
+text(transect1.x[1], transect1.y[1], expression(A[1]), adj = c(0, -0.75), cex = 1.5)
+lines(transect2.x, transect2.y, col = "blue", lwd = 2)
+text(transect2.x[1], transect2.y[1], expression(A[2]), adj = c(0, 1.75), cex = 1.5)
 box()
+
+## Bottom right.
+plot.new()
+par(yaxs = "r")
+plot.window(xlim = c(0, (n.steps - 1)*step.size), ylim = c(0, max(c(transect1.z, transect2.z))))
+box()
+abline(h = 0, col = "grey")
+lines((0:(n.steps - 1))*step.size, transect1.z, col = "red")
+lines((0:(n.steps - 1))*step.size, transect2.z, col = "blue")
+mtext("Distance along transect", side = 1, line = 1)
+mtext(expression(paste(Lambda, "(", bolditalic(x), ")")), side = 4, line = 1)
 @ 
 
 \section{Spatial heterogeneity in detectability and effort}
