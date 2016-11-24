@@ -29,10 +29,11 @@ may be possible through microsatellite DNA, or some other distinctive
 feature(s) of the cues.
 
 In this chapter, we introduce SCR models for area search and line
-transect surveys. These surveys may consist of one or more occasions,
-and, on each, one or more (potentially different) areas are searched
-or line transects are travelled. Each such area or line transect can
-be thought of as a detector.
+transect surveys, which were first developed by \cite{Royle+Young:08},
+and \cite{Efford:11}. These surveys may consist of one or more
+occasions, and, on each, one or more (potentially different) areas are
+searched or line transects are travelled. Each such area or line
+transect can be thought of as a detector.
 
 The type of data we observe and the survey we require depends on
 whether individuals or cues are the unit of detection:
@@ -165,8 +166,8 @@ than being the number of detections per unit time and a detector
 located at a discrete point distance $d$ from an activity centre, it
 is (1) the density of cues per unit area that are found upon a search
 at distance $d$ from an activity centre for area searches, or (2) the
-density of cues per unit distance of the transect travelled at
-distance $d$ from an activity for line transects.
+density of cues per unit distance of the transect travelled that are
+found at distance $d$ from an activity centre for line transects.
 
 Let $d(\bm{x}, \bm{s})$ the distance between some location $\bm{x}$
 and a hypothetical activity centre $\bm{s}$. Recall from Section
@@ -178,59 +179,25 @@ search of its home range is a Poisson random variable with expectation
 $\int_{R^2} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}$.
 
 Many areas may be searched over the course of an area search survey,
-and these can take the shape of any polygon. Let the region of the
-survey area enclosed by the $j$th such polygon be $\mathcal{A}_j$. The
-expected number of cues found within $A_j$ can be determined by only
-integrating over this region; that is, the expected number of the $i$th
-individual's cues detected in the $j$th area on the $k$th occasion is
+and these can take the shape of any polygon; likewise, many transects
+may be travelled, and these may take any path (e.g., Figure
+\ref{fig:area-transect-integral}). Let the region of the survey area
+enclosed by the $j$th such polygon be $A_j$. The expected number of
+cues found within $A_j$ can be determined by only integrating over
+this region; that is, the expected number of the $i$th individual's
+cues detected in the $j$th area on the $k$th occasion is
 \begin{equation}
   \lambda_{ijk} = \int_{A_j} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}.
   \nonumber
 \end{equation}
 The above also holds for line transect surveys, but the integral is
 now a \emph{line integral}---it reperesents the area beneath the cue
-intensity function along the path of the transect that is travelled.
-As with proximity detectors, due to independence we obtain
+intensity function along the path of the transect that is travelled,
+see Figure \ref{fig:area-transect-integral}. As with proximity
+detectors, due to independence we obtain
 \begin{equation}
   [ \bm{\omega}_{ijk} | \bm{s}_i ] = \mathrm{Poisson}(\lambda_{ijk}). \nonumber
 \end{equation}
-
-\todo[inline]{Something that I have realised, which I think is a neat
-  thing to point out: When detectors are {\bf two}-dimensional areas,
-  then $\Lambda()$ is expected number of detetections per occasion per
-  km$^\mathbf{2}$ searched and we need to evaluate a {\bf
-    two}-dimensional integral to get $\lambda_{ijk}$. When detectors
-  are {\bf one}-dimensional lines (i.e., transects), then $\Lambda()$
-  is expected number of detections per occasion per km$^\mathbf{1}$
-  travelled and we need to evaluate a {\bf one}-dimensional integral
-  to get $\lambda_{ijk}$. When detectors are {\bf zero}-dimensional
-  points, then $\Lambda()$ (or just $\lambda()$) is expected number of
-  detetections per occasion per km$^\mathbf{0}$ (i.e., just detections
-  per occasion) and we need to evaluate a {\bf zero}-dimensional
-  integral to get $\lambda_{ijk}$ (i.e., we don't actually need to
-  evaluate an integral at all). This is interesting to me as a
-  statistician. But is it interesting to the reader?}
-
-For each detection in the $j$th area or along the $j$th transect we
-observe a detection location within $A_j$. From Chapter
-\ref{chap:sppmod}, the probability density of a point's location is
-proportional to the intensity function of its point
-process. Therefore, assuming independence between the location of cues
-given the individual's activity centre location, the likelihood
-component due to locations of detections by the $j$th area or line
-transect is
-\begin{align}
-  [ \bm{y}_{ijk} | \omega_{ijk}, \bm{s}_i ] &= \prod_{l =
-    1}^{\omega_{ijk}} [ \bm{y}_{ijkl} | \omega_{ijkl}, \bm{s}_i ] \nonumber
-  \\ &= \prod_{l = 1}^{\omega_{ijk}}\frac{\Lambda(d(\bm{y}_{ijkl},
-    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
-    d\bm{x}}, \hspace{2em} \bm{y}_{ijkl} \in A_j, \nonumber
-\end{align}
-where $\bm{y_{ijkl}}$ is the location of the $l$th detected cue from
-the $i$th individual by the $j$th area or line transect on the $k$th
-occasion. The denominator above ensures that $[ \bm{y}_{ijkl} |
-  \omega_{ijkl}, \bm{s}_i ]$ is a valid PDF, in that it integrates to
-1.
 
 <<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = 4.80405, out.width = add.in(textwidth), out.height = add.in(4.80405), fig.pos = "tb", fig.cap = "Hypothetical surveys on which two areas are searched (top row) or line transects are travelled (bottom row). The cue intensity function $\\Lambda(\\bm{x})$ is depicted by the darkness of the grey shading in the plots on the left. The expected number of cues detected within $A_1$ and $A_2$ for either survey are found by calculating the volume under the red and blue surfaces (top right) for area searches, or the area beneath the red and blue lines (bottom right) for area search and line transect surveys, respectively.">>=
 par(oma = c(2, 0, 0, 2) + 0.1, mar = rep(0, 4), xaxs = "i", yaxs = "i")
@@ -332,7 +299,7 @@ x.range <- diff(range(unique.x))
 y.range <- diff(range(unique.y))
 title.pos <- trans3d(x = min(unique.x), y = min(unique.y) - 0.05*y.range,
                      z = mean(c(0, max(z))), pmat = perspmat)
-text(x = title.pos$x, y = title.pos$y, labels = expression(paste(Lambda, "(", bolditalic(x), ")")),  srt = 105)
+text(x = title.pos$x, y = title.pos$y, labels = expression(paste(Lambda, "(", italic(d), "(", bolditalic(x), ",", bolditalic(s), "))")),  srt = 105)
 ## Bottom left.
 plot.new()
 plot.window(xlim = c(-0.5, 0.5), ylim = c(-0.5, 0.5), asp = 1)
@@ -390,8 +357,105 @@ abline(h = 0, col = "grey")
 lines((0:(n.steps - 1))*step.size, transect1.z, col = "red")
 lines((0:(n.steps - 1))*step.size, transect2.z, col = "blue")
 mtext("Distance along transect", side = 1, line = 1)
-mtext(expression(paste(Lambda, "(", bolditalic(x), ")")), side = 4, line = 1)
+mtext(expression(paste(Lambda, "(", italic(d), "(", bolditalic(x), ",", bolditalic(s), "))")), side = 4, line = 1)
 @ 
+
+\todo[inline]{Something that I have realised, which I think is a neat
+  thing to point out: When detectors are {\bf two}-dimensional areas,
+  then $\Lambda()$ is expected number of detetections per occasion per
+  km$^\mathbf{2}$ searched and we need to evaluate a {\bf
+    two}-dimensional integral to get $\lambda_{ijk}$. When detectors
+  are {\bf one}-dimensional lines (i.e., transects), then $\Lambda()$
+  is expected number of detections per occasion per km$^\mathbf{1}$
+  travelled and we need to evaluate a {\bf one}-dimensional integral
+  to get $\lambda_{ijk}$. When detectors are {\bf zero}-dimensional
+  points, then $\Lambda()$ (or just $\lambda()$) is expected number of
+  detetections per occasion per km$^\mathbf{0}$ (i.e., just detections
+  per occasion) and we need to evaluate a {\bf zero}-dimensional
+  integral to get $\lambda_{ijk}$ (i.e., we don't actually need to
+  evaluate an integral at all). This is interesting to me as a
+  statistician. But is it interesting to the reader?}
+
+For each detection in the $j$th area or along the $j$th transect we
+observe a detection location within $A_j$. From Chapter
+\ref{chap:sppmod}, the probability density of a point's location is
+proportional to the intensity function of its point
+process. Therefore, assuming independence between the location of cues
+given the individual's activity centre location, the likelihood
+component due to locations of detections by the $j$th area or line
+transect is
+\begin{align}
+  [ \bm{y}_{ijk} | \omega_{ijk}, \bm{s}_i ] &= \prod_{l =
+    1}^{\omega_{ijk}} [ \bm{y}_{ijkl} | \omega_{ijkl}, \bm{s}_i ] \nonumber
+  \\ &= \prod_{l = 1}^{\omega_{ijk}}\frac{\Lambda(d(\bm{y}_{ijkl},
+    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
+    d\bm{x}}, \hspace{2em} \bm{y}_{ijkl} \in A_j, \nonumber
+\end{align}
+where $\bm{y_{ijkl}}$ is the location of the $l$th detected cue from
+the $i$th individual by the $j$th area or line transect on the $k$th
+occasion. The denominator above ensures that $[ \bm{y}_{ijkl} |
+  \omega_{ijkl}, \bm{s}_i ]$ is a valid PDF, in that it integrates to
+1.
+
+\subsection{Individual-based area search and line transect surveys}
+\label{sec:area-transect-cue}
+
+A salient distinction between cue- and individual-based surveys are
+that individuals can only be detected in one location per occasion on
+the latter. We can adjust the cue-based method to account for this in
+a similar way to how multi-catch trap likelihood was adjusted from the
+proximity detector likelihood. That is, we no longer may take a
+product over the $J$ traps as the detectors do not behave
+independently within occasions---if a particular individual is
+detected within an area or along a transect, then the other areas or
+transects may not detect it. This provides the likelihood component
+\begin{equation}
+  [\bm{\Omega}_n | \bm{S}_n] = \prod_{i = 1}^n
+  \prod_{k = 1}^K [\bm{\omega}_{i \cdot k} |
+  \bm{s}_i] \times [\bm{y}_{i \cdot k} | \bm{\omega}_{i \cdot k}, \bm{s}_i]. \nonumber
+\end{equation}
+
+For area searches, we redefine $\Lambda(d)$ as the probability density
+of the location of an individual at distance $d$ from its activity
+centre. That is, for every one square unit of area searched at
+distance $\Lambda(d)$ from the activity centre, there is a
+$\Lambda(d)$ probability that the animal is within that area (i.e., it
+is \emph{detectable}). Furthermore, even upon searching an area that
+encapsulates its location on the $k$th occasion, there is a chance
+that it will nevertheless be detected; let $p_d$ be the probability of
+successfully detecting an individual, given that it is in a searched
+area. Likewise, for line transect surveys, we redefine $\Lambda(d)$ so
+that it gives the probability of the animal being detectable from the
+transect per unit distance of transect travelled at distance $d$ from
+the activity centre. \todo{I struggled to explain this part nicely. If
+  anyone fancies a bash, go for it.} Again $p_d$ remains the
+probability of detection given that the animal is detectable. 
+
+The probability of the individual both being detectable at the $j$th
+searched area or transect on the $k$th occasion \emph{and} being
+detected is therefore
+\begin{equation}
+  \Pr(\omega_{ijk} = 1 | \bm{s}_i) = p_d \int_{A_j} \Lambda(d(\bm{x},
+  \bm{s})) d\bm{x}, \nonumber
+\end{equation}
+and so we obtain
+\begin{equation}
+  [ \omega_{i \cdot k} | \bm{s}_i ] = 
+  \begin{cases}
+    \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if detected in area or transect $j$.} \\
+     1 - \sum_{j = 1}^J \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if not detected by any area or transect,} \nonumber
+  \end{cases}
+\end{equation}
+Given detection at the $j$th area or transect, the PDF for the precise
+location within the area or along the transect remains as per cue-based surveys:
+\begin{equation}
+  [ \bm{y}_{i \cdot k} | \bm{\omega}_{i \cdot k}, \bm{s}_i ] = \frac{\Lambda(d(\bm{y}_{i \cdot k},
+    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
+    d\bm{x}}, \hspace{2em} \bm{y}_{i \cdot k} \in \{A_j: \bm{\omega}_{ijk} = 1\}. \nonumber
+\end{equation}
+One difference here is that we only observe a single pair of
+coordinates in $\bm{y}_{i \cdot k}$, as we only make a single
+detection of an individual during any given occasion.
 
 \section{Spatial heterogeneity in detectability and effort}
 \label{sec:area-transect-spatial}
