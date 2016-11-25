@@ -228,7 +228,7 @@ To specify an encounter rate model we need to specify the functional form to use
 
 In \texttt{secr}-speak a model with Gaussian shape is called a ``half-normal'' model (a name derived from the distance sampling literature \todo{insert citation?}), and encounter rate functions are called ``hazard'' functions (a name that derives from survival analysis literature). Specifying that the model is ``\texttt{HHN}'' in \texttt{secr}-speak, is specifying that it is an encounter rate model (the first \texttt{H} is for ``hazard'') with half-normal shape (``\texttt{HN}''). As \texttt{secr}-speak for $\lambda_0$ and $\sigma$ is ``\texttt{lambda0}'' and ``\texttt{sigma}'', the specification for an encounter rate model with Gaussian shape is as shown below.
 
-We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.fit} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
+We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.capt} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
 
 {\small
 <<ER-detfun-leopardsexample-erhn-fit, eval = FALSE>>=
