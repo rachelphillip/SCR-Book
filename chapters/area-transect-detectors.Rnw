@@ -532,14 +532,15 @@ the that have been used are as follows:
 \section{In \texttt{secr}}
 \label{sec:area-transect-secr}
 
+\subsection{Using \texttt{polygon} and \texttt{transect} detectors}
+
 Setting up area search detectors in the \texttt{secr} package can be
 achieved by specifying the vertices of the polygons that define the
 boundary of the areas searched, before calling the \texttt{secr}
-function \texttt{make.poly()}. Area searches are called `polygon'
-detectors in \texttt{secr}. For example, to set up two square areas
+function \texttt{make.poly()}. For example, to set up two square areas
 with sides of length 200 m (similar to the configuration in Figure
 \ref{fig:area-transect-integral}), we can use the following code:
-<<area-transect-area-setup>>=
+<<area-transect-area-setup, eval = FALSE>>=
 ## First area's vertices.
 area1 <- data.frame(x = c(100, 300, 300, 100),
                     y = c(300, 300, 100, 100))
@@ -560,5 +561,87 @@ frames define a series of points along a transect, and
 \texttt{make.transect()} (rather than \texttt{make.poly()}) is used to
 combine these into a traps object.
 
+Area searches are called `polygon' detectors in \texttt{secr}, or
+`polygonX' if they are `exclusive' detectors. Likewise, line transects
+are called `transect' detectors or `transectX' if they are `exclusive'
+detectors).
+
+\todo[inline]{Need to put something in here to explain how to read in
+  area search/line transect data. However, this hasn't been done for
+  any other data types yet anywhere in the book, so I'll wait until
+  there is a template to follow/refer to before writing this
+  yere. Also need an example data set to fit, below.}
+
+Fitting an area search or line transect model can then be achieved
+with a simple call to \texttt{secr.fit()}:
+<<area-transect-area-fit, eval = FALSE>>=
+area.fit <- fit.secr(capt = area.capt, buffer = 100)
+@
+
+This fits the model via maximum likelihood, using a Gaussian
+quadrature rule (as discussed in Section
+\ref{sec:area-transect-computation}). However, there are some
+restrictions under this framework:
+\begin{enumerate}
+\item The \texttt{secr} package allows the user to attach a single
+  value for each covariate and a single value of effort to each
+  detectors (in this case, each area searched or line transect
+  travelled). However, these can vary within area search and line
+  transect detectors. Thus, this model-fitting approach does
+  \emph{not} allow heterogeneity in covariate values or effort within
+  detectors.
+\item As it is currently implemented, approximation of integrals by
+  Gaussian quadrature requires that each area is convex in a
+  left-to-right direction. That is, drawing a vertical line through
+  the area at any point will only pass through the boundary twice.
+\end{enumerate}
+For some simple remedies to the second restriction, see the
+\texttt{secr} package's vignette on area search and line transect
+detectors.
+
+\subsection{Discretising areas and line transects}
+
+A more general solution to both of the above problems is to use a
+standard quadrature rule. Recall that integration over activity
+centres is approximated by discretising the survey area into mask
+points. The same can be achieved here by breaking down areas and line
+transects into `pixels', each of which is represented by a single
+`trap'. Each detection is allocated to the nearest pixel. These traps
+either act like proximity detectors (for cue-based surveys) or
+multi-catch traps (for individual-based surveys).
+
+Capture history objects for area search or line transect data can
+easily be discretised into arrays of proximity detectors or
+multi-catch traps using the \texttt{discretise()} function:
+<<area-transect-discretise, eval = FALSE>>=
+area.capt.discrete <- discretize(traps, spacing = 10, 
+                                 outputdetector = "count")
+@ 
+
+The \texttt{spacing} argument specifies the distance between `traps'
+(or centres of pixels) that are adjacent in the grid. Deciding upon a
+sensible value for this is a similar process for deciding the spacing
+between mask points (Section \ref{sec:??}): \todo{insert secton
+  reference} decreasing the spacing decreases the error of the
+approximation of the integrals, but increases computation
+time. Spacing should be decreased to a small enough value such that
+any further reduction results in changes to the parameter estimates
+that are negligible in size.
+
+For the \texttt{outputdetector} argument, recall that the
+\texttt{secr} package calls proximity detectors that record counts
+`count' detectors, while `proximity' detectors are only capable of
+recording binary response data.
+
+
 \section{Summary}
 \label{sec:area-transect-summary}
+
+%% Some discussion points:
+
+%% Transect detectors vs distance sampling.
+
+%% Inability to identify individuals.
+%%  - Forward reference David's ML approach and trace contrast.
+
+
