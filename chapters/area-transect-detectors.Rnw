@@ -158,16 +158,19 @@ Intuitively, more of an individual's cues are likely to be closer to
 its activity centre. We can model this by treating the locations of
 detected cues as a Poisson point pattern; refer to Section
 \ref{sec:spmod-pps} for a summary of Poisson point processes. We do
-this by fitting a \emph{cue intensity function}, $\Lambda(d)$ instead
-of an encounter rate function, $\lambda(d)$. The former can take the
-same parameters and thus has the same general set of functional forms
-at the latter, but its interpretation is slightly different. Rather
-than being the number of detections per unit time and a detector
-located at a discrete point distance $d$ from an activity centre, it
-is (1) the density of cues per unit area that are found upon a search
-at distance $d$ from an activity centre for area searches, or (2) the
-density of cues per unit distance of the transect travelled that are
-found at distance $d$ from an activity centre for line transects.
+this by fitting a \emph{cue intensity function}, $\Lambda_{ik}(d)$
+instead of an encounter rate function, $\lambda_{ijk}(d)$. The former
+can take the same parameters and thus has the same general set of
+functional forms at the latter, but its interpretation is slightly
+different. Rather than being the number of detections per unit time
+and a detector located at a discrete point distance $d$ from an
+activity centre, it is (1) the density of cues per unit area that are
+found upon a search at distance $d$ from an activity centre for area
+searches, or (2) the density of cues per unit distance of the transect
+travelled that are found at distance $d$ from an activity centre for
+line transects. The subscripts of $i$ and $k$ of the function
+$\Lambda_{ik}(d)$ acknowledge that it may vary both across individuals
+and across occasions, as introduced in Chapter \ref{ch:detcovs}.
 
 Let $d(\bm{x}, \bm{s})$ the distance between some location $\bm{x}$
 and a hypothetical activity centre $\bm{s}$. Recall from Section
@@ -176,7 +179,7 @@ Poisson point process can be found by integrating over its
 domain. Thus, for area searches, the number of cues we find from one
 particular individual with activity centre $\bm{s}$ upon a total
 search of its home range is a Poisson random variable with expectation
-$\int_{R^2} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}$.
+$\int_{R^2} \Lambda_{ik}(d(\bm{x}, \bm{s})) d\bm{x}$.
 
 Many areas may be searched over the course of an area search survey,
 and these can take the shape of any polygon; likewise, many transects
@@ -187,8 +190,8 @@ cues found within $A_j$ can be determined by only integrating over
 this region; that is, the expected number of the $i$th individual's
 cues detected in the $j$th area on the $k$th occasion is
 \begin{equation}
-  \lambda_{ijk} = \int_{A_j} \Lambda(d(\bm{x}, \bm{s})) d\bm{x}.
-  \nonumber
+  \lambda_{ijk} = \int_{A_j} \Lambda_{ik}(d(\bm{x}, \bm{s})) d\bm{x}.
+  \label{eq:area-transect-er}
 \end{equation}
 The above also holds for line transect surveys, but the integral is
 now a \emph{line integral}---it reperesents the area beneath the cue
@@ -199,7 +202,7 @@ detectors, due to independence we obtain
   [ \bm{\omega}_{ijk} | \bm{s}_i ] = \mathrm{Poisson}(\lambda_{ijk}). \nonumber
 \end{equation}
 
-<<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = 4.80405, out.width = add.in(textwidth), out.height = add.in(4.80405), fig.pos = "tb", fig.cap = "Hypothetical surveys on which two areas are searched (top row) or line transects are travelled (bottom row). The cue intensity function $\\Lambda(\\bm{x})$ is depicted by the darkness of the grey shading in the plots on the left. The expected number of cues detected within $A_1$ and $A_2$ for either survey are found by calculating the volume under the red and blue surfaces (top right) for area searches, or the area beneath the red and blue lines (bottom right) for area search and line transect surveys, respectively.">>=
+<<area-transect-integral, echo = FALSE, fig.width = textwidth, fig.height = 4.80405, out.width = add.in(textwidth), out.height = add.in(4.80405), fig.pos = "tb", fig.cap = "Hypothetical surveys on which two areas are searched (top row) or line transects are travelled (bottom row). The cue intensity function $\\Lambda_{ik}(\\bm{x})$ is depicted by the darkness of the grey shading in the plots on the left. The expected number of cues detected within $A_1$ and $A_2$ for either survey are found by calculating the volume under the red and blue surfaces (top right) for area searches, or the area beneath the red and blue lines (bottom right) for area search and line transect surveys, respectively.">>=
 par(oma = c(2, 0, 0, 2) + 0.1, mar = rep(0, 4), xaxs = "i", yaxs = "i")
 inches.per.line <- par("omi")[1]/par("oma")[1]
 mar.width <- sum(par("omi")[c(2, 4)])
@@ -245,6 +248,7 @@ text(area2.vertices[3, 1], area2.vertices[3, 2], expression(A[2]), adj = c(-0.25
 box()
 ## Top right.
 plot.new()
+box()
 par(new = TRUE)
 ## Floor of box.
 z.temp <- matrix(rep(0, 4), nrow = 2, ncol = 2)
@@ -362,14 +366,14 @@ mtext(expression(paste(Lambda, "(", italic(d), "(", bolditalic(x), ",", boldital
 
 \todo[inline]{Something that I have realised, which I think is a neat
   thing to point out: When detectors are {\bf two}-dimensional areas,
-  then $\Lambda()$ is expected number of detetections per occasion per
+  then $\Lambda_{ik}()$ is expected number of detetections per occasion per
   km$^\mathbf{2}$ searched and we need to evaluate a {\bf
     two}-dimensional integral to get $\lambda_{ijk}$. When detectors
-  are {\bf one}-dimensional lines (i.e., transects), then $\Lambda()$
+  are {\bf one}-dimensional lines (i.e., transects), then $\Lambda_{ik}()$
   is expected number of detections per occasion per km$^\mathbf{1}$
   travelled and we need to evaluate a {\bf one}-dimensional integral
   to get $\lambda_{ijk}$. When detectors are {\bf zero}-dimensional
-  points, then $\Lambda()$ (or just $\lambda()$) is expected number of
+  points, then $\Lambda_{ik}()$ (or just $\lambda()$) is expected number of
   detetections per occasion per km$^\mathbf{0}$ (i.e., just detections
   per occasion) and we need to evaluate a {\bf zero}-dimensional
   integral to get $\lambda_{ijk}$ (i.e., we don't actually need to
@@ -387,8 +391,8 @@ transect is
 \begin{align}
   [ \bm{y}_{ijk} | \omega_{ijk}, \bm{s}_i ] &= \prod_{l =
     1}^{\omega_{ijk}} [ \bm{y}_{ijkl} | \omega_{ijkl}, \bm{s}_i ] \nonumber
-  \\ &= \prod_{l = 1}^{\omega_{ijk}}\frac{\Lambda(d(\bm{y}_{ijkl},
-    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
+  \\ &= \prod_{l = 1}^{\omega_{ijk}}\frac{\Lambda_{ik}(d(\bm{y}_{ijkl},
+    \bm{s}_i))}{\int_{A_j} \Lambda_{ik}(d(\bm{x}, \bm{s}_i))
     d\bm{x}}, \hspace{2em} \bm{y}_{ijkl} \in A_j, \nonumber
 \end{align}
 where $\bm{y_{ijkl}}$ is the location of the $l$th detected cue from
@@ -415,16 +419,16 @@ transects may not detect it. This provides the likelihood component
   \bm{s}_i] \times [\bm{y}_{i \cdot k} | \bm{\omega}_{i \cdot k}, \bm{s}_i]. \nonumber
 \end{equation}
 
-For area searches, we redefine $\Lambda(d)$ as the probability density
+For area searches, we redefine $\Lambda_{ik}(d)$ as the probability density
 of the location of an individual at distance $d$ from its activity
 centre. That is, for every one square unit of area searched at
-distance $\Lambda(d)$ from the activity centre, there is a
-$\Lambda(d)$ probability that the animal is within that area (i.e., it
+distance $\Lambda_{ik}(d)$ from the activity centre, there is a
+$\Lambda_{ik}(d)$ probability that the animal is within that area (i.e., it
 is \emph{detectable}). Furthermore, even upon searching an area that
 encapsulates its location on the $k$th occasion, there is a chance
 that it will nevertheless be detected; let $p_d$ be the probability of
 successfully detecting an individual, given that it is in a searched
-area. Likewise, for line transect surveys, we redefine $\Lambda(d)$ so
+area. Likewise, for line transect surveys, we redefine $\Lambda_{ik}(d)$ so
 that it gives the probability of the animal being detectable from the
 transect per unit distance of transect travelled at distance $d$ from
 the activity centre. \todo{I struggled to explain this part nicely. If
@@ -435,8 +439,8 @@ The probability of the individual both being detectable at the $j$th
 searched area or transect on the $k$th occasion \emph{and} being
 detected is therefore
 \begin{equation}
-  \Pr(\omega_{ijk} = 1 | \bm{s}_i) = p_d \int_{A_j} \Lambda(d(\bm{x},
-  \bm{s})) d\bm{x}, \nonumber
+  \Pr(\omega_{ijk} = 1 | \bm{s}_i) = p_d \int_{A_j} \Lambda_{ik}(d(\bm{x},
+  \bm{s})) d\bm{x}, \label{eq:area-transect-prob}
 \end{equation}
 and so we obtain
 \begin{equation}
@@ -449,16 +453,84 @@ and so we obtain
 Given detection at the $j$th area or transect, the PDF for the precise
 location within the area or along the transect remains as per cue-based surveys:
 \begin{equation}
-  [ \bm{y}_{i \cdot k} | \bm{\omega}_{i \cdot k}, \bm{s}_i ] = \frac{\Lambda(d(\bm{y}_{i \cdot k},
-    \bm{s}_i))}{\int_{A_j} \Lambda(d(\bm{x}, \bm{s}_i))
+  [ \bm{y}_{i \cdot k} | \bm{\omega}_{i \cdot k}, \bm{s}_i ] = \frac{\Lambda_{ik}(d(\bm{y}_{i \cdot k},
+    \bm{s}_i))}{\int_{A_j} \Lambda_{ik}(d(\bm{x}, \bm{s}_i))
     d\bm{x}}, \hspace{2em} \bm{y}_{i \cdot k} \in \{A_j: \bm{\omega}_{ijk} = 1\}. \nonumber
 \end{equation}
 One difference here is that we only observe a single pair of
 coordinates in $\bm{y}_{i \cdot k}$, as we only make a single
 detection of an individual during any given occasion.
 
-\section{Spatial heterogeneity in detectability and effort}
-\label{sec:area-transect-spatial}
+\section{Spatial heterogeneity in detectability}
+\label{sec:area-treansect-spatial-het}
+
+Detectability of animals may vary over space, for example due to
+covariates (Section \ref{sec:ERdetfun-dos-effects} or varying effort
+(Section \ref{sec:ERdetfund-effort}) across detectors. For example,
+all else being equal, camera traps are likely to make more detections
+if they are positions in open plains rather than dense jungle (due to
+a clearer line of sight) and if they operate for longer.
+
+Accounting for such effects was achieved by attaching covariates
+(e.g., habitat) and effort data to each detector. However, for area
+search and line transect surveys, such variables may vary
+\emph{within} detectors. We extend the function $\Lambda_{ik}(d)$ to
+$\Lambda_{ixk}(d)$ to account for this---it now allows for
+heterogeneity across space in the same way $\lambda_{ijk}(d)$ allows
+for heterogeneity across point detectors in earlier chapters. This
+means that covariates and effort must be measured at all locations
+within each area or transect.
+
+One important point to note is that---if effort is measured in time
+searched---it may no longer be sensible to model effort similarly to
+how it was for point detectors. Previously, it was assumed that effort
+was directly proportional to encounter rates; for example, all else
+being equal, a camera trap operating for twice as long was expected to
+make twice the number of detections. However, there is likely a
+nonlinear relationship between encouter rate and effort with area and
+line transect searches. For example, if cues are easily spotted, then
+a search of time $T$ may detect $90\%$ of the cues within a searched
+region. Searching for a further period of time $T$ (resulting in total
+effort of $2T$) cannot possibly detect as many cues again, as only
+$10\%$ of those that are available remain. In such cases, it may be
+more sensible to model effort as one would any other
+covariate---although restricting parameters so that the relationship
+is monotonic increasing appears sensible (i.e., in no cases should
+additional effort decrease the encounter rate).\todo{There appear
+  links between area searches and removal methods in this regard, but
+  I don't know enough about the latter to mention anything sensible
+  about this.}
+
+\section{Computation}
+\label{sec:area-transect-computation}
+
+The SCR likelihood function for area search and line transect surveys
+has an additional layer of complexity---for each individual it is
+necessary to not only integrate over the possible activity centre
+location, but additionally over each area or transect in order to
+calculate the encounter rates (Equation \eqref{eq:area-transect-er})
+or detection probabilities (Equation \eqref{eq:area-transect-prob}).
+
+As before, integration over activity centre locations can be
+approximated by summing over the mask points, as per Section
+\ref{sec:}. \todo{Insert section reference. At the time of writing I
+  can't find any detail on this integration in earlier chapters?}  Two
+methods of approximating the integrals over each area or transect in
+the that have been used are as follows:
+\begin{enumerate}
+\item Using the same simple quadrature rule as per integration over
+  mask points. This splits each area searched into `pixels' or each
+  transect into a series of short distances, over which a sum is
+  computed.
+\item Using \emph{Gaussian quadarature}. Such quadrature rules require
+  that the integral is of a specific form, and they are typically more
+  accurate than simpler quadrature rules when their use is appropriate
+  (or, alternatively, can be computed more efficiently for equivalent
+  approximation error).
+\end{enumerate}
+
+\section{In \texttt{secr}}
+\label{sec:area-transect-secr}
 
 \section{Summary}
 \label{sec:area-transect-summary}
