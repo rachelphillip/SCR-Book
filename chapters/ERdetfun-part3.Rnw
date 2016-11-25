@@ -1,12 +1,12 @@
 \section{Individual effects (trap response and heterogeneity)}
 
 \todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify to individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
-\ben
+\bi
 \item Covariates that are known for all individuals at all times,
 \item Covariates that are known for no individuals.
 \item Covariates that are known for some individuals (usually those that were captured at least once) at all times,
 \item Covariates that are known only for the captured individuals and only at the times of their capture, and
-\een
+\ei
 
 Except in the case of the first item above, the values of some individual-level covariates in the population of interest are unobserved, and are therefore latent variables. The way we deal with latent variables is by modelling their probability distribution. This adds complexity, so let's deal with the first item above first. What is this covariate that we know for individuals that we never detect?
 
@@ -15,7 +15,7 @@ Except in the case of the first item above, the values of some individual-level 
 
 Behvioural response to catpure or detection can be modelled using an indicator variable that indicates whether or not an individual has been detected previously. If we define it to be $b_{ik}=1$ if individual $i$ was detected at least once before occasion $k$ and $b_{ik}=0$ if not, then each individual has a vector $\bm{b}_i=(b_{i1},\ldots,b_{iK})$ attached to it, and we know that for individuals that were never detected, this is a vector of zeros. To model a behavioural effect (``trap happiness'' or ``trap shyness'') we just add this covariate to the linear predictor at the relevant level.
 
-For example, suppose that we are currently using a linear predictor $\eta_{ijk}$ for a model in which individuals have no behavioural response to being detected (or captured) and we want to investigate whether detection probability changes after first capture. We could fit a model with linear predictor
+For example, suppose that we are currently using a linear predictor $\eta_{ijk}$ for a model in which individuals have no behavioural response to being detected (or captured) and we want to investigate whether detection probability changes after first capture. We could fit a model with linear predictor \todo[inline]{first mention in the book of linear predictor; should the blow be softened?}
 \be
 \eta_{ijk}^*&=&\eta_{ijk} + \beta_b b_{ijk}
 \label{eq:ERdetfun-eta_b}
