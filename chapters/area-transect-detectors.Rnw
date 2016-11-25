@@ -532,5 +532,33 @@ the that have been used are as follows:
 \section{In \texttt{secr}}
 \label{sec:area-transect-secr}
 
+Setting up area search detectors in the \texttt{secr} package can be
+achieved by specifying the vertices of the polygons that define the
+boundary of the areas searched, before calling the \texttt{secr}
+function \texttt{make.poly()}. Area searches are called `polygon'
+detectors in \texttt{secr}. For example, to set up two square areas
+with sides of length 200 m (similar to the configuration in Figure
+\ref{fig:area-transect-integral}), we can use the following code:
+<<area-transect-area-setup>>=
+## First area's vertices.
+area1 <- data.frame(x = c(100, 300, 300, 100),
+                    y = c(300, 300, 100, 100))
+## Second area's vertices.
+area2 <- data.frame(x = c(-300, -100, -100, -300),
+                    y = c(400, 400, 200, 200))
+## Making the traps object.
+traps <- make.poly(polylist = list(area1, area2), 
+                   exclusive = FALSE)
+@ 
+The argument \texttt{exclusive} determines whether or not an
+individual can be detected more than once per occasion---and so this
+should be \texttt{FALSE} for cue-based surveys, and \texttt{TRUE} for
+individual-based surveys.
+
+Objects can be created similarly for line transect surveys---data
+frames define a series of points along a transect, and
+\texttt{make.transect()} (rather than \texttt{make.poly()}) is used to
+combine these into a traps object.
+
 \section{Summary}
 \label{sec:area-transect-summary}
