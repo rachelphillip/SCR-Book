@@ -48,13 +48,9 @@ whether individuals or cues are the unit of detection:
   occasion provides enough information to fit an SCR model.
 \end{enumerate}
 In both cases, any given area or transect may detect multiple
-individuals in a single occasion. This means that it is \emph{not}
-necessary to search more than one unique area or travel more than one
-unique trasect---the exact location of each detection is recorded, and
-so a single area or line transect can provide the spatial recaptures
-that are required. The distinction above is equivalent to that seen
-between multi-catch traps and proximity detectors in Chapter
-\ref{chap:det-types}:
+individuals in a single occasion.  The distinction above is equivalent
+to that seen between multi-catch traps and proximity detectors in
+Chapter \ref{chap:det-types}:
 \begin{enumerate}
 \item On a multi-catch trap survey, any given individual can only be
   detected by, at most, one detector, and multiple occasions are
@@ -63,6 +59,15 @@ between multi-catch traps and proximity detectors in Chapter
   any number of detectors, and may even be detected by the same
   detector numerous times.
 \end{enumerate}
+
+It is \emph{not} necessary to search more than one unique area or
+travel more than one unique trasect---the exact location of each
+detection is recorded, and so a single area or line transect can
+provide the spatial recaptures that are required. Also, note that line
+transect surveys as described here only record detection locations on
+the one-dimensional transect, and not perpendicular distances from the
+transect. SCR methods to use the perpendicular distances have not yet
+been developed.
 
 The SCR framework we have established is extended in Section
 \ref{sec:area-transect-likelihood} for area and line transect survey
