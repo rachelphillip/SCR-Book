@@ -333,7 +333,14 @@ on the $k$th occasion is
 \be 
 \mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}, \label{eq:det-types-multi-det}
 \ee
-see Figure \ref{fig:det-types-multi}.
+see Figure \ref{fig:det-types-multi}, and so we obtain
+\be
+[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
+\begin{cases}
+     \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if trapped by detector $j$.} \\
+     1 - \sum_{j = 1}^J \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if not detected by any detector,} 
+\end{cases}
+\ee
 
 <<det-types-multi, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textwidth, out.width = add.in(textwidth), out.height = add.in(0.4*textwidth), fig.pos = "tb", eval.after = "fig.cap", fig.cap = paste("A hypothetical array of multi-catch traps (solid points) and an activity centre (cross). Grey values next to detectors show the expected encounter rates, which depend on an encounter rate function that declines as distance to the activity centre increases. In this situation the probability of no detection is $1 - p_{i \\cdot k} = ", format(round(p.evade.all, 3), nsmall = 3), "$. The remaining probability of $p_{i \\cdot k} = ", format(round(1 - p.evade.all, 3), nsmall = 3), "$ is split up among the traps proportional to their respective encounter rates, resulting in the capture probabilities shown in black.", sep = "")>>=
 traps.x <- rep(c(5, 15, 25), 3)
@@ -362,15 +369,6 @@ text(traps.x, traps.y, labels = format(round(p.capture, 3), nsmall = 3), c(-0.05
 #     adj = c(1.05, 1.05))   
 @ 
 
-Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
-\eqref{eq:det-types-multi-det} together, we obtain
-\be
-[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
-\begin{cases}
-  1 - p_{i \cdot k} & \text{if not detected by any detector,} \\
-  p_{i \cdot k}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}} & \text{if trapped by detector $j$.}
-\end{cases}
-\ee
 
 The encounter rates, $\lambda_{ijk}$, are interpreted as the number of
 encounters we would expect between the $i$th individual and the $j$th
