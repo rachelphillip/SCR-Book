@@ -545,7 +545,7 @@ boundary of the areas searched, before calling the \texttt{secr}
 function \texttt{make.poly()}. For example, to set up two square areas
 with sides of length 200 m (similar to the configuration in Figure
 \ref{fig:area-transect-integral}), we can use the following code:
-<<area-transect-area-setup, eval = FALSE>>=
+<<area-transect-area-setup>>=
 ## First area's vertices.
 area1 <- data.frame(x = c(100, 300, 300, 100),
                     y = c(300, 300, 100, 100))
@@ -553,8 +553,8 @@ area1 <- data.frame(x = c(100, 300, 300, 100),
 area2 <- data.frame(x = c(-300, -100, -100, -300),
                     y = c(400, 400, 200, 200))
 ## Making the traps object.
-traps <- make.poly(polylist = list(area1, area2), 
-                   exclusive = FALSE)
+area.traps <- make.poly(polylist = list(area1, area2), 
+                        exclusive = FALSE)
 @ 
 The argument \texttt{exclusive} determines whether or not an
 individual can be detected more than once per occasion---and so this
@@ -575,7 +575,7 @@ detectors).
   area search/line transect data. However, this hasn't been done for
   any other data types yet anywhere in the book, so I'll wait until
   there is a template to follow/refer to before writing this
-  yere. Also need an example data set to fit, below.}
+  here. Also need an example data set to fit, below.}
 
 Fitting an area search or line transect model can then be achieved
 with a simple call to \texttt{secr.fit()}:
@@ -611,16 +611,25 @@ standard quadrature rule. Recall that integration over activity
 centres is approximated by discretising the survey area into mask
 points. The same can be achieved here by breaking down areas and line
 transects into `pixels', each of which is represented by a single
-`trap'. Each detection is allocated to the nearest pixel. These traps
-either act like proximity detectors (for cue-based surveys) or
-multi-catch traps (for individual-based surveys).
+`trap' (Figure \ref{fig:area-transect-discretise-plot}). Each
+detection is allocated to the nearest pixel. These traps either act
+like proximity detectors (for cue-based surveys) or multi-catch traps
+(for individual-based surveys).
 
 Capture history objects for area search or line transect data can
 easily be discretised into arrays of proximity detectors or
 multi-catch traps using the \texttt{discretise()} function:
 <<area-transect-discretise, eval = FALSE>>=
-area.capt.discrete <- discretize(traps, spacing = 10, 
+area.capt.discrete <- discretize(area.capt, spacing = 20, 
                                  outputdetector = "count")
+@ 
+<<area-transect-discretise-plot, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textwidth, out.width = add.in(textwidth), out.height = add.in(0.4*textwidth), fig.pos = "tb", fig.cap = "The original area search \\texttt{traps} object (left), and a discretised \\texttt{traps} object (right). For the latter, the centre of each cross is considered the location of a proximity detector.">>=
+par(mfrow = c(1, 2), mar = rep(0, 4), oma = rep(0, 4))
+area.traps.discrete <- discretize(area.traps, spacing = 20, 
+                             outputdetector = "count")
+plot(area.traps.discrete, hidetr = TRUE)
+plot(area.traps, add = TRUE)
+plot(area.traps.discrete)
 @ 
 
 The \texttt{spacing} argument specifies the distance between `traps'
@@ -631,16 +640,58 @@ between mask points (Section \ref{sec:??}): \todo{insert secton
 approximation of the integrals, but increases computation
 time. Spacing should be decreased to a small enough value such that
 any further reduction results in changes to the parameter estimates
-that are negligible in size.
+that are negligible in size. For the \texttt{outputdetector} argument,
+recall that the \texttt{secr} package calls proximity detectors that
+record counts `count' detectors, while `proximity' detectors are only
+capable of recording binary response data.
 
-For the \texttt{outputdetector} argument, recall that the
-\texttt{secr} package calls proximity detectors that record counts
-`count' detectors, while `proximity' detectors are only capable of
-recording binary response data.
-
+Importantly, now that areas have been broken down into a series of
+discrete locations, we can now attach effort and habitat covariates to
+each as per Section \ref{sec:??}---we no longer need to assume that
+cues or individuals are equally detectable within each area.
 
 \section{Summary}
 \label{sec:area-transect-summary}
+
+In this chapter we have considered SCR models for area search and line
+transect surveys. Such surveys are common for the collection of
+wildlife data, and other analysis methods exist to provide inference
+about demographic parameters.
+
+For example, distance sampling \citep[DS;][]{Buckland+al:01,
+  Buckland+al:04} is a ubiquitious framework for the estimation of
+animal density from line transect data. However, SCR and DS models for
+line transect data vary slightly in the data that they model and the
+parameters that are estimated. First, SCR methods require detection
+and subsequent redetection of at least some individuals and account
+for the spatial dependence between detection of the same individual,
+while tradtional DS methods assume independence across detections, and
+thus that each individual is only detected once. Second, traditional
+DS methods use perpendicular distances from the transect to detections
+to estimate a detection function, which is interpreted as the
+probability of detecting an individual or cue that is physically
+located at some distance from the transect at the time of the survey;
+SCR, on the other hand, estimates a function that refers to the
+distance from an individual's activity centre. 
+
+As they currently exist, SCR methods for line transect data ignore the
+perpendicular distances, and only use the location of the observer on
+the transect at the time of each detection. This circumvents the need
+to estimate a `distance sampling' detection function for how the
+detectability of animals or their cues decreases with increasing
+physical distance from the transect at the time of the
+survey. However, this discards some potentially useful information,
+and so development of a hybrid SCR and DS model has the potential to
+improve inference.
+
+A practical issue concerned with area search and line transect survey
+data is the potential inability to identify individuals. If
+individuals cannot be marked upon first detection, then recognition
+based on physical characteristics can be difficult or impossible. Even
+attempts to identify individuals from their cues using microsatellite
+DNA can be prone to error \citep{Fewster:16}. In Chapter \ref{chap:??}
+we present two methods that can be applied to area search data, and do
+not require the collection of animal identities.
 
 %% Some discussion points:
 
