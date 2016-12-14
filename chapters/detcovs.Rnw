@@ -9,6 +9,8 @@ Mention distance as an explanatory variable that is always used in SCR.}
 
 \section{Link function formulation}
 
+\todo[inline]{hopefully the intro will remedy this; the different formulations are pretty deep water for the uninitiated, readers need a motiviation for why they are being taken through this.  Why not just a single formulation; is one better than the other?}
+
 The GLM \{link function; linear predictor\} form for modelling detection probability is commonplace in non-spatial capture-recapture literature. This formulation uses a limited number of ``link function'' forms to link a linear function of the parameters (the ``linear predictor'') to the expected value of the dependent variable (expected encounter rate or detection probability in the SCR case). For example, expected encounter rate $\lambda(x)$, and detection probability $p(x)$, could be modelled as functions of a covariate $x$ using a linear predictor $\beta_0 + \beta_x x$ with a ``log link'' for expected encounter rate, and a ``complimentary log-log link'' for detection probability, thus:
 \be
 \lambda(x)&=&e^{\beta_0 + \beta_x x} \nonumber \\
@@ -55,11 +57,13 @@ Unlike non-spatial CR models, SCR models tend to use the \{intercept; scale\} fo
 
 \section{Modelling intercept and scale parameters}
 
+\todo[inline]{this might better fit before the previous section--it is more understandable}
+
 While there is no single correct way to model the dependence of encounter rate and detection probability on the covariates, it is commonly done
-\ben
+\bi
 \item by making the intercept of the encounter rate function ($\lambda_0$) or the detection function ($g_0$) depend on covariates and/or
 \item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
-\een
+\ei
 
 These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But this would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a parameter of interest ($g_0$ in this example).
 
@@ -127,6 +131,7 @@ The \texttt{secr} package automatically selects the log link for $\sigma$ and $\
 
 \subsection{Effort effects}
 \label{sec:ERdetfund-effort}
+\todo[inline]{struggling to see how an ecologist will use this info}
 
 Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)
 
@@ -220,7 +225,7 @@ The code is here: .../scrmlebook/inst/code/wolverine4secr.r and the data is here
 
 I think it is quite a useful dataset, and it also has variable-effort.
 
-Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture–reecapture models. Journal of Wildlife Management 75, 604–611.}
+Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture reecapture models. Journal of Wildlife Management 75, 604-611.}
 
 \subsection{Unobserved covariates}
 
@@ -232,7 +237,7 @@ There are two kinds of such model: probability density functions (PDFs), which t
 
 Discrete latent covariate models in CR were first developed by \cite{Pledger:00}. Continuous models for latent capture probabilities were first developed by \cite{Burnham:72} and more recently by \cite{Dorazio+Royle:03}. There has been a lively debate about the advantages and disadvantages of each approach. \todo{Byron's approach?} The discrete covariate approach is usually called a ``finite mixture model'' and the approach developed for non-spatial CR by \cite{Pledger:00} was adapted by \cite{Borchers+Efford:08} for SCR. The continuous covariate approach is sometimes called an ``infinite mixture model''.\todo{Are there Bayesian SCR implementations?}
 
-In the case of a discrete latent covariate $z$, we hypothesize that there are $h$ possible (unkonwn and unobserved) values $u_1,\ldots,u_h$ that the covariate can take and we assume a particular form for the PMF $f(z)$ from which these values are drawn. The most commonly-used PMF in this context for SCR models is a multinomial with $(h-1)$ parameters. This involves no assumptions about the shape of the PMF. If we use a two-part mixture model $h=2$, this leads to a Bernoulli PMF with a single parameter $\phi_1$. For $h>2$, we have a parameter vector of probabilities $\bm{\phi}_z=(\phi_1,\ldots,\phi_{h-1})$. (In all cases $\phi_h=1-\sum_{v=1}^{h-1}\phi_v$.)
+In the case of a discrete latent covariate $z$, we hypothesize that there are $h$ possible (unknown and unobserved) values $u_1,\ldots,u_h$ that the covariate can take and we assume a particular form for the PMF $f(z)$ from which these values are drawn. The most commonly-used PMF in this context for SCR models is a multinomial with $(h-1)$ parameters. This involves no assumptions about the shape of the PMF. If we use a two-part mixture model $h=2$, this leads to a Bernoulli PMF with a single parameter $\phi_1$. For $h>2$, we have a parameter vector of probabilities $\bm{\phi}_z=(\phi_1,\ldots,\phi_{h-1})$. (In all cases $\phi_h=1-\sum_{v=1}^{h-1}\phi_v$.)
 
 As with any covariate, we model the effect of latent covariates via the relevant linear predictor(s) for $g_0$ or $\lambda_0$, $\sigma$ or the detection function if it is being modelled directly using a \{link function; linear predictor\} detection function form:
 \be
@@ -331,7 +336,7 @@ d^{(c)}(\bm{s}_m,\bm{s}_{m^*})&=&c(\bm{s}_m,\bm{s}_{m^*})d(\bm{s}_{m},\bm{s}_{m^
 \noindent
 where $d(\bm{s}_{m},\bm{s}_{m^*})=||\bm{s}_{m}-\bm{s}_{m^*}||$ is the Euclidian (straight-line) distance between $\bm{s}_{m}$ and $\bm{s}_{m^*}$  and $c(\bm{s}_m,\bm{s}_{m^*})$ is the cost rate function that reflects the cost per unit distance of moving between $\bm{s}_m$ and $\bm{s}_{m^*}$. (In the context of least-cost paths, this is sometimes referred to as the \textit{resistance}, while its inverse $\sigma(\bm{s}_m,\bm{s}_{m^*})=c(\bm{s}_m,\bm{s}_{m^*})^{-1}$ would be referred to as the \textit{conductance}.) %Models that use straight-line distances have $c(\bm{s}_m,\bm{s}_{m^*})=\sigma^{-1}$.
 
-\cite{Royle+al:13a} and \cite{Sutherland+al:14}\todo{And others?} used the following cost rate function:
+\cite{Royle+al:13a} and \cite{Sutherland+al:15}\todo{And others?} used the following cost rate function:
 \be
 c(\bm{s}_m,\bm{s}_{m^*})&=&\frac{c^{(e)}(\bm{s}_m,\bm{s}_{m^*})}{\sigma_0}\;=\;\frac{\exp\left\{\beta_c\frac{z(\bm{s}_m)+z(\bm{s}_{m^*})}{2}\right\}}{\sigma_0},
 \label{eq:detcovs_royle_cost_fn}
@@ -388,7 +393,7 @@ Dijkstra's algorithm is an efficient way of finding the least-cost path across n
 
 \subsection{Summary}
 
-The idea of using spatial covariates to scale distance differently at different points in space, or of ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective, is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, it better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:14} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
+The idea of using spatial covariates to scale distance differently at different points in space, or of ``ecological distance'' instead of straight-line distance to measeure the distance between points in space from the target species' perspective, is a powerful one. It facilitates a number of useful ecological interpretations, including inferences about landscape connectivity, it better reflects individuals' behaviour in heterogeneous environments, and \cite{Sutherland+al:15} showed that using Euclidian distance in highly structured environments when individuals move according to an ecological, non-Euclidian, distance, results in negatively biased density and abundance estimates. 
 
 \textit{Mention least-cost distance in acoustic surveys more? Would be nice to have an application!}
 

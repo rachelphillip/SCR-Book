@@ -66,7 +66,7 @@ We can formalise these observations by fitting an encounter rate function to the
 \label{eq:ER+detfun.lambda.hn}
 \ee
 
-We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:ER+detfun_enc}. However, we need to take account of the survey duration to do this because the longer the survey, the higher the number of encounters will be. (Recall that $\lambda(d)$ is an encounter \textit{rate}, i.e. number of encounters \textit{per unit time}.) This is very easily done, because the expected number of encounters is proportional to the time spent surveying: if you survey for twice as long, you expect twice as many encounters. The expected \textit{number} of encounters on a survey of duration $T$ time units is just $\lambda(d)T$. This is shown in Figure~\ref{fig:ER+detfun_ENwithdists}.
+We can estimate $\lambda_0$ and $\sigma$ by fitting this function to the data in Figure~\ref{fig:ER+detfun_enc}. However, we need to take account of the survey duration to do this because the longer the survey, the higher the number of encounters will be. (Recall that \todo[inline]{in eqn. above, d had subscripts, now they have disappeared} $\lambda(d)$ is an encounter \textit{rate}, i.e. number of encounters \textit{per unit time}.) This is very easily done, because the expected number of encounters is proportional to the time spent surveying: if you survey for twice as long, you expect twice as many encounters. The expected \textit{number} of encounters on a survey of duration $T$ time units is just $\lambda(d)T$. This is shown in Figure~\ref{fig:ER+detfun_ENwithdists}.
 
 \begin{figure}[ht]
 \caption{\small The encounter rate function $\lambda(d)$ scaled by survey duration $T$ and centred at $\bm{s}_i$. Distances from $\bm{x}_i$ to each camera trap are shown below the curve and the expected number of encounters at each camera trap ($\lambda(d_{ij})T$ to camera trap $j=1,\ldots,5$) is marked on the curve.}
@@ -123,7 +123,7 @@ We can write the probability that individual $i$ is detected by (i.e. encounters
 p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T}. 
 \label{eq:ER+detfun.binaryp}
 \ee
-Notice that this probability depends on the survey duration, $T$. If the same detector is used for different periods of time on two occasions, it will have different detection probabilities on the two occasions, and if identical detectors are used for different periods of time on the same occasion, they will have different detection probabilities. It is important to take account of this when doing SCR inference.
+Notice that this probability depends on the survey duration, $T$. If the same detector is used for different periods of time on two occasions, it will have different detection probabilities on the two occasions, and if identical detectors are used for different periods of time on the same occasion, they will have different detection probabilities. It is important to take account of this when performing SCR inference.
 
 
 \begin{figure}[ht]
@@ -150,7 +150,7 @@ The binary detection function $p(d_{ij},T)$ for the encounter rate model $\lambd
 \subsection{The capture history likelihood component: binary data}
 \label{subsec:ER+detfun.binarylikelihood}
 
-Using $\delta_{ij}$ to indicate whether or not individual $i$ encountered detector $j$ ($\delta_{ij}=1$ if detected, $\delta_{ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta_{i1},\ldots,\delta_{iJ})$. Assuming that encounters occur independently on each detector, then an individual's capture history is distributed as the product of Bernoulli random variable with ``success'' probabilities $p(d_{ij},T)$ ($j=1,\ldots,J$), and we write
+Using $\delta_{ij}$ to indicate whether individual $i$ encountered detector $j$ ($\delta_{ij}=1$ if detected, $\delta_{ij}=0$ if not), we can write the capture history as $\bm{\omega}_i=(\delta_{i1},\ldots,\delta_{iJ})$. Assuming that encounters occur independently on each detector, then an individual's capture history is distributed as the product of Bernoulli random variable with ``success'' probabilities $p(d_{ij},T)$ ($j=1,\ldots,J$), and we write
 \be
 [\bm{\omega}_i|\bm{s}_i]&=&\prod_{j=1}^J\mbox{Bern}\left(\delta_{ij};p(d_{ij},T)\right). \label{eq:ER+detfun.binary.wi}
 \ee
