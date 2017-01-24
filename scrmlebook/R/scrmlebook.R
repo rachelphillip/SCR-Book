@@ -8,11 +8,15 @@
 #' @name scrmlebook
 #' @docType package
 #' 
-#' @importFrom fields image.plot rdist
+#' @import fields 
 #' @importFrom graphics image lines plot polygon text
 #' @importFrom grDevices dev.off png
 #' @import secr
 #' @importFrom stats plogis
+#' @import gdistance
+#' @import raster
+#' @import igraph
+#' @import Matrix
 #' 
 #' @references
 #' Borchers, D. L., Stevenskon, B. C., Rexstad, E., Howe, E. J., and Distiller, G. Spatial Capture-Recapture by Maximum Likelihood, with R

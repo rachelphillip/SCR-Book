@@ -1,5 +1,5 @@
 ## Add any new packages to the `pkgs' vector in alphabetical order.
-pkgs <- c("knitr", "secr", "testthat", "xtable")
+pkgs <- c("gdistance", "igraph", "fields", "knitr", "maptools", "raster", "secr", "sp", "spatstat", "testthat", "xtable")
 args <- commandArgs(trailingOnly = TRUE)
 upgrade <- "-u" %in% args
 for (i in pkgs){

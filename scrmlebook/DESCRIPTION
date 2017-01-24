@@ -11,7 +11,11 @@ Description: Utility functions and data for the book Spatial Capture-Recapture b
 License: GPL (>= 2)
 Depends:
     secr (>= 2.10.3),
-    fields (>= 8.4.1)
+    fields (>= 8.4.1),
+    gdistance,
+    igraph,
+    raster,
+    Matrix
 Suggests:
     knitr,
     testthat

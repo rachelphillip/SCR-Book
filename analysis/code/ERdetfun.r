@@ -104,10 +104,4 @@ predict.cv=function(scrfit) {
   return(cv)
 }
 
-plot(er.bin.hr.plot$x,er.bin.hr.plot$y*er.bin.hr.plot$x,type="l")
-lines(er.hr.plot$x,er.hr.plot$y*er.hr.plot$x,lty=2)
 
-
-lines(er.bin.hr.plot$x,1-exp(-er.bin.hr.plot$y))
-lines(er.bin.hr.plot$x,-log(1-er.bin.hr.plot$y),col="blue")
-lines(er.hr.plot$x,1-exp(-er.hr.plot$y))

@@ -61,11 +61,15 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \usepackage{layouts}
 
 \usepackage{bm}              % bold math and greek symbols
+\usepackage{booktabs}        % for nicer tables
 \usepackage{afterpage}       % allows \clearpage without inserting a page break
 \usepackage{amsfonts}        % gives things like \mathbb{P} (fancy P for probabilities n)
 \usepackage{amsmath}         % for \eqref
+\usepackage{pifont}          % for check and cross symbols
 
 \usepackage[colorinlistoftodos,linecolor=gray,backgroundcolor=white]{todonotes} % To annotate
+
+\usepackage{afterpage}       % to do more elegant \clearpage (without forced pagebreak)
 
 % see the list of further useful packages
 % in the Reference Guide
@@ -121,14 +125,13 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
-%\Sexpr{knit_child('chapters/introduction.Rnw')}
+\Sexpr{knit_child('chapters/introduction.Rnw')} %DLB et al.
 \Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
 \Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
-\Sexpr{knit_child('chapters/ERdetfun-part3.Rnw')} %DLB
-% \Sexpr{knit_child('chapters/spatial-distribution.Rnw')} %DLB
+\Sexpr{knit_child('chapters/spmod.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
-% \Sexpr{knit_child('chapters/explaining-diff-detection.Rnw')} %DLB & EH
-% \Sexpr{knit_child('chapters/detector-types.Rnw')}  %Ben
+\Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
+\Sexpr{knit_child('chapters/det-types.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/non-euclidian.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/trend-models.Rnw')}  %EH
@@ -141,6 +144,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/chapter.Rnw')}
 %%\Sexpr{knit_child('chapters/appendix.Rnw')}
+
+\clearpage
 
 
 % Bibliography %

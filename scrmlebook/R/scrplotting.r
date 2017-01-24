@@ -203,6 +203,28 @@ plotcovariate=function(mask,covariate,contour=TRUE,key=TRUE, ...) {
   prep4image(dat,contour=contour,key=key,...)
 }
 
+#' @title Plots image (and optionally contours) of density from Dsurface object
+#' @param Dsurface is an object of class `Dsurface'
+#' @param covariate The covariate to plot (density by default)
+#' @param addpoly If TRUE, adds bounding polygon
+#' @param contour is a logical, TRUE if want contour plots on image
+#' @param scale Factor to multiply surface by for plotting
+#' @param ... other arguments to be passed to \code{prep4image}
+#' @export
+plot.Dsurface=function(Dsurface,covariate="D.0",scale=1,contour=TRUE,addpoly=TRUE, ...) {
+  dat=data.frame(x=Dsurface$x,y=Dsurface$y,z=covariates(Dsurface)[,covariate])
+  plotdat=prep4image(dat,contour=contour,...)
+  
+  if(!is.null(attr(Dsurface,"poly.habitat"))) {
+    if(attr(Dsurface,"poly.habitat") & addpoly) {
+      require(sp)
+      sp:::plot(attributes(Dsurface)$polygon,add=TRUE)
+    }
+  }
+  invisible(plotdat)
+}
+
+
 #' @title Prepares data frame for plotting with image/contour/persp.
 #'   
 #' @description From an input data frame with columns x, y and z, this function 
