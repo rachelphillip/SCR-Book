@@ -1,0 +1,40 @@
+\chapter{Continuous-time SCR models}
+\label{chap:CT SCR}
+
+\abstract{This chapter concerns models that use the observed times of capture rather than any occasion. These models facilitate a more natural modelling of data from devices like camera trap rather than needing to impose the artifical construct of occasions on to the data. }
+
+\section{Time-to-detection data}
+\label{sec:CT SCR intro}
+\index{}
+
+
+\section{Linking the detection hazard with the detection function}
+\label{sec:CT SCR function link}
+\index{}
+
+\todo[inline]{Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (ratehr than just $\exp{-\lambda(d) T}$).}
+
+\todo[inline]{Can put in a little more maths to show how shape of det fn is no lomnger normal for different durations?}
+
+\todo[inline]{perhaps explore negative exponential parametrisation for lambda (see 1.19) rather than making it a function of g0 and sigma?}
+
+Figures~\ref{} and
+
+\begin{figure}[ht]
+\caption{\small test.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/XX.pdf}
+\label{fig:}
+\end{figure}
+
+The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
+{\small
+<<ER-detfun-leopards-load, include = TRUE, echo = TRUE, eval=TRUE>>=
+library(scrmlebook)
+data("ERdetfun-data")
+data("ERdetfun-fits")
+@
+}
+
+
