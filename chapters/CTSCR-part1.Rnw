@@ -3,20 +3,25 @@
 
 \abstract{This chapter concerns models that use the observed times of capture rather than any occasion. These models facilitate a more natural modelling of data from devices like camera trap rather than needing to impose the artifical construct of occasions on to the data. }
 
-\section{Time-to-detection data}
+\section{Introduction}
 \label{sec:CT SCR intro}
 \index{}
 
+Link back to chapter\ref{ch:detcovs}
 
 \section{Linking the detection hazard with the detection function}
 \label{sec:CT SCR function link}
 \index{}
 
-\todo[inline]{Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (ratehr than just $\exp{-\lambda(d) T}$).}
+\todo[inline]{Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (rather than just $\exp{-\lambda(d) T}$).
 
-\todo[inline]{Can put in a little more maths to show how shape of det fn is no lomnger normal for different durations?}
+Generalise effort idea from chapter 4.}
+
+\todo[inline]{Can put in a little more maths to show how shape of det fn is no longer normal for different durations?}
 
 \todo[inline]{perhaps explore negative exponential parametrisation for lambda (see 1.19) rather than making it a function of g0 and sigma?}
+
+\todo[inline]{link potential benefit of continuous covariates back to chapter4's discussion on behavioural effects that disappear.}
 
 Figures~\ref{} and
 

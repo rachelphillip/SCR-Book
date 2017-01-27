@@ -224,11 +224,11 @@ help("ERdetfun-fits")
 
 \subsection{Example fits to count data}
 
-To specify an encounter rate model we need to specify the functional form to use and to say how its parameters depend on covariates. We postpone consideration of covariates until later and so use the syntax \url{~}\texttt{1}, which indicates no dependence on covariates.
+To specify an encounter rate model we need to specify the functional form to use and to say how its parameters depend on covariates. We postpone consideration of covariates until later and so use the syntax \url{~}\texttt{1}, \todo{Note that the tildas are not showing up} which indicates no dependence on covariates.
 
 In \texttt{secr}-speak a model with Gaussian shape is called a ``half-normal'' model (a name derived from the distance sampling literature \todo{insert citation?}), and encounter rate functions are called ``hazard'' functions (a name that derives from survival analysis literature). Specifying that the model is ``\texttt{HHN}'' in \texttt{secr}-speak, is specifying that it is an encounter rate model (the first \texttt{H} is for ``hazard'') with half-normal shape (``\texttt{HN}''). As \texttt{secr}-speak for $\lambda_0$ and $\sigma$ is ``\texttt{lambda0}'' and ``\texttt{sigma}'', the specification for an encounter rate model with Gaussian shape is as shown below.
 
-We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.capt} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
+We fit this model using the \texttt{secr} function \texttt{secr.fit}, by passing the function the capture history object \texttt{kruger.capt} (which contains in it details of detector locations), the model specification in the form of \texttt{er.model} and \texttt{detfn} below \todo{Greg: the code below doesn't pass these objects (er.model, detfn)}, and information on the region that could contain the activity centres of detected individuals (\texttt{kruger.mask}).
 
 {\small
 <<ER-detfun-leopardsexample-erhn-fit, eval = FALSE>>=
@@ -313,7 +313,7 @@ The Gaussian model seems to be a  poor fit to the average encounter data, and in
 \end{figure}
 
 \todo[inline]{beginning of interpretation section--subsection?}
-Interestingly, \todo[inline]{but density isn't reported here, should it be discussed?}the estimated leopard density from the hazard rate model is only about \Sexpr{abs(round(100*predict(er.hr.fit)[1,"estimate"]/predict(er.hn.fit)[1,"estimate"]-100))}\% smaller than that from the Gaussian model, despite their very different shapes (Figure~\ref{fig:ERdetfun.hrfit}). This is a fairly typical feature of SCR models: different models can give quite different encounter rate (or detection function) shapes but very similar density estimates. The root cause of this is that  we have rather poor information on the distances of detectors from activity centres because we do not observe the activity centres, and as a result there is relatively little information in the data to tell us about the shape of the encounter rate function or detection function. There is usually quite good information on \textit{area under the encounter rate or detection function}. In our case the areas under the Gaussian and hazard rate curves differ by only \Sexpr{round(100*esa(er.hr.fit)[1]/esa(er.hn.fit)[1]-100)}\%. 
+Interestingly, \todo[inline]{but density isn't reported here, should it be discussed?}the estimated leopard density from the hazard rate model is only about \Sexpr{abs(round(100*predict(er.hr.fit)[1,"estimate"]/predict(er.hn.fit)[1,"estimate"]-100))}\% smaller than that from the Gaussian model, despite their very different shapes (Figure~\ref{fig:ERdetfun.hrfit}). This is a fairly typical feature of SCR models: different models can give quite different encounter rate (or detection function) shapes but very similar density estimates. The root cause of this is that  we have rather poor information on the distances of detectors from activity centres because we do not observe the activity centres, and as a result there is relatively little information in the data to tell us about the shape of the encounter rate function or detection function. There is usually quite good information on \textit{area under the encounter rate or detection function} \todo{is there a heuristic explanation of what this AUC represents?}. In our case the areas under the Gaussian and hazard rate curves differ by only \Sexpr{round(100*esa(er.hr.fit)[1]/esa(er.hn.fit)[1]-100)}\%. 
 
 A moral of this story is ``Be careful not to over-interpret encounter rate or detection functions.''.
 
@@ -321,7 +321,7 @@ We could also specify Gaussian or hazard-rate forms for the detection function r
 {\small
 <<ER-detfun-leopardsexample-dfhr-fit, eval = FALSE>>=
 df.hr.fit <- secr.fit(kruger.capt, mask=kruger.mask,
-                      model=list(lambda0~1,sigma~1), detectfn="HR")
+                      model=list(g0~1,sigma~1), detectfn="HR")
 @
 }
 Note that this detection function applies over the duration of the survey. We are implicitly saying that $T=1$ for the duration of the survey, i.e., that time units are ``this-survey-length''. Specifying the same detection function for a survey of a different length would be inconsistent.
