@@ -5,9 +5,9 @@
 
 \section{Introduction}
 
-Chapter~\ref{chap:ERdetfun} provides the tools you need to estimate spatial encounter rate or detection function models, given that you know how many of individuals ($N$, say) are available to be detected, and you know where their activity centres $\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$ are. But if you knew how many individuals were available to be detected, and where their activity centres were, you would probably not be doing the survey, because the main reason to do an SCR survey is usually to find these things out. Finding out about encounter rate and detection functions is usually of very secondary interest, at best.
+Chapter~\ref{chap:ERdetfun} provides the tools you need to estimate spatial encounter rate or detection function models, given that you know how many of individuals ($N$, say) are available to be detected \todo{Greg: does the estimation of the det fn depend on N?}, and you know where their activity centres $\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$ are. But if you knew how many individuals were available to be detected, and where their activity centres were, you would probably not be doing the survey, because the main reason to do an SCR survey is usually to find these things out. Finding out about encounter rate and detection functions is usually of very secondary interest, at best.
 
-We want to draw inferences about the density, abundance and spatial distribution of the activity centres of a population, when we don't observe the locations of any of them and don't even know how many there are. In statistical terms these activity cetres are ``latent variables'' -- variables that affect what we do observe (spatial capture histories) but which are not themselves observed. In many latent variable problems, latent variable are assumed to be Gaussian, and the number of latent variable is known. In SCR models, the latent variable distribution is the distribution of activity centres in space, and this is extemely unlikely to be Gaussian. We also don't know how many latent variables there are. 
+We want to draw inferences about the density, abundance and spatial distribution of the activity centres of a population, when we don't observe the locations of any of them and don't even know how many there are. In statistical terms these activity centres are ``latent variables'' -- variables that affect what we do observe (spatial capture histories) but which are not themselves observed. In many latent variable problems, latent variable are assumed to be Gaussian, and the number of latent variable is known. In SCR models, the latent variable distribution is the distribution of activity centres in space, and this is extemely unlikely to be Gaussian. We also don't know how many latent variables there are. \todo{Greg: Don't we mean the number of realisations of the one latent variable are unknown?}
 
 Instead of a Gaussian distribution, we need a latent variable distribution that is very flexible, because we don't know what shape the distribution of activity centres in space is. The distribution must also allow the number ($N$) of latent variables to be unknown. A spatial point process (SPP) model gives us this. It is a statistical model that describes how the number and locations of points in space arise. In our terms points are individual activity centres, so our SPP models describe how the number of individuals in a population, and their activity centres arise. It gives us a statistical model for the activity centres $\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$, which is not as good as observing the actual activity centres, but is the best we can do when we can't observe them. SPP models are as central to SCR inference as are expected encounter rate and detection function models.
 
@@ -21,7 +21,12 @@ There are many kinds of SPP but we are going to focus primarily on spatial \text
 \label{eq:spmod-Po(E[N])}
 \ee
 \noindent
-with $E[N]$ being the expected number of activity centres, and
+with $E[N]$ being the expected number of activity centres, 
+\todo[inline]{Greg:
+
+Previously we wrote $Po(n_{ij} ; \lambda(d_{ij}T))$ so shouldn't the notation here be similar: $Po(N ; E[N])$? }
+
+and
 \item $[\bm{S}_N|N]$ is a SBPP that governs the locations of the activity centres, given their number:
 \be
 [\bm{S}_N|N,\bm{\phi}]&=&\prod_{i=1}^N \frac{D(\bm{s}_i;\bm{\phi})}{E[N]}\;=\;\prod_{i=1}^Nf(\bm{s}_i;\bm{\phi})).
@@ -29,6 +34,7 @@ with $E[N]$ being the expected number of activity centres, and
 \ee
 \noindent
 Here $D(\bm{s};\bm{\phi})$ is the density \todo[inline]{of what?} at location $\bm{s}$ and $E[N]$ is the area under the density surface over the survey region $A$: $E[N]=\int_A D(\bm{s};\bm{\phi})d\bm{s}$.
+
 \ei
 To get a feel for SPPPs, let's look at some pictures in the context of the Kruger leopard survey. Figure~\ref{fig:spmod-KrugerDs} shows the density surface $D(\bm{s})$ over all $\bm{s}$ in the survey region, with an area $A$. 
 \begin{figure}[ht]
@@ -38,7 +44,13 @@ To get a feel for SPPPs, let's look at some pictures in the context of the Kruge
 \label{fig:spmod-KrugerDs}
 \end{figure}
 
-This Kruger leopard SPPP model has $E[N]=171$, so that the number of activity centres (and hence individuals) in the survey region is a Poisson random variable with an expected value of 171. In Figure~\ref{fig:spmod-KrugerPop} we show a realisation of the SPPP, which has $N=151$ activity centres, whose locations are independent draws from the SBPP obtained by scaling the $D(\bm{s})$ surface shown in Figure~\ref{fig:spmod-KrugerDs} to have volume equal to 1 (as per Eqn~\eqref{eq:spmod-f(s)}).
+This Kruger leopard SPPP model has $E[N]=171$
+
+\todo[inline]{Greg:
+
+Is 171 from running the region.N command and is it for a larger area than that used in the example? I am getting values below 70?}
+
+, so that the number of activity centres (and hence individuals) in the survey region is a Poisson random variable with an expected value of 171. In Figure~\ref{fig:spmod-KrugerPop} we show a realisation of the SPPP, which has $N=151$ activity centres, whose locations are independent draws from the SBPP obtained by scaling the $D(\bm{s})$ surface shown in Figure~\ref{fig:spmod-KrugerDs} to have volume equal to 1 (as per Eqn~\eqref{eq:spmod-f(s)}).
 \begin{figure}[ht]
 \caption{\small Leopard activity centres generated by the SPPP model with density surface shown in Figure~\ref{fig:spmod-KrugerDs}. Camera locations are shown as grey crosses. The straight line border on the right and the short straight line border on top right show edges of the survey region but do not correspond to any physical boundary, while the rest of the border is a fence that leopards cannot cross.}
 \centering
@@ -76,7 +88,7 @@ Give this equation: $D(\bm{s})=e^{\phi_0 + \phi_z z(\bm{s})}$, note that $z(\bm{
 
 \subsection{Flexible density surface modelling}
 
-Modelling density as a log linear function of spatially-referenced covariate(s) is not appropriate when there is very nonlinear relationship between density and the covariate(s). For example, leopards in the mountains of the Boland region of South Africa seem to have a preference for intermediate elevations, avoiding the valleys and the mountain tops. Using elevation as an explanatory variable in a linear model is inadequate in this case, because it forces modelled density to be either always increasing with altitude, or decreasing with altitude, whereas we want it to be able to increase, reach a peak and then decrease. Because we usually don't know the form of the relationship between density and spatially-referenced covariates, we would like to have the option of letting the data tell us the most appropriate form. We want something like a generalised additive model (GAM) \todo[inline]{citation}. 
+Modelling density as a log linear function of spatially-referenced covariate(s) is not appropriate when there is a very nonlinear relationship between density and the covariate(s). For example, leopards in the mountains of the Boland region of South Africa seem to have a preference for intermediate elevations, avoiding the valleys and the mountain tops. Using elevation as an explanatory variable in a linear model is inadequate in this case, because it forces modelled density to be either always increasing with altitude, or decreasing with altitude, whereas we want it to be able to increase, reach a peak and then decrease. Because we usually don't know the form of the relationship between density and spatially-referenced covariates, we would like to have the option of letting the data tell us the most appropriate form. We want something like a generalised additive model (GAM) \todo[inline]{citation}. 
 
 Although GAM software is avaiable in the \texttt{R} package \texttt{mgcv}, we can't use this for SCR analyses because SCR likehoood functions have a more complex form than standard GAM likelihood functions. 
 
@@ -95,7 +107,7 @@ D(\bm{s})&=&e^{\phi_0 + \sum_{v=1}^{df}\phi_v b_v(z_1(\bm{s}))},
 \noindent
 where $b_1(z_1(\bm{s})),\ldots,b_{df_1}(z_1(\bm{s}))$ are the local basis functions of the spatially referenced covariate $z_(\bm{s})$, and $df$ is the ``degrees of freedom'' of the regression spline -- which controls how flexible $D(\bm{s})$ is. A brief introduction to regression splines is given in Appendix~???\todo{Do appendix} for the interested reader. See \cite{Wood:17} for more detail. 
 
-The \texttt{R} library \texttt{mgcv} uses regression splines to implement GAMs, However it fits them using \textit{pelanised} maximum likelihood, and this allows the smoothness of the function to be determined automatically \citep[for details, see][]{Wood:17}. At the time of writing, penalised splines have not been implemented for SCR models, so that the smoothness of SCR regression spline density models must be chosen manually, by trying various \texttt{df} and selecting between them using model selection criteria such as AIC or AIC$_c$. 
+The \texttt{R} library \texttt{mgcv} uses regression splines to implement GAMs, However it fits them using \textit{penalised} maximum likelihood, and this allows the smoothness of the function to be determined automatically \citep[for details, see][]{Wood:17}. At the time of writing, penalised splines have not been implemented for SCR models, so that the smoothness of SCR regression spline density models must be chosen manually, by trying various \texttt{df} and selecting between them using model selection criteria such as AIC or AIC$_c$. 
 
 %Using regression splines to generate smooth nonparameteric density surfaces for SCR models gives something akin to a generalised additive model, instead of something akin to a generalised linear model, which is what we get with a linear predictor of the form of Eqn~\eqref{fig:spmod-Dloglink}. 
 
