@@ -55,7 +55,7 @@ or hydrophones) or human observers.
 We can also use SCR methods when the detectors physically capture the
 individuals upon detection. Indeed, this was the context in which the
 very first SCR methods were developed
-\citep{Efford:04,Borchers+Efford:08}. In such situations we must
+\citep{Efford:04,Borchers+Efford:08}. In such situations we must \todo{Greg: not sure I completely agree about this, what if traps are not checked and reset at the same time?}
 operate under the familiar CR framework of capturing individuals over
 a set of discrete sampling occasions: in order to obtain recaptures
 (both across space and time) we must end one occasion, release all
@@ -107,7 +107,7 @@ function, and therefore also of animal density.\todo{It is interesting
   binary data.}
 
 \todo[inline]{Below two paragraphs are probably better suited in a
-  different chapter; they seem out of place here.}
+  different chapter; they seem out of place here. Greg: I agree that perhaps the 1st paragraph should go into the acoustics chapter? Are there examples of additional data to the response data in non-acoustic settings? I think the 2nd para below could maybe come after the one above.}
 
 There are other possible response data types that may be observed in
 addition to the capture histories that provide additional spatial
@@ -126,7 +126,7 @@ SCR methods are discussed in further detail in Chapter
 detection over and above the capture histories are referred to as
 \emph{additional} response data.
 
-Additional response data types do not necessarily improve estimation
+Additional response data types \todo{Greg: I'm not sure this para flows that well from the one above, because the above para is talking about additional data over and above the response but here additional response data is being referred to.] } do not necessarily improve estimation
 of animal density, but may instead allow inference on additional
 demographic parameters of interest.  For example, observing detection
 times allows estimation of animal activity cycles over some temporal
@@ -140,7 +140,7 @@ The type of detector deployed on a survey directly affects the type of
 data we collect about each individual (given by $\bm{\omega}_i$ for
 the $i$th individual). Therefore, the likelihood component that is
 affected by the choice of detector type is
-$[\bm{\Omega}_n | \bm{S}_n]$. Throughout the remainder of this
+$[\bm{\Omega}_n | \bm{S}_n]$\todo{Greg: is it not necessary to also condition on being caught during the survey?}. Throughout the remainder of this
 chapter, this likelihood component is provided for various detector
 and response types, along with examples of how to fit these models
 using \texttt{secr}. Even if detectors are unable to count encounters
@@ -318,7 +318,7 @@ detect the individual.  This is no different to the formulation of the
 equivalent probability for proximity detectors.
 
 The probabilities associated with captures at each of the $J$ traps
-are proportional to their respective encouter rates. For example, if
+are proportional to their respective encounter rates. For example, if
 the first trap has an encounter rate that is twice as large as the
 second (i.e., $\lambda_{i1k} = 2\lambda_{i2k}$), then the probability
 that the $i$th individual is captured by the first trap is twice as
