@@ -62,37 +62,94 @@ f_{t|\omega,j}(\bm{t}_{ij} \mid \omega_{ij},\bm{s}_i;\bm{\theta})
 
 \todo[inline]{Not sure if I should show the full LL - the reason I was considering this is to discuss sufficiency and show that in a general sense at least there is information in the times. Just seems a bit too technical relative to the rest of the book.}
 
-\section{More on the hazard function}
+\section{Parameterising the expected encounter rate function}
 \label{sec:CT hazards}
 \index{}
 
-\subsection{Forms for the hazard}
-\label{subsec:forms}
+When the hazard function varies through time, the hazard of individual $i$ being detected at trap $j$ depends as before on the distance between trap $j$ and individual $i$'s activity centre, but also depends on time. This scenario is more realistic as most animals are more likely to be caught at certain times rather than others depending on their behaviour and activity patterns.  
 
-When the hazard function varies through time, the hazard of individual $i$ being detected at trap $k$ depends as before on the distance between trap $k$ and individual $i$'s activity centre, but also depends on time. This scenario is more realistic as most animals are more likely to be caught at certain times rather than others depending on their behaviour and activity patterns.  
+The detection hazards are conceived as cyclical hazards that repeat over time after a specified cycle length. This approach facilitates the modeling of a daily pattern to detectability that, for example, can result in nocturnal animals being very unlikely to be captured during the day. Using a cyclical hazard means that the hazard is constrained to begin and end at the same point each cycle. Note that the CT hazard results in a model in which variation in detectability is modelled at a finer resolution than DT models with occasions. 
 
-The non-constant hazards have been parameterised in this work to contain a component that depends on distance ($h(\bm{s} ;\bm{\theta})$) and a component that depends on time ($h(t ; \bm{\psi})$). As before the dependence of the first component on distance through $\bm{s}$($d_k(\bm{s})$) is not always made explicit for notational brevity. Note that the two components do not interact and hence the effect of time is independent of the effect of distance (and vica versa). 
+\subsection{Seperating time and distance}
+\label{subsec:independent}
+
+One way to parametrise the time-dependent expected encounter rate function is to have a component that depends on distance ($\lambda(d ;\bm{\theta})$) and a component that depends on time ($h(t ; \bm{\psi})$). This parameterisation effectively means that these two components do not interact and hence the effect of time is independent of the effect of distance (and vica versa). 
 
 \begin{equation}
-h(t, \bm{s} ;\bm{\theta}, \bm{\psi}) = h(\bm{s} ;\bm{\theta}) \times h(t ; \bm{\psi}) 
-\label{eqn:hazt}
+\lambda(t, d ;\bm{\theta}, \bm{\psi}) = \lambda(d ;\bm{\theta}) \times h(t ; \bm{\psi}) 
+\label{eqn:hazt1}
 \end{equation}
 
-The second component $h(t, \bm{\psi})$ determines the hazard shape over time which is scaled by a factor that depends on the distance from the individuals' activity centre to the detector ($h(\bm{s} ;\bm{\theta})$). This scaling factor depends on the parameters that appear in the usual detection function, i.e.\ for the half-normal form the parameters in $\bm{\theta}$ include detectability ($g_0$) and dispersion characteristics ($\sigma$). It is only $h(t ; \bm{\psi})$ that changes form for different selected hazard shapes over time and two forms for $h(t ; \bm{\psi})$ are given below. 
+The second component $h(t, \bm{\psi})$ determines the shape of the detectiomn hazard over time which is scaled by a factor that depends on the distance from the individuals' activity centre to the detector ($\lambda(d ;\bm{\theta})$). This scaling factor depends on the parameters that appear in the usual detection function, i.e.\ for the half-normal form the parameters in $\bm{\theta}$ include detectability ($g_0$) and dispersion characteristics ($\sigma$). 
 
-The detection hazards used in this work are conceived as cyclical hazards that repeat over time after a specified cycle length. This approach facilitates the modeling of a daily pattern to detectability that, for example, can result in nocturnal animals being very unlikely to be captured during the day. Using a cyclical hazard means that the hazard is constrained to begin and end at the same point each cycle. Note that the CT hazard results in a model in which variation in detectability is modelled at a finer resolution than DT models with occasions. Further details are given below for both a cosine and a regression spline hazard form.
+Regression splines are a form of less rigid parametric fitting that can be thought of as fitting piecewise polynomials to segments of the data. A regression spline takes the form of a weighted sum of smooth functions of the data, and these functions of the data are known as basis functions. The flexibility of regression splines increases with the degrees of freedom or knots, i.e.\ increasing the knots increases the number of parameters that need to be estimated and increases the function's flexibility. 
 
-\subsection{Ancillarity}
-something about ancillarity and density? Again not sure if too technical.
+An array of different types of basis functions are available that produce splines with different features. Cyclic cubic regression splines are used here to produce hazard cycles of a specified length that repeat over time.
 
-\subsection{Linking the hazard with the detection function}
-Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (rather than just $\exp{-\lambda(d) T}$).
+The $h(t ; \bm{\psi})$ component with a flexible shape is parameterised as follows:
 
-The encounter rate function from Chapter~\ref{chap:ERdetfun} provides the expected encounter rate per unit time for individual $i$ at detector $j$ and describes how the encounter rate declines with the distance between that individual's activity centre and the detector $d_{ij}$ (see Equation~\ref{eq:ER+detfun.lambda.hn}).
+\begin{equation}
+h(t ;\bm{\psi}) = e^{f(t ; \bm{\psi})}
+\label{eqn:spline}
+\end{equation}
+ 
+where $f(t ; \bm{\psi}) = \beta_1 b_1(t) + \beta_2 b_2(t) + \ldots + \beta_p b_p(t) $, the $b_p(t)$ refer to $p$ basis functions, $p$ is determined by the specified degrees of freedom (denoted as $K$), and the log link ensures a positive detection hazard. The R package \emph{mgcv} \citep{Wood14} is used to construct the necessary basis functions. Specifying ``fit = FALSE'' in the \emph{gam} function returns the basis functions that can then be used as ordinary covariates in the hazard model. Note that the intercept of the spline coefficients is redundant because its role is effectively subsumed by the $\lambda(d ; \bm{\theta})$ scaling factor. Plots that depict the detection hazards are focusing on the shape through time and hence are scaled so that they integrate to 1. Furthermore, a degree of freedom is lost when specifying hazards with a cyclic cubic spline form. The number of degrees of freedom for different spline hazards that are reported here matches the number given to the \emph{gam} function in package \emph{mgcv}. Therefore the actual number of parameters estimated in the reported models is two less than the value given for $K$. 
 
-In Chapter~\ref{chap:ERdetfun} the expected encounter rate depends on distance and can be interpreted for any duration $T$ by scaling the rate in proportion to $T$. This implies that the detection hazard is constant through time (because $\int_0^T \lambda = \lambda \times T$).  
+Figure \ref{fig:GAMhaz} depicts three fictitious examples of different possible hazard shapes that can be modelled with regression splines. The top panel shows a simple detection hazard that rises to a peak about halfway through the cycle and then falls away again. The second example is similar but remains around its peak for a longer time. The final example shows a hazard that has two peaks, if one considers the 24 hour hazard cycle to be in sync with a 24 hour daily cycle then these peaks occur roughly at dawn and dusk. These shapes are produced by making up a series of data points that follow a certain pattern, extracting the basis functions, and then using the basis functions as covariates for fitting a generalised linear model with a log link. For example the fitted model for the hazard shape for the first shape with K = 4 is $h(t ;\bm{\psi}) = e^{1.145 b_1(t) + 1.284 b_2(t)}$. 
 
-Generalise effort idea from chapter 4.
+\begin{figure}[ht]
+\caption{\small Three examples of possible detection hazard shapes that can be modelled using regression splines of increasing complexity. From top to bottom the degrees of freedom are 4, 8 and 10.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/GAMhaz.pdf}
+\label{fig:GAMhaz}
+\end{figure}
+
+\todo[inline]{something about ancillarity and density? Again not sure if too technical. COuld maybe leave out the maths and just say in a paragraph that the above formulation leads there being no information about density in the capture times. Which leads into the section below nicely.}
+
+\subsection{A more general formulation}
+\label{subsec:generalform}
+
+The expected encounter rate function for a particular detector can be specified so that the effect of time depends on the distance between the trap and an individual's activity centre. One approach that achieves this is to make the $\sigma$ parameter depend on time. This leads to a model where the extent that an animal ranges depends on the time of day.
+
+\begin{equation}
+lambda(d,t) = \lambda_0\exp\{-d^2/(2\sigma(t)^2)\}
+\label{eqn:hazt2}
+\end{equation}
+where $\sigma(t)=\exp(\beta_0 + \sum_{k=1}^K\beta_k\times b_k(t))$
+
+\subsection{Linking with the detection function}
+In Chapter~\ref{chap:ERdetfun}, Equation~\ref{eq:ER+detfun.binaryp} is used to link the detection function with the encounter rate model. However in that case an implicit assumption made is that the encounter rate is constant with time (which is why $\int_0^T \lambda(d_{ij}) \; dt = \lambda(d_{ij}) T$). 
+
+The same approach is used to link the time-dependent encounter rate function with the detection function but it is generalised here. If $T_k = t_k-t_{k-1}$ where $t_{k-1}$ is the start of occasion $k$ and $t_k$ the end, then this is accomplished by specifying the detection probability for detector $j$ in occasion $k$ of duration $T_k$ in terms of the encounter rate function as follows. 
+
+\begin{equation}
+p(d_{ij})=1-\exp{\left(-\int_{t_{k-1}}^{t_k} \lambda_{j}(d,u) \;du \right)} 
+\label{eqn:hazlink}
+\end{equation} 
+
+The paramaterisation used in Section~\ref{subsec:independent} means that $\int \lambda(d,t) \; dt = \lambda(d) \int h(t) \; dt$ and hence
+
+\begin{equation}
+\lambda_k(d) = \frac{-log(1-p_{jk}(d))}{ \int_{T_k} h(t)\;dt} 
+\label{eqn:hazlink2}
+\end{equation}
+
+The more general formulation (Section~\ref{subsec:generalform}) does not allow this simplification and hence in that case:
+
+\begin{equation}
+\int \lambda_k(d,t) \; dt = -log(1-p_{jk}(d)) 
+\label{eqn:hazlink2}
+\end{equation}
+
+This shows that there are many different encounter rate functional forms that can lead to the same detection function.
+
+\section{Accounting for varying effort}
+CT models readily accommodate detectors that are operational for different periods of time by setting the detection hazard at a detector to zero while the detector is out of operation (i.e.\ $h_j(t,\bm{s};\bm{\theta}, \bm{\psi})=0$ if detector $k$ was not operating at time $t$). 
+
+This is the basis of the varying effort model for binary detectors and counts in \citet*{Efford13b}. However it should be noted that in that case it was assumed that the effect on the hazard is proportional to a standard unit of effort, i.e.\ if the effort for a given occasion is twice that of a standard unit of effort then the detection hazard gets doubled. The varying effort model can therefore accommodate occasions that are of different lengths but in order to do this it implicitly assumes that the hazard is constant through time. 
+
+The CT framework generalises this idea and can for example recognise that a detector failing for a period of time during the day will have little effect on the detectability of a nocturnal species. The ability of the CT model to properly handle varying trap exposure is what leads to the construction of the single-catch trap likelihood. It is more difficult to accommodate detectors when their time of failing is unknown, and that problem is not addressed here. The assumption of a constant encounter rate through time is also made when the expected encounter rate for any duration $T$ is scaled in proportion to $T$, and also for the discussion on effort in X. Generalise effort idea from chapter 4.
 
 \todo[inline]{Can put in a little more maths to show how shape of det fn is no longer normal for different durations?}
 
@@ -103,7 +160,6 @@ Generalise effort idea from chapter 4.
 \section{Learning about animal activity patterns}
 \label{sec: activity}
 \index{}
-
 
 Understanding the activity patterns of animals can be used to learn about animal behaviour. \citet{Cowan12} use single-catch traps with timing devices to understand the behavioural response of possums that are caught, and \citet{Harmsen09} make inference about the hourly activity of jaguars and pumas from the frequency distribution of hourly capture times (397 for jaguars and 413 for pumas). However using a histogram with $X$ bars (a) requires arbitrary decisions about where the intervals start and end for each bar, (b) involves estimating ($X-1$) parameters, (c) does not give a smooth estimate of activity pattern change over time, and (d) does not include a rigorous framework for quantifying the associated uncertainty or selecting between alternative models. Using a spline involves no arbitrary decisions about intervals, involves estimating as many or as few parameters as the data support, provides a much more realistic smooth estimate of activity pattern change and a rigorous framework for model selection, uncertainty quantification, and testing hypotheses about activity patterns. The various hazard plots generated from the simulation studies in this chapter show that the CT models are able to estimate the underlying detection hazard cycle well. As one would expect, the variability in these estimates is higher for more complicated hazards that require more parameters, and decreases with more data. 
 
@@ -130,16 +186,5 @@ A fuller moon leads to brighter hunting conditions and \citet{Harmsen11} report 
 \label{sec: CT SC App}
 \index{}
 
-
-
-
-The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
-{\small
-<<ER-detfun-leopards-load, include = TRUE, echo = TRUE, eval=TRUE>>=
-library(scrmlebook)
-data("ERdetfun-data")
-data("ERdetfun-fits")
-@
-}
 
 
