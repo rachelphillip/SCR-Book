@@ -1,37 +1,137 @@
 \chapter{Continuous-time SCR models}
-\label{chap:CT SCR}
+\label{chap:continuous-time}
 
-\abstract{This chapter concerns models that use the observed times of capture rather than any occasion. These models facilitate a more natural modelling of data from devices like camera trap rather than needing to impose the artifical construct of occasions on to the data. }
+\abstract{This chapter concerns models that use the observed times of capture rather than any occasion. These models facilitate a more natural modelling of data from devices like camera traps rather than needing to impose the artifical construct of occasions on to the data. }
 
 \section{Introduction}
-\label{sec:CT SCR intro}
+\label{sec:CT intro}
 \index{}
 
-Link back to chapter\ref{ch:detcovs}
+Spatial and non-spatial application of classic CR typically involves physically capturing and marking individuals at discrete sampling occasions in time, and the survey process generates well-defined sampling occasions. But as discussed in Chapter~\ref{chap:det-types}, these days it is possible to use non-traditional detectors that do not involve any physical capture and release (hence the term \textit{passive} detectors) but rather record the actual detection times. 
 
-\section{Linking the detection hazard with the detection function}
-\label{sec:CT SCR function link}
+Data of this sort do not lead to well-defined sampling occasions and researchers that have time-to-detection data typically aggregate their data into sampling occasions so that the data are then suitable for analysis with traditional models. Aggregating the data into discrete capture occasions imposes an artificial construction on the data for reasons of analytic convenience. It is always a better policy to find a statistical formulation that fits the data than to shoehorn the data into a form that fits statistical formulations that happen to be available. Furthermore aggregating data into capture occasions introduces subjectivity (the occasion length chosen by the analyst) and discards some information (the exact times of capture). 
+
+As discussed previously, SCR methods assume independence between traps, i.e.\ the probability of being caught at a particular trap is not affected by a capture elsewhere. In general, the only benefit to imposing the artificial construct of occasions on continuous data is to remove correlation in the capture times so that the independence assumption is not violated. There is also likely to be little additional information in multiple captures in a short time \citep{Royle09, Royle09b}.
+
+However, binning the data into occasions does not allow the inclusion of continuous covariates (for example weather) and limits the potential inferences that can be made regarding underlying biological processes that occur in continuous-time (CT).  Furthermore, the use of occasions often leads to the assumption of equal occasion lengths so that the interpretation of the capture probabilities are comparable across different periods. Such an assumption is questionable when factors like trap failure exist. It is common to aggregate the data into 24 hour periods \citep{Maffei04, Foster12} which can lead to the so called ``midnight problem'' \citep{Jordan11} where an animal photographed either side of midnight counts as two encounters as opposed to only counting as one encounter when captured twice during the same day. If animals are most active around the cutoff then capture probability will be positively biased, and this is likely to be true for nocturnal cats. Capture histories that use daily occasions for low density animals also tend to have many zeros \citep{Foster12}.
+
+\section{Modelling time-to-detection data}
+\label{sec: modelling CT data}
 \index{}
 
-\todo[inline]{Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (rather than just $\exp{-\lambda(d) T}$).
+The CT framework involves modelling the process generating detections as a temporal Non-Homogeneous Poisson Process (NHPP) in which the events are detections. This approach assumes that the encounter rate for the $i$th individual at the $j$th detector at any time is independent of the individual's capture history up to that time. Note that the model is easily extended to be of type $M_b$ by estimating different detection levels before and after first capture.
 
-Generalise effort idea from chapter 4.}
+In a CT formulation, the discrete-occasion expression for the probability of detecting individual $i$ at detector $k$ during an occasion is replaced by an encounter rate function as seen in Chapter~\ref{chap:ERdetfun}. The difference is that the traditional SCR models make an implicit assumption that the expected encounter rate is constant through time but here the encounter rate function is extended to depend on time in addition to distance ($\lambda(d_{ij},t)$. When the expected encounter rate depends on time it tends to be referred to as the ``hazard'' (from survival analysis literature with the hazard in this case being the hazard of detection rather than hazard of death) though note that the expected encounter rate and the detection hazard are in effect the same thing.
+
+The time-dependent expected encounter rate for the $i$th individual and the $j$th trap at time $t$ is denoted as $\lambda(d_{ij},t ; \bm{\theta})$ and can depend on both space (in terms of the distance from the trap to the activity centre $d_{ij}(\bm{s}_i)$) and time while $\bm{\theta}$ is an unknown vector of hazard function parameters.
+
+The ``survivor function'' for individual $i$ at trap $j$ over the whole survey (the probability of individual $i$ not being detected by the trap by time $T$) is 
+
+\[ S_j(T, d_{ij};\bm{\theta})=\exp{\left(-\int_0^T \lambda_j(d_{ij},t ; \bm{\theta})\;dt\right) }\] 
+
+and hence $1 - S_j(T, d_{ij} ;\bm{\theta})$ is the probability of detection in $(0,T)$.
+Similarly the combined expected encounter rate over all traps at time $t$ is $\lambda_\cdot(t,\bm{s}_i;\bm{\theta})=\sum_{j=1}^J \lambda_j(d_{ij},t ; \bm{\theta})$, and the overall probability of detection in $(0,T)$ over all detectors is $p_\cdot(\bm{s}_i;\bm{\theta})=1-S_\cdot(T, \bm{s}_i;\bm{\theta})$, where $S_\cdot(T,\bm{s}_i;\bm{\theta})=\exp{\left(-\int_0^T \lambda_j(\bm{s}_i,t ; \bm{\theta}))\;dt\right)}$ is the overall survivor function. 
+
+By considering $\bm{t}_{ij}$ to be a realisation of a NHPP in time, an expression for the probability density function (pdf) of $\bm{t}_{ij}$ is obtained. This is analogous to the probability of obtaining a capture history at detector $j$ for individual $i$ in a discrete-time formulation, but it is worth noting that both the length of $\bm{t}_{ij}$ (denoted as $\omega_{ij}$ \todo{I'm a little unsure about the notation because $\omega$ is also used to represent capture histories?}) and the times that it contains are random variables, whereas for a discrete-occasion survey the length of a capture history is fixed by the number of occasions used.
+
+Using a result from Poisson process theory \cite[see][Theorem 2.1 on page 30, and Equation (2.13) on page 32]{Cook07} \todo{is the citation necessary?}, and assuming that, conditional on the activity centre location, the times of detections are independent, the detection times for individual $i$ at detector $j$ can be modelled as a NHPP with pdf:
+
+\begin{align}
+f_j(\bm{t}_{ij} \mid \bm{s}_i ; \bm{\theta})
+&= S_j(T,\bm{s}_i;\bm{\theta})\prod_{r=1}^{\omega_{ij}} \lambda_j(t_{ikr},\bm{s}_i;\bm{\theta})
+\label{eqn:f_j(t)}
+\end{align}
+
+Figure~\ref{fig:Times1} shows a heuristic explanation of where this expression comes from for a hypothetical individual that is captured at a particular trap twice. It is necessary to first model the probability that the individual is not captured from the start of the survey until the time of first capture, and this probability is found by $\exp{-\int_0^{t_1} \lambda(t) \; dt}$. The individual is then captured at the appropriate encounter rate $\lambda(t_1)$. Next the probability of no capture from $t_1$ until $t_2$ is found in the same way and the second capture occurs at the rate of $\lambda(t_2)$. Lastly, it is necessary to model the fact that the individual evades capture from $t_2$ until the end of the survey at time $T$. 
+
+\begin{figure}[ht]
+\caption{\small The plot depicts a time-dependent hazard (for a given distance) and shows how two captures (at times $t_1$ and $t_2$) are modelled when they are treated as a NHPP. Multiplying these terms together leads to the expression $\exp{-\int_0^T \lambda(t)\; dt \prod_r \lambda(t_r)}$.}
+\centering
+\vspace{-24pt}
+\includegraphics[width=12cm]{keepfigure/ModellingTimes.pdf}
+\label{fig:Times1}
+\end{figure}
+
+Equation~\ref{eqn:f_j(t)} can be fitted into the alternative formulation presented in Section~\ref{sec:det-types-blocks}. The marginal distribution of the detection frequency at detector $j$ ($\omega_{ij}$) has a Poisson distribution with parameter $\Lambda_j(\bm{s}_i;\bm{\theta})=\int_0^T \lambda_j(t,\bm{s}_i;\bm{\theta})\;dt$, and the conditional pdf of detection times $\bm{t}_{ij}$, given $\omega_{ij}$, for the $i$th animal is
+
+\begin{align}
+f_{t|\omega,j}(\bm{t}_{ij} \mid \omega_{ij},\bm{s}_i;\bm{\theta})
+&=\omega_{ij}!\prod_{r=1}^{\omega_{ij}}\frac{h_j(t_{ijr}, \bm{s}_i;\bm{\theta})}{\Lambda_j(\bm{s}_i;\bm{\theta})}.
+\label{eq:f_j(t|omega)}
+\end{align}
+
+\todo[inline]{Not sure if I should show the full LL - the reason I was considering this is to discuss sufficiency and show that in a general sense at least there is information in the times. Just seems a bit too technical relative to the rest of the book.}
+
+\section{More on the hazard function}
+\label{sec:CT hazards}
+\index{}
+
+\subsection{Forms for the hazard}
+\label{subsec:forms}
+
+When the hazard function varies through time, the hazard of individual $i$ being detected at trap $k$ depends as before on the distance between trap $k$ and individual $i$'s activity centre, but also depends on time. This scenario is more realistic as most animals are more likely to be caught at certain times rather than others depending on their behaviour and activity patterns.  
+
+The non-constant hazards have been parameterised in this work to contain a component that depends on distance ($h(\bm{s} ;\bm{\theta})$) and a component that depends on time ($h(t ; \bm{\psi})$). As before the dependence of the first component on distance through $\bm{s}$($d_k(\bm{s})$) is not always made explicit for notational brevity. Note that the two components do not interact and hence the effect of time is independent of the effect of distance (and vica versa). 
+
+\begin{equation}
+h(t, \bm{s} ;\bm{\theta}, \bm{\psi}) = h(\bm{s} ;\bm{\theta}) \times h(t ; \bm{\psi}) 
+\label{eqn:hazt}
+\end{equation}
+
+The second component $h(t, \bm{\psi})$ determines the hazard shape over time which is scaled by a factor that depends on the distance from the individuals' activity centre to the detector ($h(\bm{s} ;\bm{\theta})$). This scaling factor depends on the parameters that appear in the usual detection function, i.e.\ for the half-normal form the parameters in $\bm{\theta}$ include detectability ($g_0$) and dispersion characteristics ($\sigma$). It is only $h(t ; \bm{\psi})$ that changes form for different selected hazard shapes over time and two forms for $h(t ; \bm{\psi})$ are given below. 
+
+The detection hazards used in this work are conceived as cyclical hazards that repeat over time after a specified cycle length. This approach facilitates the modeling of a daily pattern to detectability that, for example, can result in nocturnal animals being very unlikely to be captured during the day. Using a cyclical hazard means that the hazard is constrained to begin and end at the same point each cycle. Note that the CT hazard results in a model in which variation in detectability is modelled at a finer resolution than DT models with occasions. Further details are given below for both a cosine and a regression spline hazard form.
+
+\subsection{Ancillarity}
+something about ancillarity and density? Again not sure if too technical.
+
+\subsection{Linking the hazard with the detection function}
+Chpt 1 links det fn with encounter rate model, implicitly assuming constant hazard. Need to show that essentially the same thing with hazard but that needs integrated hazard notation to be more general (rather than just $\exp{-\lambda(d) T}$).
+
+The encounter rate function from Chapter~\ref{chap:ERdetfun} provides the expected encounter rate per unit time for individual $i$ at detector $j$ and describes how the encounter rate declines with the distance between that individual's activity centre and the detector $d_{ij}$ (see Equation~\ref{eq:ER+detfun.lambda.hn}).
+
+In Chapter~\ref{chap:ERdetfun} the expected encounter rate depends on distance and can be interpreted for any duration $T$ by scaling the rate in proportion to $T$. This implies that the detection hazard is constant through time (because $\int_0^T \lambda = \lambda \times T$).  
+
+Generalise effort idea from chapter 4.
 
 \todo[inline]{Can put in a little more maths to show how shape of det fn is no longer normal for different durations?}
 
 \todo[inline]{perhaps explore negative exponential parametrisation for lambda (see 1.19) rather than making it a function of g0 and sigma?}
 
-\todo[inline]{link potential benefit of continuous covariates back to chapter4's discussion on behavioural effects that disappear.}
+\todo[inline]{link potential benefit of continuous covariates back to chapter 4's discussion on behavioural effects that disappear.}
 
-Figures~\ref{} and
+\section{Learning about animal activity patterns}
+\label{sec: activity}
+\index{}
 
-\begin{figure}[ht]
-\caption{\small test.}
-\centering
-\vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/XX.pdf}
-\label{fig:}
-\end{figure}
+
+Understanding the activity patterns of animals can be used to learn about animal behaviour. \citet{Cowan12} use single-catch traps with timing devices to understand the behavioural response of possums that are caught, and \citet{Harmsen09} make inference about the hourly activity of jaguars and pumas from the frequency distribution of hourly capture times (397 for jaguars and 413 for pumas). However using a histogram with $X$ bars (a) requires arbitrary decisions about where the intervals start and end for each bar, (b) involves estimating ($X-1$) parameters, (c) does not give a smooth estimate of activity pattern change over time, and (d) does not include a rigorous framework for quantifying the associated uncertainty or selecting between alternative models. Using a spline involves no arbitrary decisions about intervals, involves estimating as many or as few parameters as the data support, provides a much more realistic smooth estimate of activity pattern change and a rigorous framework for model selection, uncertainty quantification, and testing hypotheses about activity patterns. The various hazard plots generated from the simulation studies in this chapter show that the CT models are able to estimate the underlying detection hazard cycle well. As one would expect, the variability in these estimates is higher for more complicated hazards that require more parameters, and decreases with more data. 
+
+\citet{Ridout09} quantify the overlap in activity patterns between different species from camera trap data. They use kernel density estimation for circular data to estimate the continuous activity pattern distributions, and then look at different measures of overlap. The measures of overlap used in \citet{Ridout09} could also be applied to the estimated activity patterns from the estimated spline hazards. 
+
+A crepuscular (active during twilight) hazard shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. This is in line with \citet{Harmsen11} who reported a crepuscular peak in activity for jaguars between 6 and 7 pm. On the other hand the estimated detection cycle for possums is more unimodal with a peak in the evening and low levels of detectability at other times, which is again in line with previously published work \citep{Cowan12}.  
+
+A fuller moon leads to brighter hunting conditions and \citet{Harmsen11} report that the two main prey species of jaguars and pumas both exhibited reduced activity under these conditions, and discuss different potential predator strategies in response to this reduction in activity. The asynchronous hazard with a cycle duration of 720 hours is the type of hazard that could be appropriate if detectability is related to a longer process such as the lunar cycle.  However it is likely that if such a process existed it would be on top of a shorter daily detection cycle and  both would probably need to be modelled together. The objective in this case is to explore how the misspecification of the binary model affects density estimation and so the combination of both hazard cycles is not implemented here. The CT modelling framework can however easily accommodate this sort of hazard model.
+
+\section{Modelling heterogeneity in detection}
+\label{sec: CT hetero}
+\index{}
+
+
+\section{A camera trap application}
+\label{sec: CT Cam App}
+\index{}
+
+\section{Single-catch traps}
+\label{sec: CT SC}
+\index{}
+
+\section{A single-catch trap application}
+\label{sec: CT SC App}
+\index{}
+
+
+
 
 The necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package and getting the data and other \texttt{R} objects for this chapter, as follows:
 {\small
