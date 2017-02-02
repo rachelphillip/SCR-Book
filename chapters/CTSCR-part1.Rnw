@@ -47,7 +47,6 @@ Figure~\ref{fig:Times1} shows a heuristic explanation of where this expression c
 \begin{figure}[ht]
 \caption{\small The plot depicts a time-dependent hazard (for a given distance) and shows how two captures (at times $t_1$ and $t_2$) are modelled when they are treated as a NHPP. Multiplying these terms together leads to the expression $\exp{-\int_0^T \lambda(t)\; dt \prod_r \lambda(t_r)}$.}
 \centering
-\vspace{-24pt}
 \includegraphics[width=12cm]{keepfigure/ModellingTimes.pdf}
 \label{fig:Times1}
 \end{figure}
@@ -100,7 +99,6 @@ Figure \ref{fig:GAMhaz} depicts three fictitious examples of different possible 
 \begin{figure}[ht]
 \caption{\small Three examples of possible detection hazard shapes that can be modelled using regression splines of increasing complexity. From top to bottom the degrees of freedom are 4, 8 and 10.}
 \centering
-\vspace{-24pt}
 \includegraphics[width=12cm]{keepfigure/GAMhaz.pdf}
 \label{fig:GAMhaz}
 \end{figure}
@@ -152,8 +150,6 @@ This is the basis of the varying effort model for binary detectors and counts in
 The CT framework generalises this idea and can for example recognise that a detector failing for a period of time during the day will have little effect on the detectability of a nocturnal species. The ability of the CT model to properly handle varying trap exposure is what leads to the construction of the single-catch trap likelihood. It is more difficult to accommodate detectors when their time of failing is unknown, and that problem is not addressed here. The assumption of a constant encounter rate through time is also made when the expected encounter rate for any duration $T$ is scaled in proportion to $T$, and also for the discussion on effort in X. Generalise effort idea from chapter 4.
 
 \todo[inline]{Can put in a little more maths to show how shape of det fn is no longer normal for different durations?}
-
-\todo[inline]{perhaps explore negative exponential parametrisation for lambda (see 1.19) rather than making it a function of g0 and sigma?}
 
 \todo[inline]{link potential benefit of continuous covariates back to chapter 4's discussion on behavioural effects that disappear.}
 
