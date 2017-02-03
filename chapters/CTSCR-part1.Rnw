@@ -1,15 +1,15 @@
 \chapter{Continuous-time SCR models}
 \label{chap:continuous-time}
 
-\abstract{This chapter concerns models that use the observed times of capture rather than any occasion. These models facilitate a more natural modelling of data from devices like camera traps rather than needing to impose the artifical construct of occasions on to the data. }
+\abstract{This chapter introduces models that use the observed times of capture and hence remove the need to impose an occasion structure on data collected in continouous time.  }
 
 \section{Introduction}
 \label{sec:CT intro}
 \index{}
 
-Spatial and non-spatial application of classic CR typically involves physically capturing and marking individuals at discrete sampling occasions in time, and the survey process generates well-defined sampling occasions. But as discussed in Chapter~\ref{chap:det-types}, these days it is possible to use non-traditional detectors that do not involve any physical capture and release (hence the term \textit{passive} detectors) but rather record the actual detection times. 
+Spatial and non-spatial application of classic CR typically involves physically capturing and marking individuals at discrete sampling occasions in time, and the survey process generates well-defined sampling occasions. But as discussed in Chapter~\ref{chap:det-types}, these days it is possible to use non-traditional detectors that do not involve any physical capture and release (hence the term \textit{passive} detectors), in which case there are no well-defined sampling occasions.
 
-Data of this sort do not lead to well-defined sampling occasions and researchers that have time-to-detection data typically aggregate their data into sampling occasions so that the data are then suitable for analysis with traditional models. Aggregating the data into discrete capture occasions imposes an artificial construction on the data for reasons of analytic convenience. It is always a better policy to find a statistical formulation that fits the data than to shoehorn the data into a form that fits statistical formulations that happen to be available. Furthermore aggregating data into capture occasions introduces subjectivity (the occasion length chosen by the analyst) and discards some information (the exact times of capture). 
+Researchers using passive detectors typically aggregate their data into sampling occasions so that the data are then suitable for analysis with traditional models. However devices like camera traps are able to record the actual times of capture and aggregating time-to-detection data into discrete capture occasions imposes an artificial construction on the data for reasons of analytic convenience. It is always a better policy to find a statistical formulation that fits the data than to shoehorn the data into a form that fits statistical formulations that happen to be available. Furthermore aggregating data into capture occasions introduces subjectivity (the occasion length chosen by the analyst) and discards some information (the exact times of capture). 
 
 As discussed previously, SCR methods assume independence between traps, i.e.\ the probability of being caught at a particular trap is not affected by a capture elsewhere. In general, the only benefit to imposing the artificial construct of occasions on continuous data is to remove correlation in the capture times so that the independence assumption is not violated. There is also likely to be little additional information in multiple captures in a short time \citep{Royle09, Royle09b}.
 
@@ -21,41 +21,44 @@ However, binning the data into occasions does not allow the inclusion of continu
 
 The CT framework involves modelling the process generating detections as a temporal Non-Homogeneous Poisson Process (NHPP) in which the events are detections. This approach assumes that the encounter rate for the $i$th individual at the $j$th detector at any time is independent of the individual's capture history up to that time. Note that the model is easily extended to be of type $M_b$ by estimating different detection levels before and after first capture.
 
-In a CT formulation, the discrete-occasion expression for the probability of detecting individual $i$ at detector $k$ during an occasion is replaced by an encounter rate function as seen in Chapter~\ref{chap:ERdetfun}. The difference is that the traditional SCR models make an implicit assumption that the expected encounter rate is constant through time but here the encounter rate function is extended to depend on time in addition to distance ($\lambda(d_{ij},t)$. When the expected encounter rate depends on time it tends to be referred to as the ``hazard'' (from survival analysis literature with the hazard in this case being the hazard of detection rather than hazard of death) though note that the expected encounter rate and the detection hazard are in effect the same thing.
+In a CT formulation, the discrete-occasion expression for the probability of detecting individual $i$ at detector $j$ during occasion $k$ is replaced by an encounter rate function as seen in Chapter~\ref{chap:ERdetfun}. The difference is that the traditional SCR models make an implicit assumption that the expected encounter rate is constant through time but here the encounter rate function is extended to depend on time in addition to distance ($\lambda(d_{ij},t)$. 
 
-The time-dependent expected encounter rate for the $i$th individual and the $j$th trap at time $t$ is denoted as $\lambda(d_{ij},t ; \bm{\theta})$ and can depend on both space (in terms of the distance from the trap to the activity centre $d_{ij}(\bm{s}_i)$) and time while $\bm{\theta}$ is an unknown vector of hazard function parameters.
+When the expected encounter rate depends on time it tends to be referred to as the ``hazard'' (from survival analysis literature with the hazard in this case being the hazard of detection rather than hazard of death). While these two terms can be used interchangeably the convention followed here is to use the term ``hazard'' when specifically referring to the time-dependent component of the encounter rate function. 
+
+The expected encounter rate for the $i$th individual and the $j$th trap at time $t$ now depends on both space (in terms of the distance from the trap to the activity centre $d_{ij}$) and time and hence is denoted as $\lambda(d_{ij},t)$.
 
 The ``survivor function'' for individual $i$ at trap $j$ over the whole survey (the probability of individual $i$ not being detected by the trap by time $T$) is 
 
-\[ S_j(T, d_{ij};\bm{\theta})=\exp{\left(-\int_0^T \lambda_j(d_{ij},t ; \bm{\theta})\;dt\right) }\] 
+\[ S_j(T, d_{ij}})=\exp{\left(-\int_0^T \lambda_j(d_{ij},t)\;dt\right) }\] 
 
-and hence $1 - S_j(T, d_{ij} ;\bm{\theta})$ is the probability of detection in $(0,T)$.
-Similarly the combined expected encounter rate over all traps at time $t$ is $\lambda_\cdot(t,\bm{s}_i;\bm{\theta})=\sum_{j=1}^J \lambda_j(d_{ij},t ; \bm{\theta})$, and the overall probability of detection in $(0,T)$ over all detectors is $p_\cdot(\bm{s}_i;\bm{\theta})=1-S_\cdot(T, \bm{s}_i;\bm{\theta})$, where $S_\cdot(T,\bm{s}_i;\bm{\theta})=\exp{\left(-\int_0^T \lambda_j(\bm{s}_i,t ; \bm{\theta}))\;dt\right)}$ is the overall survivor function. 
+and hence $1 - S_j(T, d_{ij})$ is the probability of detection in $(0,T)$.
 
-By considering $\bm{t}_{ij}$ to be a realisation of a NHPP in time, an expression for the probability density function (pdf) of $\bm{t}_{ij}$ is obtained. This is analogous to the probability of obtaining a capture history at detector $j$ for individual $i$ in a discrete-time formulation, but it is worth noting that both the length of $\bm{t}_{ij}$ (denoted as $\omega_{ij}$ \todo{I'm a little unsure about the notation because $\omega$ is also used to represent capture histories?}) and the times that it contains are random variables, whereas for a discrete-occasion survey the length of a capture history is fixed by the number of occasions used.
+Similarly the combined expected encounter rate over all traps at time $t$ is $\lambda_\cdot(t,\bm{d}_i)=\sum_{j=1}^J \lambda_j(d_{ij},t)$ where the vector $\bm{d}_i=(d_{i1},\ldots,d_{iJ})$ represents distances to all detectors. The overall probability of detection in $(0,T)$ over all detectors is therefore $p_\cdot(\bm{d}_i)=1-S_\cdot(T, \bm{d}_i)$, where $S_\cdot(T,\bm{d}_i)=\exp{\left(-\int_0^T \lambda_j(\bm{d}_i,t))\;dt\right)}$ is the overall survivor function. 
+
+By considering the vector of capture times for the $i$th individual at the $j$th detector $\bm{t}_{ij}$ to be a realisation of a NHPP in time, an expression for the probability density function (pdf) of $\bm{t}_{ij}$ is obtained. This is analogous to the probability of obtaining a capture history at detector $j$ for individual $i$ in a discrete-time formulation, but it is worth noting that both the length of $\bm{t}_{ij}$ (denoted as $\omega_{ij}$ \todo{I'm a little unsure about the notation because $\omega$ is also used to represent capture histories?}) and the times that it contains are random variables, whereas for a discrete-occasion survey the length of a capture history is fixed by the number of occasions used.
 
 Using a result from Poisson process theory \cite[see][Theorem 2.1 on page 30, and Equation (2.13) on page 32]{Cook07} \todo{is the citation necessary?}, and assuming that, conditional on the activity centre location, the times of detections are independent, the detection times for individual $i$ at detector $j$ can be modelled as a NHPP with pdf:
 
 \begin{align}
-f_j(\bm{t}_{ij} \mid \bm{s}_i ; \bm{\theta})
-&= S_j(T,\bm{s}_i;\bm{\theta})\prod_{r=1}^{\omega_{ij}} \lambda_j(t_{ikr},\bm{s}_i;\bm{\theta})
+f_j(\bm{t}_{ij} \mid d_{ij})
+&= S_j(T,d_{ij})\prod_{r=1}^{\omega_{ij}} \lambda_j(d_{ij},t_{ikr})
 \label{eqn:f_j(t)}
 \end{align}
 
-Figure~\ref{fig:Times1} shows a heuristic explanation of where this expression comes from for a hypothetical individual that is captured at a particular trap twice. It is necessary to first model the probability that the individual is not captured from the start of the survey until the time of first capture, and this probability is found by $\exp{-\int_0^{t_1} \lambda(t) \; dt}$. The individual is then captured at the appropriate encounter rate $\lambda(t_1)$. Next the probability of no capture from $t_1$ until $t_2$ is found in the same way and the second capture occurs at the rate of $\lambda(t_2)$. Lastly, it is necessary to model the fact that the individual evades capture from $t_2$ until the end of the survey at time $T$. 
+A heuristic explanation of this expression for a hypothetical individual that is captured at a particular trap twice is given in  Figure~\ref{fig:Times1}. It is necessary to first model the probability that the individual is not captured from the start of the survey until the time of first capture, and this probability is found by $e^{-\int_0^{t_1} \lambda(t) \; dt}$. The individual is then captured at the appropriate encounter rate $\lambda(d_{ij},t_1)$. Next the probability of no capture from $t_1$ until $t_2$ is found in the same way and the second capture occurs at the rate of $\lambda(d_{ij},t_2)$. Lastly, it is necessary to model the fact that the individual evades capture from $t_2$ until the end of the survey at time $T$. 
 
 \begin{figure}[ht]
-\caption{\small The plot depicts a time-dependent hazard (for a given distance) and shows how two captures (at times $t_1$ and $t_2$) are modelled when they are treated as a NHPP. Multiplying these terms together leads to the expression $\exp{-\int_0^T \lambda(t)\; dt \prod_r \lambda(t_r)}$.}
+\caption{\small The plot depicts a time-dependent hazard (for a given distance) and shows how two captures (at times $t_1$ and $t_2$) are modelled when they are treated as a NHPP. Multiplying these terms together leads to the expression $\exp{-\int_0^T \lambda(d_{ij},t)\; dt} \prod_r \lambda(d_{ij},t_r)$.}
 \centering
 \includegraphics[width=12cm]{keepfigure/ModellingTimes.pdf}
 \label{fig:Times1}
 \end{figure}
 
-Equation~\ref{eqn:f_j(t)} can be fitted into the alternative formulation presented in Section~\ref{sec:det-types-blocks}. The marginal distribution of the detection frequency at detector $j$ ($\omega_{ij}$) has a Poisson distribution with parameter $\Lambda_j(\bm{s}_i;\bm{\theta})=\int_0^T \lambda_j(t,\bm{s}_i;\bm{\theta})\;dt$, and the conditional pdf of detection times $\bm{t}_{ij}$, given $\omega_{ij}$, for the $i$th animal is
+Equation~\ref{eqn:f_j(t)} can be fitted into the alternative formulation presented in Section~\ref{sec:det-types-blocks}. The marginal distribution of the detection frequency at detector $j$ ($\omega_{ij}$) has a Poisson distribution with parameter $\Lambda_j(d_{ij})=\int_0^T \lambda_j(d_{ij},t)\;dt$, and the conditional pdf of detection times $\bm{t}_{ij}$, given $\omega_{ij}$, for the $i$th animal is
 
 \begin{align}
-f_{t|\omega,j}(\bm{t}_{ij} \mid \omega_{ij},\bm{s}_i;\bm{\theta})
-&=\omega_{ij}!\prod_{r=1}^{\omega_{ij}}\frac{h_j(t_{ijr}, \bm{s}_i;\bm{\theta})}{\Lambda_j(\bm{s}_i;\bm{\theta})}.
+f_{t|\omega,j}(\bm{t}_{ij} \mid \omega_{ij},d_{ij})
+&=\omega_{ij}!\prod_{r=1}^{\omega_{ij}}\frac{\lambda_j(d_{ij}, t_{ijr})}{\Lambda_j(d_{ij})}.
 \label{eq:f_j(t|omega)}
 \end{align}
 
@@ -65,39 +68,44 @@ f_{t|\omega,j}(\bm{t}_{ij} \mid \omega_{ij},\bm{s}_i;\bm{\theta})
 \label{sec:CT hazards}
 \index{}
 
-When the hazard function varies through time, the hazard of individual $i$ being detected at trap $j$ depends as before on the distance between trap $j$ and individual $i$'s activity centre, but also depends on time. This scenario is more realistic as most animals are more likely to be caught at certain times rather than others depending on their behaviour and activity patterns.  
+When the encounter rate function varies through time, the expected encounter rate of individual $i$ being detected at trap $j$ depends as before on the distance between trap $j$ and individual $i$'s activity centre, but also depends on time. This scenario is more realistic as most animals are more likely to be caught at certain times rather than others depending on their behaviour and activity patterns.  
 
-The detection hazards are conceived as cyclical hazards that repeat over time after a specified cycle length. This approach facilitates the modeling of a daily pattern to detectability that, for example, can result in nocturnal animals being very unlikely to be captured during the day. Using a cyclical hazard means that the hazard is constrained to begin and end at the same point each cycle. Note that the CT hazard results in a model in which variation in detectability is modelled at a finer resolution than DT models with occasions. 
+The time-dependent detection hazard is conceived here as a cyclical hazard that repeats over time after a specified cycle length. This approach facilitates the modeling of a daily pattern to detectability that, for example, can result in nocturnal animals being very unlikely to be captured during the day. Using a cyclical hazard means that the hazard is constrained to begin and end at the same point each cycle. Note that the CT hazard results in a model in which variation in detectability is modelled at a finer resolution than DT models with occasions. 
 
 \subsection{Seperating time and distance}
 \label{subsec:independent}
 
-One way to parametrise the time-dependent expected encounter rate function is to have a component that depends on distance ($\lambda(d ;\bm{\theta})$) and a component that depends on time ($h(t ; \bm{\psi})$). This parameterisation effectively means that these two components do not interact and hence the effect of time is independent of the effect of distance (and vica versa). 
+One way to parametrise the expected encounter rate function is to have a component that depends on distance ($\lambda(d)$) and a component that depends on time ($h(t)$). This parameterisation effectively means that these two components do not interact and hence the effect of time is independent of the effect of distance (and vica versa). 
 
 \begin{equation}
-\lambda(t, d ;\bm{\theta}, \bm{\psi}) = \lambda(d ;\bm{\theta}) \times h(t ; \bm{\psi}) 
+\lambda(d,t) = \lambda(d) \times h(t) 
 \label{eqn:hazt1}
 \end{equation}
 
-The second component $h(t, \bm{\psi})$ determines the shape of the detectiomn hazard over time which is scaled by a factor that depends on the distance from the individuals' activity centre to the detector ($\lambda(d ;\bm{\theta})$). This scaling factor depends on the parameters that appear in the usual detection function, i.e.\ for the half-normal form the parameters in $\bm{\theta}$ include detectability ($g_0$) and dispersion characteristics ($\sigma$). 
+The second component $h(t)$ determines the shape of the detection hazard over time and the time-dependent hazard of detection is scaled by a factor that depends on the distance from the individuals' activity centre to the detector ($\lambda(d)$). 
 
-Regression splines are a form of less rigid parametric fitting that can be thought of as fitting piecewise polynomials to segments of the data. A regression spline takes the form of a weighted sum of smooth functions of the data, and these functions of the data are known as basis functions. The flexibility of regression splines increases with the degrees of freedom or knots, i.e.\ increasing the knots increases the number of parameters that need to be estimated and increases the function's flexibility. 
+%This scaling factor depends on the parameters that appear in the usual detection function, i.e.\ for the half-normal form the parameters in $\bm{\theta}$ include detectability ($g_0$) and dispersion characteristics ($\sigma$). 
+
+A flexible way to model $h(t)$ is to use regression splines. Regression splines are a form of less rigid parametric fitting that can be thought of as fitting piecewise polynomials to segments of the data. A regression spline takes the form of a weighted sum of smooth functions of the data, and these functions of the data are known as basis functions. The flexibility of regression splines increases with the degrees of freedom or knots, i.e.\ increasing the knots increases the number of parameters that need to be estimated and increases the function's flexibility. 
 
 An array of different types of basis functions are available that produce splines with different features. Cyclic cubic regression splines are used here to produce hazard cycles of a specified length that repeat over time.
 
-The $h(t ; \bm{\psi})$ component with a flexible shape is parameterised as follows:
+The $h(t)$ component with a flexible shape is parameterised as follows:
 
 \begin{equation}
-h(t ;\bm{\psi}) = e^{f(t ; \bm{\psi})}
+h(t) = e^{f(t)}
 \label{eqn:spline}
 \end{equation}
  
-where $f(t ; \bm{\psi}) = \beta_1 b_1(t) + \beta_2 b_2(t) + \ldots + \beta_p b_p(t) $, the $b_p(t)$ refer to $p$ basis functions, $p$ is determined by the specified degrees of freedom (denoted as $K$), and the log link ensures a positive detection hazard. The R package \emph{mgcv} \citep{Wood14} is used to construct the necessary basis functions. Specifying ``fit = FALSE'' in the \emph{gam} function returns the basis functions that can then be used as ordinary covariates in the hazard model. Note that the intercept of the spline coefficients is redundant because its role is effectively subsumed by the $\lambda(d ; \bm{\theta})$ scaling factor. Plots that depict the detection hazards are focusing on the shape through time and hence are scaled so that they integrate to 1. Furthermore, a degree of freedom is lost when specifying hazards with a cyclic cubic spline form. The number of degrees of freedom for different spline hazards that are reported here matches the number given to the \emph{gam} function in package \emph{mgcv}. Therefore the actual number of parameters estimated in the reported models is two less than the value given for $K$. 
+where $f(t) = \beta_1 b_1(t) + \beta_2 b_2(t) + \ldots + \beta_p b_p(t) $, the $b_p(t)$ refer to $p$ basis functions, $p$ is determined by the specified degrees of freedom (denoted as $K$), and the log link ensures a positive detection hazard. 
 
-Figure \ref{fig:GAMhaz} depicts three fictitious examples of different possible hazard shapes that can be modelled with regression splines. The top panel shows a simple detection hazard that rises to a peak about halfway through the cycle and then falls away again. The second example is similar but remains around its peak for a longer time. The final example shows a hazard that has two peaks, if one considers the 24 hour hazard cycle to be in sync with a 24 hour daily cycle then these peaks occur roughly at dawn and dusk. These shapes are produced by making up a series of data points that follow a certain pattern, extracting the basis functions, and then using the basis functions as covariates for fitting a generalised linear model with a log link. For example the fitted model for the hazard shape for the first shape with K = 4 is $h(t ;\bm{\psi}) = e^{1.145 b_1(t) + 1.284 b_2(t)}$. 
+The R package \emph{mgcv} \citep{Wood14} is used to construct the necessary basis functions that are then used as ordinary covariates in the hazard model. Note that the intercept of the spline coefficients is redundant because its role is effectively subsumed by the $\lambda(d)$ scaling factor and furthermore a degree of freedom is lost when specifying hazards with a cyclic cubic spline form. The number of degrees of freedom ($K$) for different spline hazards that are reported in this work matches the number passed to the \emph{gam} function in package \emph{mgcv} and hence the actual number of parameters estimated in the reported models is two less than $K$.
+
+Plots that depict the detection hazards are focusing on the shape through time and hence are scaled so that they integrate to 1. Figure \ref{fig:GAMhaz} depicts three fictitious examples of different possible hazard shapes that can be modelled with regression splines. The top panel shows a simple detection hazard that rises to a peak about halfway through the cycle and then falls away again. The second example is similar but remains around its peak for a longer time. The final example shows a hazard that has two peaks, if one considers the 24 hour hazard cycle to be in sync with a 24 hour daily cycle then these peaks occur roughly at dawn and dusk. These shapes are produced by making up a series of data points that follow a certain pattern, extracting the basis functions, and then using the basis functions as covariates for fitting a generalised linear model with a log link. 
+For example the fitted model for the hazard shape for the first shape with K = 4 is $h(t) = e^{1.145 b_1(t) + 1.284 b_2(t)}$. 
 
 \begin{figure}[ht]
-\caption{\small Three examples of possible detection hazard shapes that can be modelled using regression splines of increasing complexity. From top to bottom the degrees of freedom are 4, 8 and 10.}
+\caption{\small Three examples of possible detection hazard shapes that can be modelled using regression splines of increasing complexity. From top to bottom the degrees of freedom (as passed to the \emph{gam} function in package \emph{mgcv}) are 4, 8 and 10.}
 \centering
 \includegraphics[width=12cm]{keepfigure/GAMhaz.pdf}
 \label{fig:GAMhaz}
@@ -111,7 +119,7 @@ Figure \ref{fig:GAMhaz} depicts three fictitious examples of different possible 
 The expected encounter rate function for a particular detector can be specified so that the effect of time depends on the distance between the trap and an individual's activity centre. One approach that achieves this is to make the $\sigma$ parameter depend on time. This leads to a model where the extent that an animal ranges depends on the time of day.
 
 \begin{equation}
-lambda(d,t) = \lambda_0\exp\{-d^2/(2\sigma(t)^2)\}
+\lambda(d,t) = \lambda_0\exp\{-d^2/(2\sigma(t)^2)\}
 \label{eqn:hazt2}
 \end{equation}
 where $\sigma(t)=\exp(\beta_0 + \sum_{k=1}^K\beta_k\times b_k(t))$
@@ -143,7 +151,7 @@ The more general formulation (Section~\ref{subsec:generalform}) does not allow t
 This shows that there are many different encounter rate functional forms that can lead to the same detection function.
 
 \section{Accounting for varying effort}
-CT models readily accommodate detectors that are operational for different periods of time by setting the detection hazard at a detector to zero while the detector is out of operation (i.e.\ $h_j(t,\bm{s};\bm{\theta}, \bm{\psi})=0$ if detector $k$ was not operating at time $t$). 
+CT models readily accommodate detectors that are operational for different periods of time by setting the expected encounter rate at a detector to zero while the detector is out of operation (i.e.\ $\lambda_j(d,t)=0$ if detector $j$ was not operating at time $t$). 
 
 This is the basis of the varying effort model for binary detectors and counts in \citet*{Efford13b}. However it should be noted that in that case it was assumed that the effect on the hazard is proportional to a standard unit of effort, i.e.\ if the effort for a given occasion is twice that of a standard unit of effort then the detection hazard gets doubled. The varying effort model can therefore accommodate occasions that are of different lengths but in order to do this it implicitly assumes that the hazard is constant through time. 
 
