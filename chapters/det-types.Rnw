@@ -179,26 +179,31 @@ nomenclature to what we use here: it considers not only the type of
 detector, but also the type of response data. This is explained in
 further detail in the relevant sections below.
 
-\subsection{Incorporating additional information}
-\label{sec:det-types-additional-info}
+\section{Modelling additional data types}
+\label{sec:det-types-additional-data}
 
-\todo[inline]{Likewise, this section will probably be moved elsewhere.}
+\todo[inline]{Not really sure where to put this stuff yet.}
 
-A variety of additional response data types may be observed from each
-detection; for example, an acoustic survey may record both the
-received signal strength and time of arrival of each detection of a
-call. Let $\bm{Y}$ hold all additional data observed from all
-detections, and let each element be indexed by the same subscripts
-used in Sections \ref{sec:ER+detfun.occasions} and
-\ref{sec:ER+detfun.strata}, in addition to the subscript $m$, which
-indexes the additional information type. For example, $y_{ijkm}$ is
-the $m$th additional data type collected from the $i$th individual's
-detection at the $j$th detector on the $k$th occasion.
+Sometimes we may observe various kinds of additional data---precise
+times that detections were made is one such example (others will be
+met in further chapters). Let $\bm{Y}_n$ contain such additional data,
+potentially comprising multiple types, so that $\bm{Y}_n = (\bm{Y}_1,
+\bm{Y}_2, \cdots)$
 
-When additional data are collected, we must build it into the
-likelihood. This is achieved by specifying
-$[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n]$ instead of
-$[\bm{\Omega}_n | \bm{S}_n]$.
+We can formulate the likelihood compenent due to $\bm{\Omega}_n$ and
+$\bm{Y}_n$ as
+\be
+[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n] \times \cdots, \nonumber
+\ee
+
+This framework offers great flexibility in the types of data we can
+model using SCR methods---for each type of additional information, all
+we require is to add another `building block' term, $[\bm{Y}_\cdot |
+  \bm{\Omega}_n, \bm{S}_n]$, to our likelihood specification. Further,
+the above specification works with all detector types---for example,
+multi-catch or single-catch traps may collect detection times or other
+additional data, and they can be built into the likelihood in this
+very way.
 
 \begin{table}[t]
   \centering
@@ -328,7 +333,14 @@ on the $k$th occasion is
 \be 
 \mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}, \label{eq:det-types-multi-det}
 \ee
-see Figure \ref{fig:det-types-multi}.
+see Figure \ref{fig:det-types-multi}, and so we obtain
+\be
+[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
+\begin{cases}
+     \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if trapped by detector $j$.} \\
+     1 - \sum_{j = 1}^J \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if not detected by any detector,} 
+\end{cases}
+\ee
 
 <<det-types-multi, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textwidth, out.width = add.in(textwidth), out.height = add.in(0.4*textwidth), fig.pos = "tb", eval.after = "fig.cap", fig.cap = paste("A hypothetical array of multi-catch traps (solid points) and an activity centre (cross). Grey values next to detectors show the expected encounter rates, which depend on an encounter rate function that declines as distance to the activity centre increases. In this situation the probability of no detection is $1 - p_{i \\cdot k} = ", format(round(p.evade.all, 3), nsmall = 3), "$. The remaining probability of $p_{i \\cdot k} = ", format(round(1 - p.evade.all, 3), nsmall = 3), "$ is split up among the traps proportional to their respective encounter rates, resulting in the capture probabilities shown in black.", sep = "")>>=
 traps.x <- rep(c(5, 15, 25), 3)
@@ -357,15 +369,6 @@ text(traps.x, traps.y, labels = format(round(p.capture, 3), nsmall = 3), c(-0.05
 #     adj = c(1.05, 1.05))   
 @ 
 
-Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
-\eqref{eq:det-types-multi-det} together, we obtain
-\be
-[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
-\begin{cases}
-  1 - p_{i \cdot k} & \text{if not detected by any detector,} \\
-  p_{i \cdot k}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}} & \text{if trapped by detector $j$.}
-\end{cases}
-\ee
 
 The encounter rates, $\lambda_{ijk}$, are interpreted as the number of
 encounters we would expect between the $i$th individual and the $j$th
