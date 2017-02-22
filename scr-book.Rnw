@@ -136,7 +136,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 \Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/non-euclidian.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/trend-models.Rnw')}  %EH
-% \Sexpr{knit_child('chapters/survey-design.Rnw')}  %EH
+\Sexpr{knit_child('chapters/survey-design.Rnw')}  %EH
 % \Sexpr{knit_child('chapters/acoustics.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/continuous-time.Rnw')}  %Greg
 % \Sexpr{knit_child('chapters/open-popns.Rnw')}  %DLB
