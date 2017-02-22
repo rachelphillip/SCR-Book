@@ -1,0 +1,4 @@
+\chapter{Survey design}
+\label{chap:survey-design}
+
+\abstract{This chapter explains how to design field surveys to collect the data required to estimate, and address hypotheses about, animals density using SCR models.}
