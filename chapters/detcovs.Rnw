@@ -108,6 +108,7 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 
 
 \section{Detector-, occasion- and stratum-specific effects}
+\label{sec:ERdetfun-dos-effects}
 
 Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; shape\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
 
