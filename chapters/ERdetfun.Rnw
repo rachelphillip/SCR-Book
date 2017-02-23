@@ -124,7 +124,7 @@ p(d_{ij},T)&=&1-e^{-\lambda(d_{ij})T}.
 \label{eq:ER+detfun.binaryp}
 \ee
 Notice that this probability depends on the survey duration, $T$. If the same detector is used for different periods of time on two occasions, it will have different detection probabilities on the two occasions, and if identical detectors are used for different periods of time on the same occasion, they will have different detection probabilities. It is important to take account of this when performing SCR inference.
-
+\todo[inline]{reference chapter 4 re: variable effort?}
 
 \begin{figure}[ht]
 \caption{\small The time-scaled encounter rate function $\lambda(d)T$ fitted to the data in Figure~\ref{fig:ER+detfun_enc}. The black dot is the estimated activity centre location.}
@@ -371,6 +371,6 @@ print(xtable(aics[,c("model","detectfn","dAICc","AICcwt")], digits=2,
 
 @
 }
-
+\todo[inline]{Perhaps point out that the smaller, binary data set is less informative regarding which detection function model fits best, since AICc values were similar here?}
 
 
