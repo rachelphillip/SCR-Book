@@ -198,7 +198,7 @@ The vertical red lines in Figure \ref{fig:lunarhaz} mark the 24 hour occasions t
 \begin{figure}[ht]
 \caption{\small A detection hazard with a 30 day (720 hours) cycle. The vertical red lines demarcate the 24 hour occasions to show the variation in detectability between occasions. } 
 \centering
-\includegraphics[width=\textwidth]{LunarHaz.pdf}
+\includegraphics[width=\textwidth]{keepfigure/LunarHaz.pdf}
 \label{fig:lunarhaz}
 \end{figure}
 
@@ -230,23 +230,27 @@ help("Jags-fits")
 @
 }
 
-ADAPT CODE BELOW FROM PRAC TO SIMULATED DATA FOR THE JAG DATA:
-
 The main function that fits the CT models is called \texttt{CT.SCR}. It is up to the user to specify how flexible the time-dependent component of the encounter rate function should be, and also to choose how the encounter rate function is parameterised. Lets start with the form given by Equation \ref{subsec:independent} where the effect of time and the effect of distance are independent. 
 
-The time component $h(t)$ of the function is modelled with a cyclic cubic spline with a cycle duration of 24 hours, and models are fitted with three different values for K (4, 6 and 8). Note that these values for K are the values that are passed to the \texttt{mgcv} R package and not the number of spline parameters that are actually estimated. For the independent parameterisation the number of spline parameters estimated will be 2 less than the value for K (the intercept is redundant and one degree of freedom is lost when specifying a cyclic cubic spline). 
+The time component $h(t)$ of the function is modelled with a cyclic cubic spline with a cycle duration of 24 hours, and models are fitted with three different values for K (4, 6 and 8). Note that these values for K are the values that are passed to the \texttt{mgcv} R package and not the number of spline parameters that are actually estimated. For the independent parameterisation the number of spline parameters estimated will be 2 less than the value for K (the intercept is redundant and one degree of freedom is lost when specifying a cyclic cubic spline). For example the code below fits a model with a cyclic cubic spline detection hazard with K = 4, and where the effects of time and distance are independent:
 
 \begin{verbatim}
-IndHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(4), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
-
-IndHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(6), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
-
-IndHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(8), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+IndHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, 
+trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(4), 
+endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 \end{verbatim}
 
-The code firstly calls \texttt{nlm} which is an optimiser to maximise the likelihood (well actually it is a minimiser so it rather minimises the negative log likelihood). The arguments that are supplied include starting values, the data frame, a SCR traps object, a SCR mask object, the chosen parameterisation for the encounter rate function, the value for K (as passed to \texttt{mgcv}), the study duration (via the \texttt{endpoint_} argument), and the mesh size which is used to determine how fine the grid for the numerical integration in the time dimension is. Lastly \texttt{hessian = T} asks for the estimated hessian matrix that is used to get the variance-covariance matrix for the parameter estimates.
+%IndHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, 
+%trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(6), 
+%endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 
-The parameter estimates are found in the \texttt{$estimate} attribute of the model objects. The order of parameters is: density, $\lambda_0$, $\sigma$, and then the spline parameters. Remember that the estimates need to be backtransformed for interpretation. The density estimates are shown below: 
+%IndHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures, 
+%trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(8), 
+%endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+
+The code firstly calls \texttt{nlm} which is an optimiser to maximise the likelihood (well actually it is a minimiser so it rather minimises the negative log likelihood). The arguments that are supplied include starting values, the data frame, a SCR traps object, a SCR mask object, the chosen parameterisation for the encounter rate function, the value for K (as passed to \texttt{mgcv}), the study duration (via the \texttt{endpoint\_} argument), and the mesh size which is used to determine how fine the grid for the numerical integration in the time dimension is. Lastly \texttt{hessian = T} asks for the estimated hessian matrix that is used to get the variance-covariance matrix for the parameter estimates.
+
+The parameter estimates are found in the \texttt{\$estimate} attribute of the model objects. The order of parameters is: density, $\lambda_0$, $\sigma$, and then the spline parameters. Remember that the estimates need to be backtransformed for interpretation. The density estimates are shown below: 
 
 <<DensEsts1, eval = TRUE>>=
 exp(IndHaz.K4$estimate[1])*10000 ; exp(IndHaz.K6$estimate[1])*10000 ; exp(IndHaz.K8$estimate[1])*10000 
@@ -254,51 +258,71 @@ exp(IndHaz.K4$estimate[1])*10000 ; exp(IndHaz.K6$estimate[1])*10000 ; exp(IndHaz
 
 It is apparent that there is virtually no difference in the density estimates. Recall that the specification of the encounter rate function used here seperates the effects of time and distance and a consequence of this is that the capture times do not have any information about density.
 
-The function \texttt{CalcAICc} calculates the AICc's from the different CT models:
+The function \texttt{CalcAICc} calculates the AICc's from the different CT models and the best fitting detection hazard as selected by AICc is the one with K = 6 (and hence has 4 spline parameters):
 
 <<AICs1, eval = TRUE>>=
-Calc.AICc(mod.objs_=list(IndHaz.K4, IndHaz.K6, IndHaz.K8), decimals_ = 2, n.inds_ = 17)
+aics <- Calc.AICc(mod.objs_=list(IndHaz.K4, IndHaz.K6, IndHaz.K8), decimals_ = 2, n.inds_ = 17)
+print(xtable(aics, digits=2, 
+             caption="AICc's from independent hazard models.",
+             label="CTAICc1"))
 @
 
-The best fitting detection hazard as selected by AICc is the one with K = 6 (and hence has 4 spline parameters). The \texttt{plot.hazard} function plots the estimated detection hazard for a specified model. Note the \texttt{add\_} argument that can add lines to an existing plot and the \texttt{col\_} argument to choose colours:
+The \texttt{plot.hazard} function plots the estimated detection hazard for a specified model. Note the \texttt{add\_} argument that can add lines to an existing plot and the \texttt{col\_} argument to choose colours:
 
 \begin{verbatim}
-plot.hazard(time.vec_ = c(0,24), det.pars_ = c(IndHaz.K6$estimate[2:3]), spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, haz.type_ = 'IndU', scaled_ = T, add_ = F, col_ = "blue")
-plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K4$estimate[2:3]), spline.pars_ = c(IndHaz.K4$estimate[4:5]), haz.k_ = 4, haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "red")
-plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2:3]), spline.pars_ = c(IndHaz.K8$estimate[4:9]), haz.k_ = 8, haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "brown")
+plot.hazard(det.pars_ = c(IndHaz.K6$estimate[2:3]), 
+spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, 
+haz.type_ = 'IndU', scaled_ = T, add_ = F, col_ = "blue")
+plot.hazard(det.pars_ = c(IndHaz.K4$estimate[2:3]), 
+spline.pars_ = c(IndHaz.K4$estimate[4:5]), haz.k_ = 4,
+haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "red")
+plot.hazard(det.pars_ = c(IndHaz.K8$estimate[2:3]), 
+spline.pars_ = c(IndHaz.K8$estimate[4:9]), haz.k_ = 8, 
+haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "brown")
 legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
-       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
 \end{verbatim}
 
-You can see how the estimated hazard shape changes as K increases and that a detection hazard with an increase in detectability in the early morning and a peak in the evening seems to be most appropriate. The model that uses a hazard with K = 8 has the lowest AIC and it is apparent from the plot that there is little difference between that hazard and the one with two extra degrees of freedom (K = 10). Note that we have supplied good starting values but that the final estimated detection hazard does not seem to be sensitive to this and you will end up with the same shape if you supply a flat hazard (values of zero for the spline coefficients). 
+\begin{figure}[ht]
+\caption{\small Three estimated detection hazards ($h(t)$) fitted to the jaguar data using the independent parameterisation. } 
+\centering
+\includegraphics[width=\textwidth]{keepfigure/IndHaz1.pdf}
+\label{fig:indhaz1}
+\end{figure}
 
-The plot you have just generated specified \texttt{scaled\_ = T} and shows the scaled hazards for a 24 hour hazard cycle i.e.\ there is no effect of distance and the focus is really on the shape of the hazard function (the $h(t ; \psi)$ component). The \texttt{plot.hazard} function can also plot the estimated detection hazard for a given distance (from an activity centre) and for a different duration of time. Try the following noting the \texttt{dist\_} argument:
+You can see how the estimated hazard shape changes as K increases. The model that uses a hazard with K = 6 has the lowest AIC and hence a hazard with a crepuscular (active during twilight) shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. This is in line with \citet{Harmsen11} who reported a crepuscular peak in activity for jaguars between 6 and 7 pm. 
+
+The plots above specified \texttt{scaled\_ = T} and show the scaled hazards for a 24 hour hazard cycle i.e.\ there is no effect of distance and the focus is really on the shape of the hazard function (the $h(t)$ component). The \texttt{plot.hazard} function can also plot the expected encounter rate through time for a given distance (from an activity centre) by changing the \texttt{scaled\_ = T} argument to ``F'' and by supplying a value (or a vector) for distance via the \texttt{dist\_} argument. The \texttt{time.vec\_} argument specifies the time period that the plot should apply to and the `Prob' value shown in the legend that is produced is the probability of being caught at least once over that duration of time. 
 
 \begin{verbatim}
-plot.hazard(hours_ = c(0,24), mod.obj_ = CT.k8, scaled_ = F, dist_ = 0, 
-            col_="green", ydecimals_ = 3, )
-plot.hazard(hours_ = c(0,24), mod.obj_ = CT.k8, scaled_ = F, add_=T, dist_ = 2000, 
-            col_="blue", ydecimals_ = 3)
+plot.hazard(time.vec_ = c(0,48), det.pars_ = c(IndHaz.K6$estimate[2:3]), 
+spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, haz.type_ = 'IndU', 
+scaled_ = F, add_ = F, dist_ = c(1000, 5000), col_ = c("red", "blue"), 
+legend.pos_= "topleft")
 \end{verbatim}
 
-The \texttt{hours} argument specifies the time period that the plot should apply to and the `Prob' value shown in the legend that is produced is the probability of being caught at least once over that duration of time. Look at the value for a distance of 0 and compare this to the estimate for the $g_0$ parameter. Run this command again for a longer period of time (say a 72 hour period) and a time period that is not a multiple of the hazard cycle (like from 8 to 62 hours which would correspond to a detector being active from 8 am in the morning until 2pm two days later).
+\begin{figure}[ht]
+\caption{\small Expected encounter rates fitted to the jaguar data using the independent parameterisation. Curves are shown for two different distances. } 
+\centering
+\includegraphics[width=\textwidth]{keepfigure/IndHaz2.pdf}
+\label{fig:indhaz2}
+\end{figure}
 
-
-The plot above focuses on the shape of the time-dependent hazard and hence shows the scaled hazard. One can also plot the expected encounter rate through time for a given distance by changing the \texttt{scaled_ = T} argument to ``F'' and by supplying a value (or a vector) for distance via the \texttt{dist_} argument. The plot will also display the probability of being caught over the specified time period at the specified distance(s).
+Now a new set of models that use the encounter rate function specification given in Equation \ref{subsec:generalform} are fitted. Note that these models take a long time to fit and that the fitted model objects can be found in the \texttt{scrmlebook} library. The code to fit a model with K = 4 and with the dependent encounter rate function form is as follows:
 
 \begin{verbatim}
-plot.hazard(time.vec_ = c(0,24), det.pars_ = c(IndHaz.K6$estimate[2:3]), spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, haz.type_ = 'IndU', scaled_ = F, add_ = F, dist_ = c(1000, 5000), col_ = c("red", "blue"))
+DepHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, 
+trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(4), 
+endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 \end{verbatim}
 
-Now a new set of models that use the encounter rate function specification given in Equation \ref{subsec:generalform} are fitted. Note that these models take a long time to fit and that the fitted model objects can be found in the \texttt{scrmlebook} library.
+%DepHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, 
+%trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(6), 
+%endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 
-\begin{verbatim}
-DepHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(4), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
-
-DepHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(6), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
-
-DepHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(8), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
-\end{verbatim}
+%DepHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures,
+%trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(8), 
+%endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 
 The density estimates are shown below. The estimates from the model with K = 4 are now slightly different to the other two models.
 
@@ -306,35 +330,42 @@ The density estimates are shown below. The estimates from the model with K = 4 a
 exp(DepHaz.K4$estimate[1])*10000 ; exp(DepHaz.K6$estimate[1])*10000 ; exp(DepHaz.K8$estimate[1])*10000 
 @
 
-Plotting the estimated encounter rate function is a little more complicated because the expected encounter rate now depends on both time and distance. If we want to view a two-dimensional plot of the effect of time (or distance), we need to do this for a specified value for distance (or time). In order to generate plots of the expected encounter rate through time, we set the \texttt{dim_} argument to be equal to ``time'' and supply a value for distance via the \texttt{dist_} argument for the model with K = 6:
+Plotting the estimated encounter rate function is a little more complicated because the expected encounter rate now depends on both time (i.t.o the hour of the cycle) and distance. If we want to view a two-dimensional plot of the effect of time (or distance), we need to do this for a specified value of distance (or time). 
+
+Using the model with K = 6, in order to generate plots of the expected encounter rate through time the \texttt{dim\_} argument needs to be set as ``time'' and a value for distance supplied via the \texttt{dist\_} argument. To look at the effect of distance the \texttt{dim\_} argument is changed accordingly, a value of time is supplied via \texttt{time\_}, and a vector of distances needs to be supplied to determine what range of distances the plot should use:
 
 \begin{verbatim}
-plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K6$estimate[2]), spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, haz.type_ = 'Dep', scaled_ = T, add_ = F, col_ = "blue")
-plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K4$estimate[2]), spline.pars_ = c(DepHaz.K4$estimate[3:5]), haz.k_ = 4, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "red")
-plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2]), spline.pars_ = c(IndHaz.K8$estimate[3:9]), haz.k_ = 8, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "brown")
-legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
-       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+plot.hazard(det.pars_ = c(DepHaz.K6$estimate[2]), 
+spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, 
+haz.type_ = 'Dep', dim_ = 'time', dist_ = 2000, add_ = F, col_ = "blue")
+plot.hazard(dist.vec_ = (0:7000), det.pars_ = c(DepHaz.K6$estimate[2]),
+spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, haz.type_ = 'Dep', 
+dim_ = 'distance', time_ = c(2,13,20), dist_ = 2000, add_ = F, 
+col_ = c("blue", "red", "green"))
 \end{verbatim}
 
-And to look at the effect of distance:
+\begin{figure}[ht]
+\caption{\small Expected encounter rates fitted to the jaguar data using the dependent parameterisation. The left hand plot shows the effect of time (for given distances) and the right hand plot the effect of distance (for given times).} 
+\centering
+\includegraphics[width=\textwidth]{keepfigure/DepHaz1.pdf}
+\label{fig:dephaz1}
+\end{figure}
+
+The plotting function will produce a 3-dimensional plot if the\texttt{dim\_} argument is set to be ``NULL''. The default is to produce a static 3D plot but a rotatable plot will be produced if the \texttt{rotate\_} argument is set to be ``T''.
 
 \begin{verbatim}
-plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K6$estimate[2]), spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, haz.type_ = 'Dep', scaled_ = T, add_ = F, col_ = "blue")
-plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K4$estimate[2]), spline.pars_ = c(DepHaz.K4$estimate[3:5]), haz.k_ = 4, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "red")
-plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2]), spline.pars_ = c(IndHaz.K8$estimate[3:9]), haz.k_ = 8, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "brown")
-legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
-       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+plot.hazard(time.vec_ = 0:24, dist.vec_ = seq(0,7000, by = 10), 
+mesh.size_ = 50, det.pars_ = c(DepHaz.K6$estimate[2]), 
+spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, 
+haz.type_ = 'Dep', dim_ = NULL, rotate_ = F)
 \end{verbatim}
 
-
-
-
-
-
-
-
-
-\todo{USe this in interpretation: A crepuscular (active during twilight) hazard shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. This is in line with \citet{Harmsen11} who reported a crepuscular peak in activity for jaguars between 6 and 7 pm. On the other hand the estimated detection cycle for possums is more unimodal with a peak in the evening and low levels of detectability at other times, which is again in line with previously published work \citep{Cowan12}.  }
+\begin{figure}[ht]
+\caption{\small The time and distance dependent expected encounter rate function fitted to the jaguar data and shown in 3 dimensions. } 
+\centering
+\includegraphics[width=\textwidth]{keepfigure/DepHaz2.pdf}
+\label{fig:dephaz2}
+\end{figure}
 
 \subsection{Application to simulated data from two sessions}
 \label{subsec:CTSimApp}
