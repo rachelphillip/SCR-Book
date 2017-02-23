@@ -191,15 +191,191 @@ Simulations confirm that CT models are able to estimate the underlying detection
 \label{sec: CT hetero}
 \index{}
 
-So far the discussion 
-A fuller moon leads to brighter hunting conditions and \citet{Harmsen11} report that the two main prey species of jaguars and pumas both exhibited reduced activity under these conditions, and discuss different potential predator strategies in response to this reduction in activity. The asynchronous hazard with a cycle duration of 720 hours is the type of hazard that could be appropriate if detectability is related to a longer process such as the lunar cycle.  However it is likely that if such a process existed it would be on top of a shorter daily detection cycle and  both would probably need to be modelled together. The objective in this case is to explore how the misspecification of the binary model affects density estimation and so the combination of both hazard cycles is not implemented here. The CT modelling framework can however easily accommodate this sort of hazard model.
+Up to this point all the plots have used cyclical hazards with a cycle duration of 24 hours with the idea of mapping activity patterns on to a daily 24 hour cycle. However it is possible that detectability can also depend on cycles with a longer duration. For example a fuller moon leads to brighter hunting conditions and \citet{Harmsen11} report that the two main prey species of jaguars and pumas both exhibited reduced activity under these conditions, and discuss different potential predator strategies in response to this reduction in activity. Figure \ref{fig:lunarhaz} shows a detection hazard with a 30 day cycle that could be used to represent a longer process such as the lunar cycle. Note however that it is likely that if such a process existed it would be on top of a shorter daily detection cycle and  both would probably need to be modelled together. 
 
-\section{A camera trap application}
-\label{sec: CT Cam App}
+The vertical red lines in Figure \ref{fig:lunarhaz} mark the 24 hour occasions that would be typically used in a DT model, and it is evident that a hazard such as this would lead to heterogeneity in detection across occasions. When detectability varies through time there are several different approaches that can be taken with a traditional DT model. The variation across occasions can be ignored and a single detection function fitted to all occasions, which may not lead to biased estimates of density but will limit the inferences that can be drawn from the estimated detection function. At the other extreme, a DT model can estimate separate detection function parameters for every occasion but that approach can lead to a large increase in the number of parameters and an associated increase in variance. An intermediate approach would be to reduce the number of parameters by modelling a parametric trend across time at the resolution of an occasion. A CT model can effectively achieve the same thing without the need for occasions: assuming a constant hazard corresponds to homogeneity in detection while using a flexible spline allows a suitable level of temporal heterogeneity in detection to be modelled. However, the CT approach provides a flexible modelling framework that allows the data to inform how many parameters are required to model detectability at a finer temporal resolution, and hence allows heterogeneity in detection to be modelled in a more natural, parsimonious and flexible way compared to traditional DT models. 
+
+\begin{figure}[ht]
+\caption{\small A detection hazard with a 30 day (720 hours) cycle. The vertical red lines demarcate the 24 hour occasions to show the variation in detectability between occasions. } 
+\centering
+\includegraphics[width=\textwidth]{LunarHaz.pdf}
+\label{fig:lunarhaz}
+\end{figure}
+
+\section{Example analyses}
+\label{sec: CT Prox Examples}
 \index{}
 
+The fitting of CT SCR models to data from passive detectors is illustrated in this section using two different datasets. The first application involves a real dataset from a camera trap survey of jaguars that took place in the Cockscomb Basin Wildlife Sanctuary in Belize, and the second involves simulated data that include two different sessions. The objective in the first case is to explore the different ways of parameterising the expected encounter rate function, and in the second to look at how model selection tools can be used to explore different hypotheses. 
 
-A crepuscular (active during twilight) hazard shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. This is in line with \citet{Harmsen11} who reported a crepuscular peak in activity for jaguars between 6 and 7 pm. On the other hand the estimated detection cycle for possums is more unimodal with a peak in the evening and low levels of detectability at other times, which is again in line with previously published work \citep{Cowan12}.  
+\subsection{Application to a camera trap survey on jaguars}
+\label{subsec:CTJagsApp}
+
+The function \texttt{CT.SCR} is used to fit the CT models. As before the necessary data and associated fitted objects are obtained by loading the library \texttt{scrmlebook} package.
+
+{\small
+<<CT-Jags-load, include = TRUE, echo = TRUE, eval=TRUE>>=
+library(scrmlebook)
+data("Jags-data")
+data("Jags-fits")
+@
+}
+
+The first object contains the CT capture history from this survey along with the traps object, the mask object (created with the \texttt{secr} library) and starting values. The second command loads all the models that are fitted in this section. Details of the data and the fits can be viewed in the scrmlebook help files as follows:
+
+{\small
+<<CT-jags-load-help, include = TRUE, echo = TRUE, eval=FALSE>>=
+help("Jags-data")
+help("Jags-fits")
+@
+}
+
+ADAPT CODE BELOW FROM PRAC TO SIMULATED DATA FOR THE JAG DATA:
+
+The main function that fits the CT models is called \texttt{CT.SCR}. It is up to the user to specify how flexible the time-dependent component of the encounter rate function should be, and also to choose how the encounter rate function is parameterised. Lets start with the form given by Equation \ref{subsec:independent} where the effect of time and the effect of distance are independent. 
+
+The time component $h(t)$ of the function is modelled with a cyclic cubic spline with a cycle duration of 24 hours, and models are fitted with three different values for K (4, 6 and 8). Note that these values for K are the values that are passed to the \texttt{mgcv} R package and not the number of spline parameters that are actually estimated. For the independent parameterisation the number of spline parameters estimated will be 2 less than the value for K (the intercept is redundant and one degree of freedom is lost when specifying a cyclic cubic spline). 
+
+\begin{verbatim}
+IndHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(4), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+
+IndHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(6), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+
+IndHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'IndU', haz.k_ = c(8), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+\end{verbatim}
+
+The code firstly calls \texttt{nlm} which is an optimiser to maximise the likelihood (well actually it is a minimiser so it rather minimises the negative log likelihood). The arguments that are supplied include starting values, the data frame, a SCR traps object, a SCR mask object, the chosen parameterisation for the encounter rate function, the value for K (as passed to \texttt{mgcv}), the study duration (via the \texttt{endpoint_} argument), and the mesh size which is used to determine how fine the grid for the numerical integration in the time dimension is. Lastly \texttt{hessian = T} asks for the estimated hessian matrix that is used to get the variance-covariance matrix for the parameter estimates.
+
+The parameter estimates are found in the \texttt{$estimate} attribute of the model objects. The order of parameters is: density, $\lambda_0$, $\sigma$, and then the spline parameters. Remember that the estimates need to be backtransformed for interpretation. The density estimates are shown below: 
+
+<<DensEsts1, eval = TRUE>>=
+exp(IndHaz.K4$estimate[1])*10000 ; exp(IndHaz.K6$estimate[1])*10000 ; exp(IndHaz.K8$estimate[1])*10000 
+@
+
+It is apparent that there is virtually no difference in the density estimates. Recall that the specification of the encounter rate function used here seperates the effects of time and distance and a consequence of this is that the capture times do not have any information about density.
+
+The function \texttt{CalcAICc} calculates the AICc's from the different CT models:
+
+<<AICs1, eval = TRUE>>=
+Calc.AICc(mod.objs_=list(IndHaz.K4, IndHaz.K6, IndHaz.K8), decimals_ = 2, n.inds_ = 17)
+@
+
+The best fitting detection hazard as selected by AICc is the one with K = 6 (and hence has 4 spline parameters). The \texttt{plot.hazard} function plots the estimated detection hazard for a specified model. Note the \texttt{add\_} argument that can add lines to an existing plot and the \texttt{col\_} argument to choose colours:
+
+\begin{verbatim}
+plot.hazard(time.vec_ = c(0,24), det.pars_ = c(IndHaz.K6$estimate[2:3]), spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, haz.type_ = 'IndU', scaled_ = T, add_ = F, col_ = "blue")
+plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K4$estimate[2:3]), spline.pars_ = c(IndHaz.K4$estimate[4:5]), haz.k_ = 4, haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "red")
+plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2:3]), spline.pars_ = c(IndHaz.K8$estimate[4:9]), haz.k_ = 8, haz.type_ = 'IndU', scaled_ = T, add_ = T, col_ = "brown")
+legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
+       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+\end{verbatim}
+
+You can see how the estimated hazard shape changes as K increases and that a detection hazard with an increase in detectability in the early morning and a peak in the evening seems to be most appropriate. The model that uses a hazard with K = 8 has the lowest AIC and it is apparent from the plot that there is little difference between that hazard and the one with two extra degrees of freedom (K = 10). Note that we have supplied good starting values but that the final estimated detection hazard does not seem to be sensitive to this and you will end up with the same shape if you supply a flat hazard (values of zero for the spline coefficients). 
+
+The plot you have just generated specified \texttt{scaled\_ = T} and shows the scaled hazards for a 24 hour hazard cycle i.e.\ there is no effect of distance and the focus is really on the shape of the hazard function (the $h(t ; \psi)$ component). The \texttt{plot.hazard} function can also plot the estimated detection hazard for a given distance (from an activity centre) and for a different duration of time. Try the following noting the \texttt{dist\_} argument:
+
+\begin{verbatim}
+plot.hazard(hours_ = c(0,24), mod.obj_ = CT.k8, scaled_ = F, dist_ = 0, 
+            col_="green", ydecimals_ = 3, )
+plot.hazard(hours_ = c(0,24), mod.obj_ = CT.k8, scaled_ = F, add_=T, dist_ = 2000, 
+            col_="blue", ydecimals_ = 3)
+\end{verbatim}
+
+The \texttt{hours} argument specifies the time period that the plot should apply to and the `Prob' value shown in the legend that is produced is the probability of being caught at least once over that duration of time. Look at the value for a distance of 0 and compare this to the estimate for the $g_0$ parameter. Run this command again for a longer period of time (say a 72 hour period) and a time period that is not a multiple of the hazard cycle (like from 8 to 62 hours which would correspond to a detector being active from 8 am in the morning until 2pm two days later).
+
+
+The plot above focuses on the shape of the time-dependent hazard and hence shows the scaled hazard. One can also plot the expected encounter rate through time for a given distance by changing the \texttt{scaled_ = T} argument to ``F'' and by supplying a value (or a vector) for distance via the \texttt{dist_} argument. The plot will also display the probability of being caught over the specified time period at the specified distance(s).
+
+\begin{verbatim}
+plot.hazard(time.vec_ = c(0,24), det.pars_ = c(IndHaz.K6$estimate[2:3]), spline.pars_ = c(IndHaz.K6$estimate[4:7]), haz.k_ = 6, haz.type_ = 'IndU', scaled_ = F, add_ = F, dist_ = c(1000, 5000), col_ = c("red", "blue"))
+\end{verbatim}
+
+Now a new set of models that use the encounter rate function specification given in Equation \ref{subsec:generalform} are fitted. Note that these models take a long time to fit and that the fitted model objects can be found in the \texttt{scrmlebook} library.
+
+\begin{verbatim}
+DepHaz.K4  <- try(nlm(f=CT.SCR, p=start.K4, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(4), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+
+DepHaz.K6  <- try(nlm(f=CT.SCR, p=start.K6, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(6), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+
+DepHaz.K8  <- try(nlm(f=CT.SCR, p=start.K8, data_ = JagsCaptures, trap.objs_ = Traps, mask.files_ = Mask, haz.type_= 'Dep', haz.k_ = c(8), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
+\end{verbatim}
+
+The density estimates are shown below. The estimates from the model with K = 4 are now slightly different to the other two models.
+
+<<DensEsts2, eval = TRUE>>=
+exp(DepHaz.K4$estimate[1])*10000 ; exp(DepHaz.K6$estimate[1])*10000 ; exp(DepHaz.K8$estimate[1])*10000 
+@
+
+Plotting the estimated encounter rate function is a little more complicated because the expected encounter rate now depends on both time and distance. If we want to view a two-dimensional plot of the effect of time (or distance), we need to do this for a specified value for distance (or time). In order to generate plots of the expected encounter rate through time, we set the \texttt{dim_} argument to be equal to ``time'' and supply a value for distance via the \texttt{dist_} argument for the model with K = 6:
+
+\begin{verbatim}
+plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K6$estimate[2]), spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, haz.type_ = 'Dep', scaled_ = T, add_ = F, col_ = "blue")
+plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K4$estimate[2]), spline.pars_ = c(DepHaz.K4$estimate[3:5]), haz.k_ = 4, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "red")
+plot.hazard(time.vec_ = c(0,24), endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2]), spline.pars_ = c(IndHaz.K8$estimate[3:9]), haz.k_ = 8, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "brown")
+legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
+       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+\end{verbatim}
+
+And to look at the effect of distance:
+
+\begin{verbatim}
+plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K6$estimate[2]), spline.pars_ = c(DepHaz.K6$estimate[3:7]), haz.k_ = 6, haz.type_ = 'Dep', scaled_ = T, add_ = F, col_ = "blue")
+plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(DepHaz.K4$estimate[2]), spline.pars_ = c(DepHaz.K4$estimate[3:5]), haz.k_ = 4, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "red")
+plot.hazard(time.vec_ = c(0,24), dist.vec_ = NULL, endpoint_ = 2160, mesh.size_ =100, det.pars_ = c(IndHaz.K8$estimate[2]), spline.pars_ = c(IndHaz.K8$estimate[3:9]), haz.k_ = 8, haz.type_ = 'Dep', scaled_ = T, add_ = T, col_ = "brown")
+legend("topleft", legend=c("K = 4", "K = 6", "K = 8"), 
+       col=c("red", "blue", "brown"), lty = c(1,1,1,1), lwd=rep(2,3), cex=1)
+\end{verbatim}
+
+
+
+
+
+
+
+
+
+\todo{USe this in interpretation: A crepuscular (active during twilight) hazard shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. This is in line with \citet{Harmsen11} who reported a crepuscular peak in activity for jaguars between 6 and 7 pm. On the other hand the estimated detection cycle for possums is more unimodal with a peak in the evening and low levels of detectability at other times, which is again in line with previously published work \citep{Cowan12}.  }
+
+\subsection{Application to simulated data from two sessions}
+\label{subsec:CTSimApp}
+
+This example uses a fictitious dataset that is based on the Belize jaguar camera trap survey data. Lets pretend that a survey was run over two different time periods, one corresponding to the dry season and another to the wet season. In both seasons a regular array of 20 paired camera stations was used for 90 days. The wet season is cooler than the dry season and so it is feasible that there could be a difference in the activity patterns of jaguars. Being able to estimate detection hazards within a formal modelling framework facilitates the use of standard model selection tools to explore the support in the data for competing hypotheses.
+
+All the relevant objects are contained in `` workspace. Load this up and have a look at the dataset called `` that contains the data from the two surveys. You will notice that instead of capture occasions there are actual times of capture and that the data from the different seasons are used as different sessions. 
+
+<<loadfun, eval = TRUE>>=
+library(secr)
+load("CTprac.RData")
+head(data.dry)
+@
+
+Lets now fit models that firstly estimate a common detection hazard for both seasons (sessions), and secondly that estimate season-specific hazards (by specifying the \texttt{Haz.mod\_} argument to equal `Separate'). For simplicity we will use the same value of K in both seasons and we will use the optimal value for K as found above for the data from the dry season (K = 8). There are model objects corresponding to other values for K in `CTpracMods.RData'.
+
+\begin{verbatim}
+CT.common.k8 <- nlm(f=secrlikelihood.GAMhaz.Dmod.hn, p = start.common.k8, GAM.k_= 7, 
+              data_ = data.both, trap.obj_ = traps, mask.file_ = mask, hessian = T)
+CT.sep.k8 <- nlm(f=secrlikelihood.GAMhaz.Dmod.hn, p = start.sep.k8, GAM.k_= 7, 
+              data_ = data.both, Haz.mod_ = 'Separate', trap.obj_ = traps, 
+              mask.file_ = mask, hessian = T)
+\end{verbatim}
+
+Finally lets look at the AICc's from these models and plot the resulting detection hazards:
+
+<<AICs2, eval = TRUE>>=
+Calc.AICc(mod.objs_=list(CT.common.k8,CT.sep.k8), decimals_ = 2, n.inds_ = 48)
+@
+
+\begin{verbatim}
+plot.hazard(hours_ = c(0,24), mod.obj_ = CT.common.k8, haz.mod_="Common", scaled_ = T)
+plot.hazard(hours_ = c(0,24), mod.obj_ = CT.sep.k8, haz.mod_="S1", scaled_ = T, 
+            add_=T, col_="blue")
+plot.hazard(hours_ = c(0,24), mod.obj_ = CT.sep.k8, haz.mod_="S2", scaled_ = T, 
+            add_=T, col_="red")
+legend("topleft", legend=c("Common", "Dry", "Wet"), col=c("black" ,"blue", "red"), 
+       lty = c(1,1,1), lwd=rep(2,3), cex = 1.5)
+\end{verbatim}
+
+The plot shows that the estimated detection hazard in the wet season is higher during the day compared to the hotter dry season which is plausible. However the AICc's suggest that a common hazard is a better choice for this data. It is evident from the plot that the two hazards are not sufficiently different to justify estimating a bunch of extra parameters.
 
 \section{Single-catch traps}
 \label{sec: CT SC}
