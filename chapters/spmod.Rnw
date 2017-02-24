@@ -37,7 +37,9 @@ and
 Here $D(\bm{s};\bm{\phi})$ is the density \todo[inline]{of what?} at location $\bm{s}$ and $E[N]$ is the area under the density surface over the survey region $A$: $E[N]=\int_A D(\bm{s};\bm{\phi})d\bm{s}$.
 
 \ei
-To get a feel for SPPPs, let's look at some pictures in the context of the Kruger leopard survey. Figure~\ref{fig:spmod-KrugerDs} shows the density surface $D(\bm{s})$ over all $\bm{s}$ in the survey region, with an area $A$. 
+To get a feel for SPPPs, let's look at some pictures in the context of the Kruger leopard survey. Figure~\ref{fig:spmod-KrugerDs} shows the intensity of the SPPP over all $\bm{s}$ in the survey region within an area $A$, estimated as a function of habitat suitability. We refer to such maps as "desity surfaces", denoted $D(\bm{s})$. 
+\todo[inline]{density surfaces not previously defined. I think Royle et al. have refered to posterior distribution of activity centers (with no covariates) as a "density surface". I think we should make it clear that we only see variable D within A if we include spatial covariates. 
+
 \begin{figure}[ht]
 \caption{\small The density surface $D(\bm{s})$ for the Kruger leopard data, as a heatmap (left) and a perspective plot (right). Camera locations are shown as white crosses in the left plot.}
 \centering
