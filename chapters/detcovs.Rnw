@@ -7,6 +7,18 @@
 
 Mention distance as an explanatory variable that is always used in SCR.}
 
+\section{Introduction}
+
+Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, among individuals, and posibly in response to detection. Modeling this heterogeneity adds complexity and requires larger samples than would otherwise be needed, but ignoring it can cause biased estimation and flawed inference.
+Heterogeneity in detection probabilities, particularly heterogeneity among individuals attributable to unobserved covariates, has always been regarded as problematic in non-spatial CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly accounts for a key unobserved source of heterogeneity among indivduals - spatially variable exposure to detectors. 
+Other sources of heterogeneity can be modeled using covariates and mixture distributions.
+First ML implementation of SCR models allowed .... further extensions improved... 
+
+Density is the parameter of main interest in most SCR studies, and we previously cautioned against over-interpreting detection parameters. However, because the scale parameter (sigma) is related to the exent of animal movements, SCR models with different formulations or covariates for sigma can be used to test hypotheses about movement rates or home range sizes, and their relationship with density. 
+
+Here, begin with explanation of link function, describe increasingly complex covariate effects... Explain which model formulations accommodate different types of covariates.
+What about candidate model sets, and models that can and cannot be compared using AICc?
+
 \section{Link function formulation}
 
 \todo[inline]{hopefully the intro will remedy this; the different formulations are pretty deep water for the uninitiated, readers need a motiviation for why they are being taken through this.  Why not just a single formulation; is one better than the other?}
@@ -19,7 +31,9 @@ p(x)&=&1-\exp\left\{-e^{\beta_0 + \beta_x x}\right\}.
 \label{eq:link-lp}
 \ee
 
-An alternative form is commonly used in the distance sampling literature. This is characterised by separately modelling an intercept term and the scale parameter of a distance-dependent function that has intercept equal to 1. For brevity, we will refer to this as the \{intercept; scale\} form. This form has been adopted by many SCR models, where the expected encounter rate is modelled using an intercept term $g_0$ or $\lambda_0$, and a distance-dependent ``key function'' or ``kernel'' with a scale parameter $\sigma$. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function or kernel is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$. In both cases $d$ is distance from a detector to an activity centre. (The parameter $\sigma$ is a ``scale parameter'' because it ``scales'' $d$ by dividing it.)
+An alternative form is commonly used in the distance sampling literature. This is characterised by separately modelling an intercept term and the scale parameter of a distance-dependent function that has intercept equal to 1. For brevity, we will refer to this as the \{intercept; scale\} form. This form has been adopted by many SCR models, where the expected encounter rate is modelled using an intercept term $g_0$ or $\lambda_0$, and a distance-dependent ``key function'' or ``kernel'' with a scale parameter $\sigma$. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function or kernel is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$. 
+\todo[inline]{Could we specify here that these are the Gaussian or half-normal and hazard rate key functions, respectively, for clarity?. Also the text above these equations in Ch 2 uses "range parameter" rather than "scale parameter")
+In both cases $d$ is distance from a detector to an activity centre. (The parameter $\sigma$ is a ``scale parameter'' because it ``scales'' $d$ by dividing it.)
 
 Because SCR capture history likelihoods are just products of Poisson (in the case of count data) or Bernoulli (in the case of binary data) likelihoods, one might expect that the Poisson mean ($\lambda(d)$) and Bernoulli mean $(p(d)$) would be linked to the explanatory variable $d$ using the GLM inverse link functions for these two distributions (the inverse log link, and the inverse logit or cloglog link functions, respectively -- see Table~\ref{tab:ERdetfun-invlinks}). 
 
@@ -68,9 +82,11 @@ While there is no single correct way to model the dependence of encounter rate a
 \item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
 \ei
 
-These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But this would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a parameter of interest ($g_0$ in this example).
+\todo[inline]{Or both! Furthermore, it's not an arbitrary choice. Some covariates might not be appropriate to both parameters, and different covariate models represent hypotheses. We might use camera trap model as a covariate for the intercept but it wouldn't make sense as a covariate for the scale .. Point this out here?}  
 
+These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But this would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a parameter of interest ($g_0$ in this example).
 In the case of $g_0$ we need a link function that keeps it between 0 and 1, while in the cases of $\lambda_0$ (a rate, and hence bounded below by zero but unbounded above) and $\sigma$ (also bounded below by zero but unbounded above) we need a link function that keeps them non-negative. Common choices are a logit link or complimentary log-log link (``cloglog'' link for short) for $g_0$, and log links for $\lambda_0$ and $\sigma$. 
+\todo[inline]{These two paragraphs should preceed most of the discussion of link functions, either by removing this paragraph there, or reversing the order of the sections.}
 
 By convention, link functions specify $\eta$ as a function of the parameter of interest ($g_0$, $\lambda_0$ or $\sigma$ here). But it is easier to interpret the inverse link functions, which express $g_0$, $\lambda_0$ or $\sigma$ as functions of the linear predictor $\eta$. Examples of the inverse link functions of a linear predictor $\eta=\beta_0+\beta_1 z$ are shown for positive and negative $\beta_1$ in Figure~\ref{fig:ERdetfun.linkfuns}. Notice that the shapes of the inverse logit and inverse cloglog functions are very similar, which makes the choice between the two relatively unimportant in SCR analyses.
 
