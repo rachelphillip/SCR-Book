@@ -16,6 +16,8 @@ First ML implementation of SCR models allowed .... further extensions improved..
 
 Density is the parameter of main interest in most SCR studies, and we previously cautioned against over-interpreting detection parameters. However, because the scale parameter (sigma) is related to the exent of animal movements, SCR models with different formulations or covariates for sigma can be used to test hypotheses about movement rates or home range sizes, and their relationship with density. 
 
+Sample size & heterogeneity: With sparse data there is less power both to detect, and to model, heterogeneity in detection parameters. If heterogeneity affects the data collected, but het not detected --> biased but apparently precise. If detectable, need sufficient data to inform estimation of the effect, variances and CIs can become too wide to be useful. Further increases in sample size --> more forms of het detected & must be modelled... but tapering effects, different models that include most important effects yield similar estimates. With very rich data different models yield the same accurate result (Tai chimp study).
+
 Here, begin with explanation of link function, describe increasingly complex covariate effects... Explain which model formulations accommodate different types of covariates.
 What about candidate model sets, and models that can and cannot be compared using AICc?
 
@@ -223,7 +225,9 @@ Alternatively, the wolverine data (see next Example box) might be useful here?}
 
 \section{Individual effects (trap response and heterogeneity)}
 
-\todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
+\todo[inline]{Insert text about bias from unmodelled heterogeneity.}
+Unmodelled heterogeneity in detection probabilities among the individuals in a population usually causes bias. Unmodeled heterogeneity unrelated to the detection process causes underestimation of density. Problem scenario! "biased but apparently precise" also comes up in other contexts.
+The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
 \item Covariates that are known for no individuals.
