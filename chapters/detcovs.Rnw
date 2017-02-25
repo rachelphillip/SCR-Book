@@ -10,8 +10,8 @@ Mention distance as an explanatory variable that is always used in SCR.}
 \section{Introduction}
 
 Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, among individuals, and posibly in response to detection. Modeling this heterogeneity adds complexity and requires larger samples than would otherwise be needed, but ignoring it can cause biased estimation and flawed inference.
-Heterogeneity in detection probabilities, particularly heterogeneity among individuals attributable to unobserved covariates, has always been regarded as problematic in non-spatial CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly accounts for a key unobserved source of heterogeneity among indivduals - spatially variable exposure to detectors. 
-Other sources of heterogeneity can be modeled using covariates and mixture distributions.
+Unexplained heterogeneity in detection probabilities has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
+Other sources of heterogeneity can be modeled using covariates. 
 First ML implementation of SCR models allowed .... further extensions improved... 
 
 Density is the parameter of main interest in most SCR studies, and we previously cautioned against over-interpreting detection parameters. However, because the scale parameter (sigma) is related to the exent of animal movements, SCR models with different formulations or covariates for sigma can be used to test hypotheses about movement rates or home range sizes, and their relationship with density. 
@@ -126,8 +126,8 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 \section{Detector-, occasion- and stratum-specific effects}
 \label{sec:ERdetfun-dos-effects}
 
-Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; shape\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
-
+Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; scale\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
+\todo[inline]{
 Detector-specific covariates can remain the same at each detector for the survey duration, or vary with occasion and/or stratum (see Table~\ref{tab:ERdetfun-detdata}). In addition, encounter rate and detection function models can be made to depend on occasion and/or stratum in the same way for all detectors, by using occasion number or stratum name as covariates. 
 
 \subsection{Example analyses}
@@ -145,13 +145,22 @@ sigma \url{~} z1 + z2 + $\cdots$ + zm
 }
 \end{svgraybox}
 }
+\todo[inline]{Not sure why this box appears here. Tildes and brackets missing? Specify "formula notation" in R, and note that z1 represents "base levels" of covariates?}
 \noindent
 The \texttt{secr} package automatically selects the log link for $\sigma$ and $\lambda_0$, and the logit link for $g_0$. Interaction terms and main effects with interactions can be added using ``\texttt{:}'' and ``\texttt{*}'', respectively, as with GLMs in \texttt{R}.
-
+\todo[inline]{I'm sure readers would be pleased to read this near the end of the section on link functions}
 
 \subsection{Effort effects}
 \label{sec:ERdetfund-effort}
 \todo[inline]{struggling to see how an ecologist will use this info}
+
+As we have seen, SCR models are parameterized in terms of the duration duration of samplnig at specific locations. Sampling effort at each location must therefore be accurately quantified for the models to yield accurate results. If the input data overestimate sampling effort, density estimates will be negatively biased, and vice versa.  
+Any time a detector is moved or fails to function, the sampling duration at the associated locations is less than the survey duration and must be specified in the model. SCR models allow us to specify, for each sampling location: (1) the total duration of sampling, (2) whether or not a detector operated for the entirety of each occasion, or (3) the duration of sampling within occasions, depending on the type of detector (see Ch 5) and the information available. In some cases, accurately quantifying effort requires that some capture data be excluded or censored.   
+In the case of area searches we specify the specific areas searched and the number of times they were searched. (Transects?).
+In some cases, accurately quantifying effort may requrie that some capture data are excluded from the analysis. Suppose that, upon arrival at a barbed wire corral that is typically capable of sampling multiple individuals during a single occasion, a researcher finds that the detector was rendered inoperable since the last visit to the site 1 week ago (a tree has fallen across the trap site, knocking the wire to the ground), but there are hair samples on the wire which can only have been snagged before the tree fell. We might still be able to quantify effort accurately (e.g., the tree certainly fell during the storm between 10 p.m. and midnight on Wednesday). However, if we cannot know how long the detector operated, it should be considered to have been inoperable for the entire occasion, and the samples excluded from the capture data. Similarly, if electronic detectors that record times of detection (camera traps or accoustic detectors) stop operating between visits by a researcher, using the last time of detection of the target species as the time at which the detector failed would likely underestimate effort (though it might be possible to infer the approximate time of failure if the device detected non-target species or background noise frequently).
+
+Sampling effort is conveniently modeled as a detector-level covariate. \todo[inline]{Need to make sure it's clear that "detector-level" covariates are specific to locations, not e.g. sampling devices or observers, which would be covariates of the location}. 
+In 'secr', sampling effort at each location is defined as a specific attribute of the traps object, and therefore of the capture history object. \todo[inline]{Remove below with examples?}
 
 Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. 
 
