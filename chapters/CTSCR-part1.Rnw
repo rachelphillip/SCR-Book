@@ -278,11 +278,8 @@ Calc.AICc <- function(mod.objs_, decimals_ = 2, n.inds_){
   } else {print("Model objects must be a list")}
 }
 
-aics <- Calc.AICc(mod.objs_=list(Jags.IndHaz.K4, Jags.IndHaz.K6, Jags.IndHaz.K8),
+Calc.AICc(mod.objs_=list(Jags.IndHaz.K4, Jags.IndHaz.K6, Jags.IndHaz.K8),
                   decimals_ = 2, n.inds_ = 17)
-print(xtable(aics, digits=2, 
-             caption="AICc's from independent hazard models.",
-             label="CTAICc1"))
 @
 
 Figure \ref{fig:indhaz1} shows the estimated detection hazards for the three different models. You can see how the estimated hazard shape changes as K increases. The model that uses a hazard with K = 6 has the lowest AIC and hence a hazard with a crepuscular (active during twilight) shape is deemed most appropriate for modelling detection of jaguars in the Cockscomb Basin Wildlife Sanctuary in Belize. 
@@ -294,10 +291,10 @@ Figure \ref{fig:indhaz1} shows the estimated detection hazards for the three dif
 \label{fig:indhaz1}
 \end{figure}
 
-The detection hazards in Figure \ref{fig:indhaz1} show the scaled hazards for a 24 hour hazard cycle i.e.\ there is no effect of distance and the focus is really on the shape of the hazard function (the $h(t)$ component). Curves can also be plotted for a given distance that show the expected encounter rate for any duration of time. Figure \ref{fig:indhaz2} shows such a plot for two distances over a time duration of 48 hours. The `Prob' value shown in the legend is the probability of being caught at least once over that duration of time. 
+The detection hazards in Figure \ref{fig:indhaz1} show the scaled hazards for a 24 hour hazard cycle i.e.\ there is no effect of distance and the focus is really on the shape of the hazard function (the $h(t)$ component). Curves can also be plotted for a given distance that show the expected encounter rate at any time. Figure \ref{fig:indhaz2} shows such a plot for two distances over a time duration of 48 hours. The `Prob' value shown in the legend is the probability of being caught at least once over that duration of time. 
 
 \begin{figure}[ht]
-\caption{\small Expected encounter rates fitted to the jaguar data using the independent parameterisation. Curves are shown for two different distances. } 
+\caption{\small Expected encounter rates fitted to the jaguar data using the independent parameterisation. Curves are shown for two different distances and for a 48 hour duration. } 
 \centering
 \includegraphics[width=\textwidth]{keepfigure/IndHaz2.pdf}
 \label{fig:indhaz2}
@@ -322,9 +319,9 @@ haz.k_ = c(4), endpoint_ = 2160, mesh.size_ = 20, hessian=T, trace=FALSE))
 The density estimates are shown below. The estimates from the model with K = 4 are now slightly different to the other two models.
 
 <<DensEsts2, eval = TRUE>>=
-exp(DepHaz.K4$estimate[1])*10000 ; 
-exp(DepHaz.K6$estimate[1])*10000 ; 
-exp(DepHaz.K8$estimate[1])*10000 
+exp(Jags.DepHaz.K4$estimate[1])*10000 ; 
+exp(Jags.DepHaz.K6$estimate[1])*10000 ; 
+exp(Jags.DepHaz.K8$estimate[1])*10000 
 @
 
 Visualising the estimated encounter rate function is a little more complicated because of the interactive effect of time and distance on the expected encounter rate. If we want to view a 2-dimensional plot of the effect of time (or distance), we need to do this for a specified value of distance (or time). Figure \ref{fig:dephaz1} depicts these two-dimensional plots from the model with K = 6, and Figure \ref{fig:dephaz2} shows a 3-dimensional plot of the expected encounter rate.
@@ -353,11 +350,8 @@ The dataset called `Sim.data.seasons` contains the data from the two surveys. Yo
 A common detection hazard is first fitted for both seasons (sessions) followed by a model that uses season-specific hazards. Splines with K = 6 are used and for simplicity the same value of K is used in both seasons. There are model objects corresponding to other values for K in `Jags-fits.RData'. The AICc's from these models are shown below followed by a plot of the estimated encounter rate functions:
 
 <<AICs2, eval = TRUE>>=
-aics2 <-  Calc.AICc(list(IndHaz.K6.common, IndHaz.K6.sep), 
+Calc.AICc(list(IndHaz.K6.common, IndHaz.K6.sep), 
                     decimals_ = 2, n.inds_ = 55)
-print(xtable(aics2, digits=2, 
-             caption="AICc's from different hazard models.",
-             label="CTAICc2"))
 @
 
 \todo{Should I maybe redo simulation and try get a scenario where the AICc prefers the season-specific hazards?}
@@ -383,9 +377,21 @@ Figure \ref{fig:seasonalhaz} shows that the estimated detection hazard in the we
 \label{sec: CT SC}
 \index{}
 
-\section{A single-catch trap application}
-\label{sec: CT SC App}
-\index{}
+As explained in Section \ref{sec:det-types-independence}, capture in either a multi or single-catch trap precludes capture in any other trap during that occasion and leads to a dependence between encounters across the traps (within an individual). The competition between traps for individuals leads to a competing risks formulation for multi-catch traps but single-catch traps have the additional complexity that, once they are full, they are effectively unable to catch any other individuals and hence the assumption of independence between individuals is also violated (see Table \ref{tab:det-types-table}). 
+
+A suitable capture model for single-catch traps therefore needs to account for a second kind of competing risk, that of competition amongst individuals for traps \citep{Efford09b}. However compared to multi-catch traps, it is considerably more complicated to construct a suitable likelihood \citep{Borchers12, Borchers16} for single-catch traps. To date no DT likelihood function for single-catch traps exists \citep{Efford09b, Royle13, Borchers16, Borchers16b} and consequently the DT multi-catch trap estimator is typically used for the analysis of single-catch trap data. 
+
+As discussed in Section \ref{sec:det-types-single-multi} \todo[inline]{at the moment I am referring to Section \ref{sec:det-types-single-multi} but not sure if some of that detail should rather come here?}, the multi-catch trap estimator appears to be extremely robust regarding the estimation of average density, despite the fact that it assumes independence between individuals that does not hold. However simulations have shown that there are situations when density varies in space and the multi-catch estimator is not able to accurately identify areas of high and low density \citep{Distiller15}. Furthermore the incorrect estimator is negatively biased for detection function parameters ($g_0$ or $\lambda_0$) and there are instances where the accurate estimation of these parameters are of interest in their own right, for example when the detection function is used in movement or space-use models.
+
+For situations in which actual capture times are recorded, the CT setup enables the construction of an appropriate single-catch trap likelihood with only small modifications to the general CT likelihood. In essence, a model that uses exact capture times allows one to disable traps when they are occupied and hence to incorporate the competition amongst individuals for traps.
+
+\todo{At the moment this section is a lot shorter than what I had originally envisaged and I'm not sure if this is sufficient or if it should be expanded. I'm not sure how to provide any technical details without showing the likelihood and it seems that we have avoided that up to now. I could also include further details / plots from the simulations I ran but thought that perhaps a reader would just be interested in the main point, and the reference is there for any interested party. It may also be that to show some of the sims I need to provide a whole lot of other detail about how they were run etc. 
+
+I'm also not sure if I should include an example on single-catch traps. Obviously there is not much real data and so the example would really just demonstrate the code to fit these models to simulated data. One downside to excluding this is that then there would not be a function available to users should they have the right kind of data and want to fit the CT model? }
+
+
+
+
 
 
 
