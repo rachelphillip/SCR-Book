@@ -202,6 +202,22 @@ The vertical red lines in Figure \ref{fig:lunarhaz} mark the 24 hour occasions t
 \label{fig:lunarhaz}
 \end{figure}
 
+\section{Single-catch traps}
+\label{sec: CT SC}
+\index{}
+
+As explained in Section \ref{sec:det-types-independence}, capture in either a multi or single-catch trap precludes capture in any other trap during that occasion and leads to a dependence between encounters across the traps (within an individual). The competition between traps for individuals leads to a competing risks formulation for multi-catch traps but single-catch traps have the additional complexity that, once they are full, they are effectively unable to catch any other individuals and hence the assumption of independence between individuals is also violated (see Table \ref{tab:det-types-table}). 
+
+A suitable capture model for single-catch traps therefore needs to account for a second kind of competing risk, that of competition amongst individuals for traps \citep{Efford09b}. However compared to multi-catch traps, it is considerably more complicated to construct a suitable likelihood \citep{Borchers12, Borchers16} for single-catch traps. To date no DT likelihood function for single-catch traps exists \citep{Efford09b, Royle13, Borchers16, Borchers16b} and consequently the DT multi-catch trap estimator is typically used for the analysis of single-catch trap data. 
+
+As discussed in Section \ref{sec:det-types-single-multi} \todo[inline]{at the moment I am referring to Section \ref{sec:det-types-single-multi} but not sure if some of that detail should rather come here?}, the multi-catch trap estimator appears to be extremely robust regarding the estimation of average density, despite the fact that it assumes independence between individuals that does not hold. However simulations have shown that there are situations when density varies in space and the multi-catch estimator is not able to accurately identify areas of high and low density \citep{Distiller15}. Furthermore the incorrect estimator is negatively biased for detection function parameters ($g_0$ or $\lambda_0$) and there are instances where the accurate estimation of these parameters are of interest in their own right, for example when the detection function is used in movement or space-use models.
+
+For situations in which actual capture times are recorded, the CT setup enables the construction of an appropriate single-catch trap likelihood with only small modifications to the general CT likelihood. In essence, a model that uses exact capture times allows one to disable traps when they are occupied and hence to incorporate the competition amongst individuals for traps.
+
+\todo[inline]{At the moment this section is a lot shorter than what I had originally envisaged and I'm not sure if this is sufficient or if it should be expanded. I'm not sure how to provide any technical details without showing the likelihood and it seems that we have avoided that up to now. I could also include further details / plots from the simulations I ran but thought that perhaps a reader would just be interested in the main point, and the reference is there for any interested party. It may also be that to show some of the sims I need to provide a whole lot of other detail about how they were run etc. 
+
+I'm also not sure if I should include an example on single-catch traps. Obviously there is not much real data and so the example would really just demonstrate the code to fit these models to simulated data. One downside to excluding this is that then there would not be a function available to users should they have the right kind of data and want to fit the CT model? }
+
 \section{Example analyses}
 \label{sec: CT Prox Examples}
 \index{}
@@ -371,27 +387,4 @@ Figure \ref{fig:seasonalhaz} shows that the estimated detection hazard in the we
 \includegraphics[width=\textwidth]{keepfigure/TrueHazs.pdf}
 \label{fig:seasonalhaz2}
 \end{figure}
-
-
-\section{Single-catch traps}
-\label{sec: CT SC}
-\index{}
-
-As explained in Section \ref{sec:det-types-independence}, capture in either a multi or single-catch trap precludes capture in any other trap during that occasion and leads to a dependence between encounters across the traps (within an individual). The competition between traps for individuals leads to a competing risks formulation for multi-catch traps but single-catch traps have the additional complexity that, once they are full, they are effectively unable to catch any other individuals and hence the assumption of independence between individuals is also violated (see Table \ref{tab:det-types-table}). 
-
-A suitable capture model for single-catch traps therefore needs to account for a second kind of competing risk, that of competition amongst individuals for traps \citep{Efford09b}. However compared to multi-catch traps, it is considerably more complicated to construct a suitable likelihood \citep{Borchers12, Borchers16} for single-catch traps. To date no DT likelihood function for single-catch traps exists \citep{Efford09b, Royle13, Borchers16, Borchers16b} and consequently the DT multi-catch trap estimator is typically used for the analysis of single-catch trap data. 
-
-As discussed in Section \ref{sec:det-types-single-multi} \todo[inline]{at the moment I am referring to Section \ref{sec:det-types-single-multi} but not sure if some of that detail should rather come here?}, the multi-catch trap estimator appears to be extremely robust regarding the estimation of average density, despite the fact that it assumes independence between individuals that does not hold. However simulations have shown that there are situations when density varies in space and the multi-catch estimator is not able to accurately identify areas of high and low density \citep{Distiller15}. Furthermore the incorrect estimator is negatively biased for detection function parameters ($g_0$ or $\lambda_0$) and there are instances where the accurate estimation of these parameters are of interest in their own right, for example when the detection function is used in movement or space-use models.
-
-For situations in which actual capture times are recorded, the CT setup enables the construction of an appropriate single-catch trap likelihood with only small modifications to the general CT likelihood. In essence, a model that uses exact capture times allows one to disable traps when they are occupied and hence to incorporate the competition amongst individuals for traps.
-
-\todo{At the moment this section is a lot shorter than what I had originally envisaged and I'm not sure if this is sufficient or if it should be expanded. I'm not sure how to provide any technical details without showing the likelihood and it seems that we have avoided that up to now. I could also include further details / plots from the simulations I ran but thought that perhaps a reader would just be interested in the main point, and the reference is there for any interested party. It may also be that to show some of the sims I need to provide a whole lot of other detail about how they were run etc. 
-
-I'm also not sure if I should include an example on single-catch traps. Obviously there is not much real data and so the example would really just demonstrate the code to fit these models to simulated data. One downside to excluding this is that then there would not be a function available to users should they have the right kind of data and want to fit the CT model? }
-
-
-
-
-
-
 
