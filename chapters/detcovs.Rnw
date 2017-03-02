@@ -10,14 +10,13 @@ Mention distance as an explanatory variable that is always used in SCR.}
 \section{Introduction}
 
 Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, among individuals, and posibly in response to detection. Modeling this heterogeneity adds complexity and requires larger samples than would otherwise be needed, but ignoring it can cause biased estimation and flawed inference.
-Unexplained heterogeneity in detection probabilities has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
+Unexplained heterogeneity in detection probabilities, especially among individuals, has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
 This chapter describes how other sources of heterogeneity can be modelled using covariates. Early ML SCR models accommodated covariates specific to detector locations, sampling occasions, sessions, and individuals. Extensions allowed indivdual heterogeneity to be modelled using unobserved or partially-observed covariates, and effective distances between activity centers and traps to be modified to account for habitat effects.
-Individual heterogeneity requires more complex modelling approaches because covariate values are unknown for the animals that are not detected. 
 
 An evaluation of detection heterogeneity begins with a set of candiate models with different sources and/or patterns of variation in detection parameters. MS criteria can then be used to evaluate support for specific covaraites and models.
 Estimation of population density is the goal of most SCR studies; parameters related to the detection process are often termed "nuisance" paramters. However, models of the detection process represent biological hypotheses, including regarding differences in home range size, which may also be of interest.  
 
-Sample size & heterogeneity (as a subsection?): With sparse data there is less power both to detect, and to model, heterogeneity in detection parameters. If heterogeneity affects the data collected, but het not detected --> biased but apparently precise. If detectable, need sufficient data to inform estimation of the effect, variances and CIs can become too wide to be useful. Further increases in sample size --> more forms of het detected & must be modelled... but tapering effects, different models that include most important effects yield similar estimates. With very rich data different models yield the same accurate result (Tai chimp study).
+Sample size & heterogeneity (as a subsection?): With sparse data there is less power both to detect, and to model, heterogeneity in detection parameters. If heterogeneity affects the data collected, but het not detected --> biased but apparently precise. If detectable, need sufficient data to inform estimation of the effect, variances and CIs can become too wide to be useful. Further increases in sample size --> more forms of het detected & must be modelled... but tapering effects, different models that include most important effects yield similar estimates. With very rich data different models yield the same accurate result (Tai chimp study). With sparse data simple models yield conservative estimates (IH not modelled)?
 
 We begin by explaining how SCR parameters can be, and are, are expressed as functions of covariates <intercep/scale & link function). We then present and demonstrate methods for modelling increasingly complex covariate effects.
 
@@ -227,8 +226,9 @@ Also, the Tai chimp study is now in press. We could ask for permission to use th
 \section{Individual effects (trap response and heterogeneity)}
 
 \todo[inline]{Insert text about bias from unmodelled heterogeneity.}
-If detection probabilities vary among the individuals in a population, CR and SCR models that assume common detection probabilities underestimate abundance. Problem scenario! "biased but apparently precise" also comes up in other contexts.
-The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
+If encounter rates or detection probabilities vary among the individuals in a population, CR and SCR models that assume common detection probabilities yield biased estimates. If the heterogeneity is induced by detection, such that previously-detected individuals have different encounter rates or detection probabilities than undetected individuals (often termed behavioural responses to detection, or trap responses), the direction of bias depends on the direction of the response. If encounter rates or detection probabilities increase after initial detection (positive, or "trap-happy" responses), and the effect is not modelled, abundance is underestimated. If they decrease (negative or "trap-shy" responses), abundance is overestimated. If the differences among individuals are inherent, with some members of the population always having higher encounter rates or detection probabilities than others, regardless of whether or not they are detected, assuming common detection probabilities always causes underestimation of abundance.  
+
+The difficulty with most covariates that are attached to individuals is that we don't know them for individuals we did not detect. It is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
 \item Covariates that are known for no individuals.
@@ -237,7 +237,7 @@ The difficulty with covariates like sex or age, that are attached to individuals
 \een
 
 Except in the case of the first item above, the values of some individual-level covariates in the population of interest are unobserved, and are therefore latent variables. The way we deal with latent variables is by modelling their probability distribution. This adds complexity, so let's deal with the first item above first. What is this covariate that we know for individuals that we never detect?
-
+\todo[inline]{Not sure if this lead-in is still effective if we introduce trap responses above}
 
 \subsection{Trap response}
 
@@ -256,11 +256,12 @@ Depending on the model, the link function in Eqn~\eqref{eq:ERdetfun-eta_b} might
 You can use $\bm{b}_i$ to model more complicated trap-response too. You might, for example, model the response as being transient - with the effect of capture on one occasion lasting only until the next capture occasion. This kind of model can be implemented by simply setting $b_{ik}=1$ only if the individual was captured on the previous occasion ($k-1$), and setting $b_{ik}=0$ otherwise. Various other more complex models are possible too, in which memory of capture fades with time since last capture. 
 
 You might also want behavioural response to depend on detector, i.e., consider models in which individuals have a learned response not to detectors in general, but only to the detectors at which they have been previously captured. To do this, we just construct a covariate $b_{ijk}$ that is 1 only if individual $i$ was captured at detector $j$ prior to occasion $k$ (for a permanent behavoural response), or is 1 only if the individual was captured there on occasion $k-1$.
-
+\todo[inline]{I think we should go with detector location, sample location, or location, rather than detector, throughout this chapter. This makes is sound as though the response could depend on the type of detector, but really it's the location.}
 
 \subsubsection{Example analyses}
 
 \todo[inline]{David's initial thoughts: Demonstrate models (in secr-speak): b, B, bk and Bk. (Not so sure about k and K, which seem a bit weird to me - can you think of situations in which they would be appropriate?). Andy's 2011 paper wolverine data are one example dataset that we could use (they used bk, I think). The data is in his scrbook package, available here: https://sites.google.com/site/spatialcapturerecapture/scrbook-r-package. I have the data from a previous version of the package and I have code that knocks it into secr-shape and fits some models, but I don't have a current version of the library, and it now only available as executable for Windows. I suspect the data has not changed.
+\todo[inline]{Eric: bk seems more biologically realistic then b when traps are baited with a food reward, as in many carnivore studies. Even when there's no food reward, if an animal is wary of evidence of human disturbance, but unconcerned by a camera trap, it might react differently to camera trap placements it has an has not investigated previously). I worry that shifting activity centers within the larger home range could lead to support for bk models though (animal moves into an area midway through the study and is detected at a location for the first time, then recaptured because it remains in the area, not because of any trap response).}
 
 The code is here: .../scrmlebook/inst/code/wolverine4secr.r and the data is here: .../scrmlebook/data/wch.prox.rda (formulated as binary proximity detectors) and here: .../scrmlebook/data/wch.count.rda (formulated as single-occasion count data),
 
