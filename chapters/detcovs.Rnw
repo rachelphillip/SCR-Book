@@ -1,7 +1,7 @@
 \chapter{Covariates in encounter rate and detection probability models}
 \label{ch:detcovs}
 
-\abstract{This chapter concerns the effect of covariates on encounter rates and detection probabilities. It shows how to model their dependence survey duration and survey effort, on detector, occasion and session, on individual-level covariates (behavioural response and sex, for example), and importantly, on spatial covariates. It also deals with the interpretation of models fitted with these kinds of dependence.}
+\abstract{This chapter concerns the effect of covariates on encounter rates and detection probabilities. It shows how to model their dependence on survey duration and survey effort, and on covariates, which can be specific to sampling occasions, sessions, individuals, and locations, including both sampling locations and intervening habitat. It also deals with the interpretation of models fitted with these kinds of dependence.}
 
 \todo[inline]{Needs proper introduction.
 
@@ -11,7 +11,7 @@ Mention distance as an explanatory variable that is always used in SCR.}
 
 Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, among individuals, and posibly in response to detection. Modeling this heterogeneity adds complexity and requires larger samples than would otherwise be needed, but ignoring it can cause biased estimation and flawed inference.
 Unexplained heterogeneity in detection probabilities, especially among individuals, has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
-This chapter describes how other sources of heterogeneity can be modelled using covariates. Early ML SCR models accommodated covariates specific to detector locations, sampling occasions, sessions, and individuals. Extensions allowed indivdual heterogeneity to be modelled using unobserved or partially-observed covariates, and effective distances between activity centers and traps to be modified to account for habitat effects.
+This chapter describes how other sources of heterogeneity can be modelled using covariates. SCR models accommodate covariates specific to detector locations, sampling occasions, sessions, and individuals. Indivdual heterogeneity can be modelled several ways, including using unobserved or partially-observed covariates. An important extension further allows modelling of the distance between activity centers and detectors as an effective distance that reflects variable costs of movement through different intervening habitats (wording?).
 
 An evaluation of detection heterogeneity begins with a set of candiate models with different sources and/or patterns of variation in detection parameters. MS criteria can then be used to evaluate support for specific covaraites and models.
 Estimation of population density is the goal of most SCR studies; parameters related to the detection process are often termed "nuisance" paramters. However, models of the detection process represent biological hypotheses, including regarding differences in home range size, which may also be of interest.  
@@ -127,9 +127,11 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 \section{Detector-, occasion- and stratum-specific effects}
 \label{sec:ERdetfun-dos-effects}
 
-Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; scale\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
-\todo[inline]{
-Detector-specific covariates can remain the same at each detector for the survey duration, or vary with occasion and/or stratum (see Table~\ref{tab:ERdetfun-detdata}). In addition, encounter rate and detection function models can be made to depend on occasion and/or stratum in the same way for all detectors, by using occasion number or stratum name as covariates. 
+Incorporating detector-specific, occasion-specific and session-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; scale\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
+"Detector-specific" covariates are actually specific to the sampling locations. can remain the same at each detector for the survey duration, or vary with occasion and/or stratum (see Table~\ref{tab:ERdetfun-detdata}). In addition, encounter rate and detection function models can be made to depend on occasion and/or stratum in the same way for all detectors, by using occasion number or stratum name as covariates.
+
+\todo[inline]{Is it acceptable to use sessions to subdivide the data among individuals e.g. sexes, or age/sex classes, if age/sex class is always observed for detected animals? People do. The same effect can be achieved using "groups" in 'secr'. This comes back to the question of how important it is that sessions are completely independent.
+If so, potential to model sex variation in one data set using: sessions, groups, conditional likelihood, unobserved covariates, partially observed covariates. Demonstrate that the first 3 methods yield the same estimates, different estimates with larger variance from the last 2.}
 
 \subsection{Example analyses}
 
