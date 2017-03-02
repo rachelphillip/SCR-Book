@@ -270,6 +270,7 @@ I think it is quite a useful dataset, and it also has variable-effort.
 Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture reecapture models. Journal of Wildlife Management 75, 604-611.}
 
 \subsection{Unobserved covariates}
+\todo[inline]{If we have a section called trap response, this should fall under one called Individual heterogeneity}
 
 Covariates that affect encounter rate or detection probability but are not observed can be added to the linear predictors of these models just like covariates that are observed. The difficulty comes in evaluating the models. If we don't know what values these unobserved covariates take, what values should we use for them in the model? 
 
@@ -329,6 +330,7 @@ The complicated scenario is when detection probability on one occasion is relate
 ?? ... ??\todo{Look up and insert citations} have developed non-spatial CR models that accommodate this kind of temporal dependence in partially-observed latent covariate values, but no such methods have as yet been developed for SCR. Use of Hidden Markov models to model temporal dependence would seem to be a promising approach to pursue. 
 
 
+\todo[inline]{Need to mention pitfalls, especially with sparse data. Effects not detected --> biased but apparently precise. Detected--> wide confidence limits, possibly false minima & unrealistic estimates --> no reliable estimate.}
 
 \section{Spatial effects}
 
@@ -451,6 +453,7 @@ The idea of using spatial covariates to scale distance differently at different 
 
 (3) Candidate datasets: 
 (a) Belize jaguars, (b) Koustubh Sharma's snow leopards, (c) something with altitude as z, (d) one of Andy's or Chris' datasets, maybe with different cost rate function. Don't have permission to use any of these yet, but don't anticipate any problem gettng it. I have been doing some snow leopard SCR analyses with Koustubh Sharma: some cool plots from these analyses are shown below. Point estimates of abundance are 24 (16, 39) when use Euclidian distance, and 28 (17, 50) when you use non-Euclidian - so point estimates are consistent with hypothesis of negative bias that you get negative bias by using Euclidian distance in highly structured habitats (although numbers are very small and CIs big!).}
+
 
 
 \begin{figure}[ht]
