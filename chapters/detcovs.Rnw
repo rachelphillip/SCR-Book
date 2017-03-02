@@ -269,9 +269,16 @@ I think it is quite a useful dataset, and it also has variable-effort.
 
 Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture reecapture models. Journal of Wildlife Management 75, 604-611.}
 
-\subsection{Unobserved covariates}
+\subsection{Indivdual heterogeneity}
 \todo[inline]{If we have a section called trap response, this should fall under one called Individual heterogeneity}
 
+Differences in encounter rate or detection probability among individuals other than trap responses 
+
+\subsubsection{Conditional likelihood} 
+\todo[inline]{Makes sense to cover this before introducing mixtures? Include continuous covariate e.g. weight where baited live-traps?}
+
+
+\subsubsection{Unobserved covariates}
 Covariates that affect encounter rate or detection probability but are not observed can be added to the linear predictors of these models just like covariates that are observed. The difficulty comes in evaluating the models. If we don't know what values these unobserved covariates take, what values should we use for them in the model? 
 
 The answer is that we assign the values according to some probability model for the covariate and then evaluate the encounter rate or detection function models for every possible value of the unobserved covariates. This is called ``marginalising'' over the unknown covariate. The cost in terms of parameters is that we need additional parameters for the covariate probability model. We also of course need to specify a suitable probability model. 
@@ -304,7 +311,7 @@ With both finite and infinite mixture models, including a latent covariate $z$ i
 
 Dataset: Kruger data is an obvious candidate. Might be possible to continue wolverine dataset, just for continuity with previous example? But I don't know if Mh models are supported by the wolverine data.}
 
-\subsection{Partially observed covariates}
+\subsubsection{Partially observed covariates}
 
 Suppose now that we observe the sex of some individuals (perhaps all those we detect, but perhaps only some of those that we detect). In this case sex is a partially observed latent variable and although we know it for some individuals, we don't know it for all individuals and so we again need a probability model for the unobserved sexes, and we need to marginalise over sex for individuals whose sex we did not observe. 
 
@@ -319,7 +326,7 @@ Note that a model can have multiple partially-observed latent covariates (both s
 
 Dataset: Kruger data is an obvious candidate.Also possible to continue wolverine dataset, as this does have sex recorded for all detected individuals.}
 
-\subsection{Time-varying unobserved or partially-observed covariates}
+\subsubsection{Time-varying unobserved or partially-observed covariates}
 
 When entirely latent or partially-observed covariates change between occasions, things can become complicated! 
 
