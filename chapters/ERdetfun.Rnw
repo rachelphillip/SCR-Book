@@ -9,39 +9,45 @@
 
 If an individual's activity centre is far from you, you are less likely to encounter it than if its centre is near you. This simple fact is central to all SCR models and incorporating it into capture-recapture models is what turns them from non-spatial into \textit{spatial} capture-recapture models. In this chapter we explain how this is done. 
 
-A key concept here is the expected \textbf{encounter rate} -- the number of times an individual is expected to encounter a detector per time unit (day/hour/year/whatever), given the distance of its activity centre from the detector. %The expected encounter rate multiplied by the survey duration gives the expected encounter frequency.
+A key concept here is the expected \textbf{encounter rate} -- the number of times an individual is expected to encounter a detector per time unit (day/hour/year/...), given the distance of its activity centre from the detector. %The expected encounter rate multiplied by the survey duration gives the expected encounter frequency.
 
-Of course, it is not only the individual's distance from the detector that determines the expected encounter rate. It also depends on 
-\begin{itemize}
-\item the detector's ability to detect (some detectors will be better than others), 
-\item how susceptible the individual in question is to detection (some individuals behave more conspicuously than others), 
-\item how conducive to detection the prevailing conditions are (individuals may be easier to detect in good weather conditions, for example), and 
-\item how individuals use their habitat (if there is a lot of unsuitable habitat between a detector and an individual's activity centre, it may venture near the detector less often than otherwise, for example).  
-\end{itemize}
+Of course, it is not only the individual's distance from the detector that determines the expected encounter rate. We deal with other sources of difference in expected encounter rate in Chapter~\ref{ch:detcovs}. Here we describe the basic idea of a spatial encounter rate.
+%It also depends on 
+%\begin{itemize}
+%\item the detector's ability to detect (some detectors will be better than others), 
+%\item how susceptible the individual in question is to detection (some individuals behave more conspicuously than others), 
+%\item how conducive to detection the prevailing conditions are (individuals may be easier to detect in good weather conditions, for example), and 
+%\item how individuals use their habitat (if there is a lot of unsuitable habitat between a detector and an individual's activity centre, it may venture near the detector less often than otherwise, for example).  
+%\end{itemize}
 
-We deal with each of these sources of difference in expected encounter rate in Chapter~\ref{ch:detcovs}. Here we start by expanding on the idea of a spatial encounter rate.
+%We deal with each of these sources of difference in expected encounter rate in Chapter~\ref{ch:detcovs}. Here we describe the basic idea of a spatial encounter rate.
 
-An important definition: by ``encounter'' we mean an interaction between individual and detector that results in a detection. If an individual walks in front of a camera trap but is not photographed, no encounter occurred. If an individual makes a noise that is not detected by a microphone on an acoustic survey, no encounter occurred. \todo[inline]{Need to deal with issue of correlated encounters over short time somewhere (Andy's book pp249-50).}
+\textbf{Definition of ``Encounter'':} By ``encounter'' we mean an interaction between individual and detector that results in a detection. If an individual walks in front of a camera trap but is not photographed, no encounter occurred. If an individual makes a noise that is not detected by a microphone on an acoustic survey, no encounter occurred. If an individual takes bait from a hair snare but does not leave any identifiable hair, no encounter occurred. \todo[inline]{Need to deal with issue of correlated encounters over short time somewhere (Andy's book pp249-50).}
 
-Figures~\ref{fig:ER+detfun_habitat} and \ref{fig:ER+detfun_habitat_encrate} illustrate schematically how expected encounter rate varies in space. Figure~\ref{fig:ER+detfun_habitat} shows the location of five camera traps at various distances from an individual's activity centre. The shading shows some spatial variable (a habitat variable, for example) that affects encounter rate, with lower values being associated with higher encounter rates. Figure~\ref{fig:ER+detfun_habitat_encrate} is a map of hypothetical encounter rate at all points in space for this individual. This rate is a combination of the individual's habitat usage (it tends to use habitat with low values of the spatial variable more than those with higher values) and distance from its activity centre (the farther a point is, the less it is used). For simplicity, we assume in this figure that all detectors are equally effective.
+Figures~\ref{fig:ER+detfun_habitat} and \ref{fig:ER+detfun_habitat_encrate} illustrate schematically how expected encounter rate varies in space. Figure~\ref{fig:ER+detfun_habitat} shows the location of five camera traps at various distances from an individual's activity centre. The shading shows some spatially-referenced variable (elevation in this case) that might affect encounter rate. 
 
 \begin{figure}[ht]
 \caption{\small Five detectors placed at various distances from an animal's activity centre. The shading represents habitat type.}
 \centering
 \vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/habitat.pdf}
+\includegraphics[width=13cm]{keepfigure/habitat.pdf}
 \label{fig:ER+detfun_habitat}
 \end{figure}
 
+Figure~\ref{fig:ER+detfun_habitat_encrate} is a plot of hypothetical encounter rate at all points in space for this individual. This is a very simple encounter rate model, in that it assumes that the only thing determining how often the undividual in question visits a point is how far the point is from its activity centre. It ignores habitat. 
+
 \begin{figure}[ht]
-\caption{\small A plot showing an animal's average space usage over the survey period, expressed in terms of the number of times it is expected to encounter a detector at any point in the region during the survey. The locations of five detectors used on the survey are also shown.}
+\caption{\small A plot showing an animal's average space usage over the survey period, expressed in terms of the number of times it is expected to encounter a detector at any point in the region over the duration of the survey. The locations of five detectors used on the survey are also shown. Note that this simple encounter rate model takes no account of the varying habitat in the survey region.}
 \centering
 \vspace{-24pt}
-\includegraphics[width=12cm]{keepfigure/usage.pdf}
+\includegraphics[width=13cm]{keepfigure/uniformusage.pdf}
 \label{fig:ER+detfun_habitat_encrate}
 \end{figure}
 
-We don't get to see maps like that in Figure~\ref{fig:ER+detfun_habitat_encrate} during a survey, all we see are the detections at each detector, and from these we try to reconstruct something like the figure, in addition to estimating animal density. In this chapter we focus on estimation the expected number of encounters as a function of distance from activity centre and leave density estimation aside until Chapter~\ref{sec:ch_spdetfn_integrating}. To keep things simple, we're initially going to (a) ignore habitat and consider expected encounter rate as a function of distance only and (b) work in one distance dimension rather than two. 
+We are going to go with this simplistic encounter rate model for the moment, in order to develop some key ideas. We will return to the example to use a more realistic encounter rate model later. For simplicity, we also assume for the moment that all detectors are equally effective, so that the probability of an encounter at a detector depends only on the distance that the detector is from the activity centre, not on the particular detector being used.
+
+
+We don't get to see usage pictures like that in Figure~\ref{fig:ER+detfun_habitat_encrate} during a survey, all we see are the detections at each detector, and from these we try to reconstruct something like the usage map, in addition to estimating animal density. In this chapter we focus on estimation the expected number of encounters as a function of distance from activity centre and leave density estimation aside until Chapter~\ref{sec:ch_spdetfn_integrating}. To keep things simple, we're initially going to work in one distance dimension rather than two. 
 
 \subsection{Spatial capture histories and encounter functions}
 \label{subsec:ER+detfun.spatialCH}
