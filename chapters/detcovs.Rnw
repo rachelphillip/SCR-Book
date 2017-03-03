@@ -11,7 +11,8 @@ Mention distance as an explanatory variable that is always used in SCR.}
 
 \todo[inline]{hopefully the intro will remedy this; the different formulations are pretty deep water for the uninitiated, readers need a motiviation for why they are being taken through this.  Why not just a single formulation; is one better than the other?}
 
-The GLM \{link function; linear predictor\} form for modelling detection probability is commonplace in non-spatial capture-recapture literature. This formulation uses a limited number of ``link function'' forms to link a linear function of the parameters (the ``linear predictor'') to the expected value of the dependent variable (expected encounter rate or detection probability in the SCR case). For example, expected encounter rate $\lambda(x)$, and detection probability $p(x)$, could be modelled as functions of a covariate $x$ using a linear predictor $\beta_0 + \beta_x x$ with a ``log link'' for expected encounter rate, and a ``complimentary log-log link'' for detection probability, thus:
+The GLM \{link function; linear predictor\} form for modelling detection probability is commonplace in non-spatial capture-recapture literature. This formulation uses a limited number of ``link function'' forms to link a linear function of the parameters (the ``linear predictor'') to the expected value of the dependent variable \todo[inline]{Greg:
+sorry if I am being pedantic but doesn't ordinary GLM's link the linear predictor to a parameter of interest rather than the expected value (which is obviously equal to theparameter ion the Poisson case)? I'm thinking about logistic regression where the linear predictor is linked to p]}(expected encounter rate or detection probability in the SCR case). For example, expected encounter rate $\lambda(x)$, and detection probability $p(x)$, could be modelled as functions of a covariate $x$ using a linear predictor $\beta_0 + \beta_x x$ with a ``log link'' for expected encounter rate, and a ``complimentary log-log link'' for detection probability, thus:
 \be
 \lambda(x)&=&e^{\beta_0 + \beta_x x} \nonumber \\
 p(x)&=&1-\exp\left\{-e^{\beta_0 + \beta_x x}\right\}.
@@ -39,7 +40,7 @@ where $\lambda_0=\exp\{\beta_0\}$, $\beta_d=-1/(2\sigma^2)$, and $\eta=\beta_0 +
 \noindent
 and this gives a negative exponential form for the encounter rate function, which we see can also be written in GLM \{link function; linear predictor\} form. 
 
-The hazard rate form for mean encounter rate (Eqn~\ref{eq:ERdetfun-negexp-lambda}) cannot be written in this form, while the hazard rate from for detection probability can only be written in this form if $g_0=1$ (with an inverse cloglog link and linear predictor $\beta_0 + \beta_d\log(d)$, in which $\beta_0=b\log(\sigma)$ and $\beta_d= -b$). The Gaussian detection function model cannot be written in this form. 
+The hazard rate form for mean encounter rate (Eqn~\ref{eq:ERdetfun-negexp-lambda}) WRONG REF HERE AND BELOW? cannot be written in this form, while the hazard rate from for detection probability can only be written in this form if $g_0=1$ (with an inverse cloglog link and linear predictor $\beta_0 + \beta_d\log(d)$, in which $\beta_0=b\log(\sigma)$ and $\beta_d= -b$). The Gaussian detection function model cannot be written in this form. 
 
 %If we can write the encounter rate function as $\lambda(d)=e^{\eta}$, where $\eta$ is a linear predictor (i.e. a linear function of parameters), then the detection function can be expressed in \{link function; linear predictor\} form using the cloglog link function. This provides a natural way of incorporating survey effort into detection probability functions (see Section~\ref{sec:ERdetfund-effort}). If we combine $\lambda(d)=e^{\eta}$ with Eqn~\eqref{eq:ER+detfun.binaryp} (and use $T=1$ for simplicity), we get
 %\be
@@ -57,7 +58,9 @@ Unlike non-spatial CR models, SCR models tend to use the \{intercept; scale\} fo
 
 \section{Modelling intercept and scale parameters}
 
-\todo[inline]{this might better fit before the previous section--it is more understandable}
+\todo[inline]{this might better fit before the previous section--it is more understandable
+
+Greg: definitely agree}
 
 While there is no single correct way to model the dependence of encounter rate and detection probability on the covariates, it is commonly done
 \bi
@@ -105,6 +108,7 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 
 
 \section{Detector-, occasion- and stratum-specific effects}
+\label{sec:ERdetfun-dos-effects}
 
 Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; shape\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
 
@@ -133,7 +137,13 @@ The \texttt{secr} package automatically selects the log link for $\sigma$ and $\
 \label{sec:ERdetfund-effort}
 \todo[inline]{struggling to see how an ecologist will use this info}
 
-Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)
+Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. 
+
+\todo[inline]{Greg:
+
+$T$ is already used for survey duration, is the idea here to initially think of effort ito duration rather than in a generic sense?. Also, isn't the proportionality premised on a constant hazard? Maybe this should be mentioned here and then generalised in the CT chapter.}
+
+More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)
 
 Each additional unit of independent effort adds one ``expected encounter rate unit''. As a result, when effort comes in discrete units (like the individual detectors in an array) the total expected encounter rate of the array ($\lambda_{ijk}(C_{jk})$ for individual $i$ with the $j$th cluster $C_{jk}$ detectors on occasion $k$) is the sum of the individual encounter rates ($\lambda_{ijk}$ for detector $j$ in the cluster):
 \be
@@ -187,7 +197,7 @@ Alternatively, the wolverine data (see next Example box) might be useful here?}
 
 \section{Individual effects (trap response and heterogeneity)}
 
-\todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify to individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
+\todo[inline]{Insert text about bias from unmodelled heterogeneity.}The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
 \item Covariates that are known for no individuals.
@@ -200,7 +210,7 @@ Except in the case of the first item above, the values of some individual-level 
 
 \subsection{Trap response}
 
-Behvioural response to catpure or detection can be modelled using an indicator variable that indicates whether or not an individual has been detected previously. If we define it to be $b_{ik}=1$ if individual $i$ was detected at least once before occasion $k$ and $b_{ik}=0$ if not, then each individual has a vector $\bm{b}_i=(b_{i1},\ldots,b_{iK})$ attached to it, and we know that for individuals that were never detected, this is a vector of zeros. To model a behavioural effect (``trap happiness'' or ``trap shyness'') we just add this covariate to the linear predictor at the relevant level.
+Behavioural response to capture or detection can be modelled using an indicator variable that indicates whether or not an individual has been detected previously. If we define it to be $b_{ik}=1$ if individual $i$ was detected at least once before occasion $k$ and $b_{ik}=0$ if not, then each individual has a vector $\bm{b}_i=(b_{i1},\ldots,b_{iK})$ attached to it, and we know that for individuals that were never detected, this is a vector of zeros. To model a behavioural effect (``trap happiness'' or ``trap shyness'') we just add this covariate to the linear predictor at the relevant level.
 
 For example, suppose that we are currently using a linear predictor $\eta_{ijk}$ for a model in which individuals have no behavioural response to being detected (or captured) and we want to investigate whether detection probability changes after first capture. We could fit a model with linear predictor
 \be

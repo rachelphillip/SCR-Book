@@ -55,7 +55,7 @@ or hydrophones) or human observers.
 We can also use SCR methods when the detectors physically capture the
 individuals upon detection. Indeed, this was the context in which the
 very first SCR methods were developed
-\citep{Efford:04,Borchers+Efford:08}. In such situations we must
+\citep{Efford:04,Borchers+Efford:08}. In such situations we must \todo{Greg: not sure I completely agree about this, what if traps are not checked and reset at the same time?}
 operate under the familiar CR framework of capturing individuals over
 a set of discrete sampling occasions: in order to obtain recaptures
 (both across space and time) we must end one occasion, release all
@@ -107,7 +107,7 @@ function, and therefore also of animal density.\todo{It is interesting
   binary data.}
 
 \todo[inline]{Below two paragraphs are probably better suited in a
-  different chapter; they seem out of place here.}
+  different chapter; they seem out of place here. Greg: I agree that perhaps the 1st paragraph should go into the acoustics chapter? Are there examples of additional data to the response data in non-acoustic settings? I think the 2nd para below could maybe come after the one above.}
 
 There are other possible response data types that may be observed in
 addition to the capture histories that provide additional spatial
@@ -126,7 +126,7 @@ SCR methods are discussed in further detail in Chapter
 detection over and above the capture histories are referred to as
 \emph{additional} response data.
 
-Additional response data types do not necessarily improve estimation
+Additional response data types \todo{Greg: I'm not sure this para flows that well from the one above, because the above para is talking about additional data over and above the response but here additional response data is being referred to.] } do not necessarily improve estimation
 of animal density, but may instead allow inference on additional
 demographic parameters of interest.  For example, observing detection
 times allows estimation of animal activity cycles over some temporal
@@ -140,7 +140,7 @@ The type of detector deployed on a survey directly affects the type of
 data we collect about each individual (given by $\bm{\omega}_i$ for
 the $i$th individual). Therefore, the likelihood component that is
 affected by the choice of detector type is
-$[\bm{\Omega}_n | \bm{S}_n]$. Throughout the remainder of this
+$[\bm{\Omega}_n | \bm{S}_n]$\todo{Greg: is it not necessary to also condition on being caught during the survey?}. Throughout the remainder of this
 chapter, this likelihood component is provided for various detector
 and response types, along with examples of how to fit these models
 using \texttt{secr}. Even if detectors are unable to count encounters
@@ -179,26 +179,31 @@ nomenclature to what we use here: it considers not only the type of
 detector, but also the type of response data. This is explained in
 further detail in the relevant sections below.
 
-\subsection{Incorporating additional information}
-\label{sec:det-types-additional-info}
+\section{Modelling additional data types}
+\label{sec:det-types-additional-data}
 
-\todo[inline]{Likewise, this section will probably be moved elsewhere.}
+\todo[inline]{Not really sure where to put this stuff yet.}
 
-A variety of additional response data types may be observed from each
-detection; for example, an acoustic survey may record both the
-received signal strength and time of arrival of each detection of a
-call. Let $\bm{Y}$ hold all additional data observed from all
-detections, and let each element be indexed by the same subscripts
-used in Sections \ref{sec:ER+detfun.occasions} and
-\ref{sec:ER+detfun.strata}, in addition to the subscript $m$, which
-indexes the additional information type. For example, $y_{ijkm}$ is
-the $m$th additional data type collected from the $i$th individual's
-detection at the $j$th detector on the $k$th occasion.
+Sometimes we may observe various kinds of additional data---precise
+times that detections were made is one such example (others will be
+met in further chapters). Let $\bm{Y}_n$ contain such additional data,
+potentially comprising multiple types, so that $\bm{Y}_n = (\bm{Y}_1,
+\bm{Y}_2, \cdots)$
 
-When additional data are collected, we must build it into the
-likelihood. This is achieved by specifying
-$[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n]$ instead of
-$[\bm{\Omega}_n | \bm{S}_n]$.
+We can formulate the likelihood compenent due to $\bm{\Omega}_n$ and
+$\bm{Y}_n$ as
+\be
+[\bm{\Omega}_n, \bm{Y}_n | \bm{S}_n] = [\bm{\Omega}_n | \bm{S}_n] \times [\bm{Y}_1 | \bm{\Omega}_n, \bm{S}_n] \times [\bm{Y}_2 | \bm{\Omega}_n, \bm{S}_n] \times \cdots, \nonumber
+\ee
+
+This framework offers great flexibility in the types of data we can
+model using SCR methods---for each type of additional information, all
+we require is to add another `building block' term, $[\bm{Y}_\cdot |
+  \bm{\Omega}_n, \bm{S}_n]$, to our likelihood specification. Further,
+the above specification works with all detector types---for example,
+multi-catch or single-catch traps may collect detection times or other
+additional data, and they can be built into the likelihood in this
+very way.
 
 \begin{table}[t]
   \centering
@@ -318,7 +323,7 @@ detect the individual.  This is no different to the formulation of the
 equivalent probability for proximity detectors.
 
 The probabilities associated with captures at each of the $J$ traps
-are proportional to their respective encouter rates. For example, if
+are proportional to their respective encounter rates. For example, if
 the first trap has an encounter rate that is twice as large as the
 second (i.e., $\lambda_{i1k} = 2\lambda_{i2k}$), then the probability
 that the $i$th individual is captured by the first trap is twice as
@@ -328,7 +333,14 @@ on the $k$th occasion is
 \be 
 \mathbb{P}(\bm{\omega}_{i j k} = 1 | \bm{s}_i) = p_{ijk}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}}, \label{eq:det-types-multi-det}
 \ee
-see Figure \ref{fig:det-types-multi}.
+see Figure \ref{fig:det-types-multi}, and so we obtain
+\be
+[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
+\begin{cases}
+     \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if trapped by detector $j$.} \\
+     1 - \sum_{j = 1}^J \Pr(\omega_{ijk} = 1 | \bm{s}_i) & \text{if not detected by any detector,} 
+\end{cases}
+\ee
 
 <<det-types-multi, echo = FALSE, fig.width = textwidth, fig.height = 0.4*textwidth, out.width = add.in(textwidth), out.height = add.in(0.4*textwidth), fig.pos = "tb", eval.after = "fig.cap", fig.cap = paste("A hypothetical array of multi-catch traps (solid points) and an activity centre (cross). Grey values next to detectors show the expected encounter rates, which depend on an encounter rate function that declines as distance to the activity centre increases. In this situation the probability of no detection is $1 - p_{i \\cdot k} = ", format(round(p.evade.all, 3), nsmall = 3), "$. The remaining probability of $p_{i \\cdot k} = ", format(round(1 - p.evade.all, 3), nsmall = 3), "$ is split up among the traps proportional to their respective encounter rates, resulting in the capture probabilities shown in black.", sep = "")>>=
 traps.x <- rep(c(5, 15, 25), 3)
@@ -357,15 +369,6 @@ text(traps.x, traps.y, labels = format(round(p.capture, 3), nsmall = 3), c(-0.05
 #     adj = c(1.05, 1.05))   
 @ 
 
-Therefore, putting Eqns \eqref{eq:det-types-multi-nondet} and
-\eqref{eq:det-types-multi-det} together, we obtain
-\be
-[\bm{\omega}_{i \cdot k} | \bm{s}_i] = 
-\begin{cases}
-  1 - p_{i \cdot k} & \text{if not detected by any detector,} \\
-  p_{i \cdot k}\frac{\lambda_{ijk}}{\sum_{j^{\prime} = 1}^J \lambda_{ij^{\prime}k}} & \text{if trapped by detector $j$.}
-\end{cases}
-\ee
 
 The encounter rates, $\lambda_{ijk}$, are interpreted as the number of
 encounters we would expect between the $i$th individual and the $j$th
@@ -509,11 +512,14 @@ appears robust for use with single-catch traps, this does not hold for
 estimators for the density \emph{surface}, nor the encounter rate
 function parameters. Density estimates are typically negatively biased
 for areas of high density, and positively biased for areas of low
-density. Furthermore, the intercept parameter for the encouter rate
+density. Furthermore, the intercept parameter for the encounter rate
 function is typically negatively biased, and the scale parameter is
 typically positively biased. It appears that the compensatory
 relationship between these two pairs of estimates give rise to the
-negligibly biased average density.
+negligibly biased average density.\todo[inline]{Greg:
+we actually found that sigma tends to be unbiased and so it is really only go that is negatively biased. The nature of the compensation is that the model thinks traps continue to operate but are less effective then they really are.
+
+I have got plots from simulations that show this. Might be an idea to move these details into the single catch trap section of the CT chapter? Or could just refer to this here when addressing it again in the later chapter.}
 
 There is therefore general support for using a multi-catch trap
 estimator for single-catch trap data when the primary interest in
@@ -534,17 +540,18 @@ the software. \todo{Is this correct? I'm not totally familiar with
   inverse prediction.}
 
 However, if there is particular interest in the encounter rate
-function (e.g., to gain information space-use or animal movement),
+function (e.g., to gain information about space-use or animal movement),
 then using a multi-trap catch estimator is unlikely to be
 suitable---one should therefore use either inverse prediction or the
 continuous-time model in Chapter \ref{chap:continuous-time}. If there
 is particular importance in precise, unbiased estimation of a
-detection surface, then the continuous-time model is the only
+detection surface \todo{do you mean density surface?}, then the continuous-time model is the only
 appropriate method that is currently available (and requires timers on
 traps to record the exact time of each capture).
 
 
 \section{Alternative formulation using `building blocks'}
+\label{sec:det-types-blocks}
 
 For proximity detectors we have considered $[\bm{\Omega}_n |
   \bm{S}_n]$ as consisting of products over Bernoulli PMFs for binary
