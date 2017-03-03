@@ -38,7 +38,7 @@ Here $D(\bm{s};\bm{\phi})$ is the density \todo[inline]{of what?} at location $\
 
 \ei
 To get a feel for SPPPs, let's look at some pictures in the context of the Kruger leopard survey. Figure~\ref{fig:spmod-KrugerDs} shows the intensity of the SPPP (i.e. leopard density) over all $\bm{s}$ in the survey region within an area $A$, estimated as a function of habitat suitability. We refer to such maps as "desity surfaces", denoted $D(\bm{s})$. 
-\todo[inline]{I edited the above because density surfaces were not previously defined. I think Royle et al. have refered to teh posterior distribution of activity centers (with or without spatial covariates) as a "density surface". I think we should make it clear here that we only get maps of spatial variation in D within A if we include spatial covariates.
+\todo[inline]{I edited the above because density surfaces were not previously defined. I think Royle et al. have refered to teh posterior distribution of activity centers (with or without spatial covariates) as a "density surface". I think we should make it clear here that we only get maps of spatial variation in D within A if we include spatial covariates.}
 \todo[inline]{Should it be denoted D-hat(s)?}
 \todo[inline]{Here as in Ch 2, we include spatial variation in our figures before introducing it in the text. I think the figures should illustrate the concepts described, not concepts to be described subsequently. Remove Kruger figs. to subsequent section?}
 
