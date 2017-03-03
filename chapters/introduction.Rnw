@@ -1,4 +1,0 @@
-\chapter{Introduction}
-\label{chap:intro}
-
-Placeholder chapter to get book chapter numberings correct.
