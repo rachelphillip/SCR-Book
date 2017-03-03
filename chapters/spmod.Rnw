@@ -1,0 +1,169 @@
+\chapter{Spatial models}
+\label{chap:spmod}
+
+\abstract{In this chapter we describe spatial point process (SPP) models and how they are useful for modelling the density, abundance and distribution of populations. A key concept is what spatial statisticians call the intensity function, which in our context is the spatial density function. We describe how this can be modelled as a function of spatial covariates, how SCR data arise from this through a process called ``thinning'', in which some points (individuals in our terms) are missed, and how the spatial detection functions of the previous chapter determine the thinning.}
+
+\section{Introduction}
+
+Chapter~\ref{chap:ERdetfun} provides the tools you need to estimate spatial encounter rate or detection function models, given that you know how many of individuals ($N$, say) are available to be detected \todo{Greg: does the estimation of the det fn depend on N?}, and you know where their activity centres $\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$ are. But if you knew how many individuals were available to be detected, and where their activity centres were, you would probably not be doing the survey, because the main reason to do an SCR survey is usually to find these things out. Finding out about encounter rate and detection functions is usually of very secondary interest, at best.
+
+We want to draw inferences about the density, abundance and spatial distribution of the activity centres of a population, when we don't observe the locations of any of them and don't even know how many there are. In statistical terms these activity centres are ``latent variables'' -- variables that affect what we do observe (spatial capture histories) but which are not themselves observed. In many latent variable problems, latent variable are assumed to be Gaussian, and the number of latent variable is known. In SCR models, the latent variable distribution is the distribution of activity centres in space, and this is extemely unlikely to be Gaussian. We also don't know how many latent variables there are. \todo{Greg: Don't we mean the number of realisations of the one latent variable are unknown?}
+
+Instead of a Gaussian distribution, we need a latent variable distribution that is very flexible, because we don't know what shape the distribution of activity centres in space is. The distribution must also allow the number ($N$) of latent variables to be unknown. A spatial point process (SPP) model gives us this. It is a statistical model that describes how the number and locations of points in space arise. In our terms points are individual activity centres, so our SPP models describe how the number of individuals in a population, and their activity centres arise. It gives us a statistical model for the activity centres $\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$, which is not as good as observing the actual activity centres, but is the best we can do when we can't observe them. SPP models are as central to SCR inference as are expected encounter rate and detection function models.
+
+\section{Spatial Poisson and binomial point processes}
+\label{sec:spmod-pps}
+
+There are many kinds of SPP but we are going to focus primarily on spatial \textbf{Poisson} point process (SPPP) models and spatial \textbf{binomial} point process (SBPP) models. The latter is contained in the former. SPPP models involve the product of a model for the number of activity centres, $N$, and a model for the location of activity centres $\bm{S}_N$, given $N$: $[\bm{S}_N]=[N][\bm{S}_N|N,\bm{\phi}]$, where $\bm{\phi}$ is a parameter vector, \todo[inline]{first appearance of bracket notation, need explanation?}
+\bi
+\item $[N]$ is a Poisson distribution that governs the number of activity centres: 
+\be
+[N]&=& Po(E[N]),
+\label{eq:spmod-Po(E[N])}
+\ee
+\noindent
+with $E[N]$ being the expected number of activity centres, 
+\todo[inline]{Greg:
+
+Previously we wrote $Po(n_{ij} ; \lambda(d_{ij}T))$ so shouldn't the notation here be similar: $Po(N ; E[N])$? }
+
+and
+\item $[\bm{S}_N|N]$ is a SBPP that governs the locations of the activity centres, given their number:
+\be
+[\bm{S}_N|N,\bm{\phi}]&=&\prod_{i=1}^N \frac{D(\bm{s}_i;\bm{\phi})}{E[N]}\;=\;\prod_{i=1}^Nf(\bm{s}_i;\bm{\phi})).
+\label{eq:spmod-f(s)}
+\ee
+\noindent
+Here $D(\bm{s};\bm{\phi})$ is the density \todo[inline]{of what?} at location $\bm{s}$ and $E[N]$ is the area under the density surface over the survey region $A$: $E[N]=\int_A D(\bm{s};\bm{\phi})d\bm{s}$.
+
+\ei
+To get a feel for SPPPs, let's look at some pictures in the context of the Kruger leopard survey. Figure~\ref{fig:spmod-KrugerDs} shows the intensity of the SPPP (i.e. leopard density) over all $\bm{s}$ in the survey region within an area $A$, estimated as a function of habitat suitability. We refer to such maps as "desity surfaces", denoted $D(\bm{s})$. 
+\todo[inline]{I edited the above because density surfaces were not previously defined. I think Royle et al. have refered to teh posterior distribution of activity centers (with or without spatial covariates) as a "density surface". I think we should make it clear here that we only get maps of spatial variation in D within A if we include spatial covariates.}
+\todo[inline]{Should it be denoted D-hat(s)?}
+\todo[inline]{Here as in Ch 2, we include spatial variation in our figures before introducing it in the text. I think the figures should illustrate the concepts described, not concepts to be described subsequently. Remove Kruger figs. to subsequent section?}
+
+\begin{figure}[ht]
+\caption{\small The density surface $D(\bm{s})$ for the Kruger leopard data, as a heatmap (left) and a perspective plot (right). Camera locations are shown as white crosses in the left plot. The survey area (A) is outlined in black.}
+\centering
+\includegraphics[width=12cm]{keepfigure/KrugerDs.pdf}
+\label{fig:spmod-KrugerDs}
+\end{figure}
+
+This Kruger leopard SPPP model has $E[N]=171$
+
+\todo[inline]{Greg:
+
+Is 171 from running the region.N command and is it for a larger area than that used in the example? I am getting values below 70?}
+
+, so that the number of activity centres (and hence individuals) in the survey region is a Poisson random variable with an expected value of 171. In Figure~\ref{fig:spmod-KrugerPop} we show a realisation of the SPPP, which has $N=151$ activity centres, whose locations are independent draws from the SBPP obtained by scaling the $D(\bm{s})$ surface shown in Figure~\ref{fig:spmod-KrugerDs} to have volume equal to 1 (as per Eqn~\eqref{eq:spmod-f(s)}).
+\begin{figure}[ht]
+\caption{\small Leopard activity centres generated by the SPPP model with density surface shown in Figure~\ref{fig:spmod-KrugerDs}. Camera locations are shown as grey crosses. The straight line border on the right and the short straight line border on top right show edges of the survey region but do not correspond to any physical boundary, while the rest of the border is a fence that leopards cannot cross.}
+\centering
+\includegraphics[width=6cm]{keepfigure/KrugerPop.pdf}
+\label{fig:spmod-KrugerPop}
+\end{figure}
+
+\section{Covariates in spatial models}
+
+Equal density everywhere in the survey region is an unrealistic density model for most populations. Density will usually be related to habitat variables, with higher density in more suitable habitat. In our example, leopard density is very strongly determined by habitat, as can be seen by comparing the habitat suitability map in Figure~\ref{fig:spmod-KrugerHabitat} and the density surface in Figure~\ref{fig:spmod-KrugerDs}. 
+\begin{figure}[ht]
+\caption{\small A habitat suitability variable in the Kruger leopard study area.}
+\centering
+\includegraphics[width=12cm]{keepfigure/KrugerHabitat.pdf}
+\label{fig:spmod-KrugerHabitat}
+\end{figure}
+
+Here habitat is an example of what we refer to as spatially-referenced covariates. These are explanatory variables whose values depend on location $\bm{s}$. We use $z(\bm{s})$ to denote the value of a spatially-referenced covariate at the point $\bm{s}$. The simplest such covariates are the two coordinates of $\bm{s}$: $x=z_x(\bm{s})$ and $y=z_y(\bm{s})$.
+
+Of course in reality we never get to see the true density surface $D(\bm{s})$, so we don't know how, or if, density varies in space. We estimate this from the SCR data. To do this, we need to specify $D(\bm{s})$ as some function of $\bm{s}$ (with some unknown parameters), and we need to allow this function to depend on spatially-referenced covariates. Because $D(\bm{s})$ must be non-negative, a functional form with linear predictor and log link function is appropriate. For example with spatially-referenced covariates $z_1(\bm{s}),\ldots,z_v(\bm{s})$:
+\be
+D(\bm{s})&=&e^{\phi_0 + \phi_1 z_1(\bm{s}),+\ldots +\phi_V z_V(\bm{s})}
+\label{fig:spmod-Dloglink}
+\ee
+\noindent
+where $\bm{\phi}=(\phi_0,\phi_1,\ldots,\phi_V)$ is a vector of unknown parameters.
+
+\subsection{Example analyses}
+
+\todo[inline]{David's initial thoughts: Simple analysis of Kruger data; fit flat density and density dependent on habitat, and density as a (log-)linear function of x only and of x and y. Use AICc to choose between them. Predict density. Plot estimated density surface and lower and upper CI surfaces. Explain that boundary is a hard one - leopards can't cross it. 
+\todo[inline]{Could we either integrate the complete example into sections 3.2 and 3.3, or remove the Kruger figures from section 3.2 and present them here instead? We could plot one flat density surface, and make it clear earlier on that we can't get an "interesting" density surface without covariate info (and that this covariate info is attached to the mask, if not mentioned in the previous chapter)?
+Probably need to say habitat covariate attached to mask, and maybe show head(kruger.mask), but leave detail of mask to later.
+
+Give this equation: $D(\bm{s})=e^{\phi_0 + \phi_z z(\bm{s})}$, note that $z(\bm{s})$ is the habitat covariate. Interpret parameters and relate them to $\bm{\phi}$ in text.}
+
+\subsection{Flexible density surface modelling}
+
+Modelling density as a log linear function of spatially-referenced covariate(s) is not appropriate when there is a very nonlinear relationship between density and the covariate(s). For example, leopards in the mountains of the Boland region of South Africa seem to have a preference for intermediate elevations, avoiding the valleys and the mountain tops. Using elevation as an explanatory variable in a linear model is inadequate in this case, because it forces modelled density to be either always increasing with altitude, or decreasing with altitude, whereas we want it to be able to increase, reach a peak and then decrease. Because we usually don't know the form of the relationship between density and spatially-referenced covariates, we would like to have the option of letting the data tell us the most appropriate form. We want something like a generalised additive model (GAM) \todo[inline]{citation}. 
+
+Although GAM software is avaiable in the \texttt{R} package \texttt{mgcv}, we can't use this for SCR analyses because SCR likehoood functions have a more complex form than standard GAM likelihood functions. 
+
+We could of course add flexibility by modeling $D(\bm{s})$ using powers of a spatially-referenced explanatory variable $z(\bm{s})$. For example: 
+
+\be
+D(\bm{s})&=&e^{\phi_0+\sum_{v=1}^{df}\phi_vz(\bm{s})^v}.
+\label{eq:spmod-polyD}
+\ee
+
+However, regression splines have some properties that make them preferable to such polynomial functions. These properties including ability to generate more stable estimates at the edges of the covariate range. They use ``local basis functions'' (see Appendix ???) in place of powers of $z(\bm{s})$:
+\be
+D(\bm{s})&=&e^{\phi_0 + \sum_{v=1}^{df}\phi_v b_v(z_1(\bm{s}))},
+\label{fig:spmod-Dloglink-gam1}
+\ee
+\noindent
+where $b_1(z_1(\bm{s})),\ldots,b_{df_1}(z_1(\bm{s}))$ are the local basis functions of the spatially referenced covariate $z_(\bm{s})$, and $df$ is the ``degrees of freedom'' of the regression spline -- which controls how flexible $D(\bm{s})$ is. A brief introduction to regression splines is given in Appendix~???\todo{Do appendix} for the interested reader. See \cite{Wood:17} for more detail. 
+
+The \texttt{R} library \texttt{mgcv} uses regression splines to implement GAMs, However it fits them using \textit{penalised} maximum likelihood, and this allows the smoothness of the function to be determined automatically \citep[for details, see][]{Wood:17}. At the time of writing, penalised splines have not been implemented for SCR models, so that the smoothness of SCR regression spline density models must be chosen manually, by trying various \texttt{df} and selecting between them using model selection criteria such as AIC or AIC$_c$. 
+
+%Using regression splines to generate smooth nonparameteric density surfaces for SCR models gives something akin to a generalised additive model, instead of something akin to a generalised linear model, which is what we get with a linear predictor of the form of Eqn~\eqref{fig:spmod-Dloglink}. 
+
+While you need not understand all the detail of regression splines to use them, you do need a certain minumum knowledge. This includes the following:
+\bi
+\item Regression splines allow density to be modelled as nonparametric smooth functions of covariates.  
+\item The smoothness of a regression spline is controlled by a ``degree of freedom'' parameter \texttt{df}, which is greater for more flexible models.
+\item The higher the degrees of freedom, the more parameters there are to be estimated.
+\item Regression splines can be functions of more than one variable.
+\item When regression splines are functions of more than one variable, they can be ``isotropic'' (which means the same degree of smoothness for each of the variables), or ``anisotropic'' (allowing different amounts of smoothing for each of the covariates). Anisotropic regression splines are usually preferable, because they generate the same density surface no matter what units the explanatory variables are measured in, whereas isotropic regression splines produce different surfaces for the same data measured in different units. Anisotropic regression splines require more degrees of freedom.
+\item There are different kinds of regressions splines, defined by the basis functions they use, and each has a minimum required \texttt{df}. Cubic splines are commonly used; a cubic regression spline function of one variable requires \texttt{df}$\geq 3$.
+\ei
+
+
+\subsubsection{Example: Flexible density surface modelling}
+\todo[inline]{David's initial thoughts: Analysis of Boland leopard data (once have permission)? Illustrate non-monotonic dependence on altitude and distance to water. Demonstrate (a) univariate smooths with different \texttt{df}, (b) bivariate smooth (isotropic and anisotropic?), (c) Warning when \texttt{df} too small (and relate to text above). Do pretty pictures.}
+
+\subsection{Spatial clustering: log Gaussian Cox process models}
+
+\todo[inline]{Stuff with Finn}
+
+
+\subsection{Territoriality: pair potential models}
+
+\cite{Reich+Gardner:14}
+
+
+
+\section{Thinned Poisson Processes}
+
+\todo[inline]{I think it would be helpful present this earlier on, perhaps as part of or immediately following section 3.2.?}
+On a survey, we don't get to see the location of all points from a point process. On the Kruger leopard survey, for example, only the leopards with activity centres shown as black dots in Figure~\ref{fig:spmod-KrugerThinnedPop} were detected.
+\begin{figure}[ht]
+\caption{\small The \todo[inline]{predicted?}activity centres of detected leopards (black dots) on the Kruger leopard survey. Activity centres of undetected animals are shown as open circles. Camera locations are shown as grey crosses in grey circles.}
+\centering
+\includegraphics[width=6cm]{keepfigure/KrugerThinnedPop.pdf}
+\label{fig:spmod-KrugerThinnedPop}
+\end{figure}
+
+%Given a model $D(\bm{s})$ for an SPPP or SBPP density (called the ``intensity'' in the spatial modelling literature), we could estimate its unknown parameters ($\bm{\phi}$) if we observed the locations of all activity centres ($\bm{S}_N=(\bm{s}_1,\ldots,\bm{s}_N)$). We could do this by treating $[N][\bm{S}_N|N,\bm{\phi}]$ (in the case of a SPPP) or $[\bm{S}_N|N,\bm{\phi}]$ (in the case of a SBPP) as a likelihood function and maximising it with respect to $N$ and $\bm{\phi}$. But we don't observe all $N$ individuals or their activity centres $\bm{S}$. So we can't do this. 
+
+When points from a point process are detected probabilistically (i.e. a point at $\bm{s}$ is detected with some probability $p(\bm{s})$ and missed with probability $1-p(\bm{s})$), the detected points comprise a ``thinned'' point process. The thinned process has intensity $p(\bm{s})D(\bm{s})$, while the original process has intensity $D(\bm{s})$. And in the case of a \textbf{Poisson} point process, the thinned point process is also a Poisson point process. (With other point processes, the thinned process does not have the same form as the original process in general.) 
+
+Figure~\ref{fig:spmod-thinning1D} illustrates thinning in one dimension. 
+\begin{figure}[ht]
+\caption{\small Thinning a Poisson point process with density function $D(\bm{s})$ in one dimension. $D(\bm{s})$ is the curve in the top plot and the activity centres generated by the process are at the grey lines. Detectors are placed at the circled crosses in the middle plot and the probability of them detecting an individual at $\bm{s}$ is given by the curve in the middle plot. The density of \textit{detected} activity centres is given by the bottom curve, which is the product of $D(\bm{s})$ and $p(\bm{s})$, and the detected activity centres are shown by red lines in the bottom plot. The inference problem is to estimate the top curve from the red lines at the bottom of the plot}
+\centering
+\includegraphics[width=12cm]{keepfigure/thinning1D.pdf}
+\label{fig:spmod-thinning1D}
+\end{figure}
+
+
+
+
