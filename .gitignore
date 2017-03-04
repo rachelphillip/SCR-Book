@@ -12,3 +12,4 @@ scr-book.idx
 *.ilg
 scr-book.pdf
 scrmlebook/install-scrmlebook.sh
+.Rproj.user
