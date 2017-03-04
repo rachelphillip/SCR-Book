@@ -151,7 +151,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 % Bibliography %
 %\bibliography{dlb}
-\bibliography{dlb,gregarticles, gregbooks}{}
+\bibliography{dlb,gregarticles,gregbooks}{}
 \bibliographystyle{er-chicago}
 
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
