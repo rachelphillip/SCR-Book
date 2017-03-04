@@ -85,7 +85,7 @@ where $\bm{\phi}=(\phi_0,\phi_1,\ldots,\phi_V)$ is a vector of unknown parameter
 
 \subsection{Example analyses}
 
-\todo[inline]{David's initial thoughts: Simple analysis of Kruger data; fit flat density and density dependent on habitat, and density as a (log-)linear function of x only and of x and y. Use AICc to choose between them. Predict density. Plot estimated density surface and lower and upper CI surfaces. Explain that boundary is a hard one - leopards can't cross it. 
+\todo[inline]{David's initial thoughts: Simple analysis of Kruger data; fit flat density and density dependent on habitat, and density as a (log-)linear function of x only and of x and y. Use AICc to choose between them. Predict density. Plot estimated density surface and lower and upper CI surfaces. Explain that boundary is a hard one - leopards can't cross it.} 
 \todo[inline]{Could we either integrate the complete example into sections 3.2 and 3.3, or remove the Kruger figures from section 3.2 and present them here instead? We could plot one flat density surface, and make it clear earlier on that we can't get an "interesting" density surface without covariate info (and that this covariate info is attached to the mask, if not mentioned in the previous chapter)?
 Probably need to say habitat covariate attached to mask, and maybe show head(kruger.mask), but leave detail of mask to later.
 
