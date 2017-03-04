@@ -1,0 +1,181 @@
+
+\section{Multiple occasions}
+\label{sec:ER+detfun.occasions}
+
+A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background because occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
+\todo[inline]{SCR allows for 2 additional sources of recaptures relative to CR. Suggest:}
+This is not true of SCR where you can get 1.recaptures at the same trap within occasions (if count rather than binary data are collected, and 2.\textit{recaptures over space} rather than, or in addition to, recaptures across occasions.
+
+
+Instead of detections (or not) on each of a number of occasions in \textit{time}, we had detections (or not) at each of a number detectors in \textit{space} in the example above. This allowed us to estimate the expected number of encounters (and hence detection probability, because detection is just at least one encounter) when we have only a single sampling occasion. But you can't do this if your detectors are traps that hold animals when they detect them. 
+
+We delay dealing with such traps until Chapter~\ref{ch:detector types}. But here we extend the above models to include occasions, which we index by $k=1,\ldots,K$. The count and binary likelihood functions of Eqns~\eqref{eq:ER+detfun.P.Omega.count} and \eqref{eq:ER+detfun.P.Omega.binary} are easily extended to include multiple occasions like this:
+\begin{svgraybox}
+\bf{The capture history likelihood component for count data (multi-occasion)}
+\be
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\prod_{k=1}^K\mbox{Po}\left(n_{ijk};\lambda(d_{ijk})T_k\right)
+\label{eq:ER+detfun.P.Omega.count.occ}
+\ee
+\end{svgraybox}
+and this:
+\begin{svgraybox}
+\bf{The capture history likelihood component for independent binary data (multi-occasion)}
+\be
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{i=1}^n\prod_{j=1}^J\prod_{k=1}^K\mbox{Bern}\left(\delta_{ijk};p(d_{ijk},T_k)\right)
+\label{eq:ER+detfun.P.Omega.binary.occ}
+\ee
+\end{svgraybox}
+\noindent
+where
+\begin{svgraybox}
+\bd
+\item[$n_{ijk}$] is the number of detections of individual $i$ at detector $j$ on occasion $k$,
+\item[$\delta_{ijk}$] is 1 if individual $i$ was detected at detector $j$ on occasion $k$,
+\item[$d_{ijk}$] is the distance of the activity centre of individual $i$ from detector $j$ on occasion $k$. Note that this is a latent variable - we do not observe it.
+\item[$T_k$] is the duration of the $k$th occasion.
+\ed
+\end{svgraybox}
+\todo[inline]{BCS: I find it a little more natural to order the products as such: (1) Individuals, (2) Occasions, (3) Detectors. At the moment detectors come before occasions. It's equivalent here, but when we start talking about multi-catch traps, for example, we have to do it in the order I have specified above, as we don't have independence across detectors.}
+
+\section{Mutiple surveys}
+\label{sec:ER+detfun.strata}
+
+Suppose you do more than one SCR survey of the same population, at different locations in the population's range and/or at different times.
+\todo[inline]{suggest using "study areas" rather than "locations", when referring to surveys separated in space, since "locations" often refers to e.g. activity centers and detectors.}
+
+If it is possible to get recaptures of the same individual at more than one location \textit{and to recognise the recaptures as such}, then you could analyse the surveys as a single survey, with detectors in clusters (each survey corresponding to a cluster). If the time between the survey is large enough that the population size or distribution may have changed between surveys, this adds complexity and you may need to consider open-population SCR methods (Chapter~\ref{ch:open}). 
+
+\todo[inline]{figure to make this clearer?}If it is not possible to get recaptures of the same individual on different surveys, or it is possible but it is not possible to recognise the recaptures as such, then you have the option to analyse the surveys as entirely separate surveys, or to link them in some way. The advantage of linking them is that the data from multiple surveys can be used to inform estimates of parameters that the surveys share. If the detection process is similar across surveys, for example, it may be sensible to model some of the encounter rate or detection function parameters as common. Similarly, if the density or distribution of individuals is expected to be the same, or similar, or at least determined by the same explanatory variables, it may be sensible to share density model parameters (see Chapter~\ref{ch:smod}) between surveys.
+
+In such cases the individual surveys might be thought of as survey strata (although this is usually used to refer to surveys at different spatial locations, not at different times). In \texttt{secr}-speak they are called ``sessions'' (when surveys are separated by time and when they are separated by space).
+\todo[inline]{I might have said that Program MARK and some CR literature use "groups", the DS literature often uses "strata", and Efford popularized the term "sessions", but in all cases, we analyze the data from all survey simultaneously, fit models with both common and different values of detection parameters across (some or all) sessions, and use model selection (or other?) criteria to determine the extent to which the data can be pooled across surveys to estimate common detection parameters. I think we could leave mention of sharing density model parameters until chapter 3 or later.}
+
+We will generally follow \texttt{secr} terminology and call them ``sessions'' in this book.. (\cite{Royle+al:14} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
+\todo[inline]{We should be sure to do so. "Strata" is used below.}
+
+
+Because there are no recaptures between the individual sessions, the capture histories are independent between them and the corresponding multi-session likelihood is the product of the likelihoods for each session. Indexing session by $l=1,\ldots,L$, the corresponding count and binary likelihood functions are:
+\begin{svgraybox}
+\bf{The capture history likelihood component for count data (multi-occasion, multi-session)}
+\be
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{l=1}^L\prod_{i=1}^{n_l}\prod_{k=1}^{K_l}\prod_{j=1}^{J_{kl}}\mbox{Po}\left(n_{ijkl};\lambda(d_{ijkl})T_{kl}\right)
+\label{eq:ER+detfun.P.Omega.count.occ.strat}
+\ee
+\end{svgraybox}
+and this:
+\begin{svgraybox}
+\bf{The capture history likelihood component for independent binary data (multi-occasion, multi-session)}
+\be
+[\bm{\Omega}_n|\bm{S}_n]&=&\prod_{l=1}^L\prod_{i=1}^{n_l}\prod_{k=1}^{K_l}\prod_{j=1}^{J_{kl}}\mbox{Bern}\left(\delta_{ijkl};p(d_{ijkl},T_{kl})\right)
+\label{eq:ER+detfun.P.Omega.binary.occ.strat}
+\ee
+\end{svgraybox}
+\noindent
+where
+\begin{svgraybox}
+\bd
+\item[$n_{ijk}$] is the number of detections of individual $i$ at detector $j$ on occasion $k$,
+\item[$\delta_{ijkl}$] is 1 if individual $i$ in stratum $l$ was detected at detector $j$ on occasion $k$ in that straum,
+\item[$d_{ijkl}$] is the distance of the activity centre of individual $i$ in stratum $l$ from detector $j$ on occasion $k$ in that stratum. Note that this is a latent variable - we do not observe it.
+\item[$T_{kl}$] is the duration of the $k$th occasion in the $l$th stratum.
+\item[$n_l$] is the number of individuals detected in stratum $l$.
+\item[$J_{kl}$] is the number of detectors used on occasion $k$ in stratum $l$.
+\item[$K_l$] is the number of sampling occasions in stratum $l$.
+\ed
+\end{svgraybox}
+
+\todo[inline]{Further to our discussion, the phrasing here seems to suggest both 1. that the surveys should be independent (so not possible to recapture animals across surveys?) to be modelled as sessions rather than as a single survey, and 2. that if there are no observed recaptures between surveys, they can be modelled as sessions.  To me, it doesn't make sense that it's OK to to be unable to recognize recaptures, but not OK to ignore them if we can recognize them. Matching up samples across surveys is likely to be time consuming and error prone, and there are advantages to modeling the different surveys as sessions, especially if they are separated in time. If I want to model my multiple surveys as sessions, must they be independent, or can I simply ignore the potential for recaptures across surveys (e.g. to avoid the need to use an open-population model, and despite some loss of information.)}
+
+
+\section{Covariate data}
+
+\todo[inline]{This section feels a bit odd here but it can't really come earlier because sessions, for example have not been defined earlier, and it can't really come after the spatial modelling chapter because we have to have spatial covariates for that chapter. Might it be worth making a wee chapter dealing with data? This could illustrate data import a bit more thoroughly and deal with getting data from shape files onto masks and such?}
+
+Encounter rates and detection probabilities often depend on variables associated with the detectors, the environment, and individual animals. Similarly, the density and distribution of individuals in space may depend on variables associated with the the environment, and often with spatially-referenced variables like habitat type. 
+
+Failing to model the effects of such variables on encounter rate, detection probability or density and distribution can result in biased inferences being drawn. (When such variables are used as explanatory variables in a statistical model we refer to them as ``covariates'' rather than as ``variables''.)  
+
+We deal with the ways in which covariates are used to model encounter rate and detection probabilityin Chapter~\ref{ch:detcovs}, and the ways in which they are used to model density and distribution in Chapter~\ref{ch:smod}. Here we describe a generic data structure for getting covariate data into an SCR analyses.
+
+Covariates can act at three levels in an SCR analysis:
+\bi
+\item at the detector level (covariates like detector type, date or stratum identity),
+\item at the individual level (covariates like sex or age), and
+\item at points in space (covariates like habitat type or elevation).
+\ei
+These three levels correspond to the three kinds of data required for SCR analyses (detector data, capture history data and spatial data) and the level at which covariates act determines  which data type the covariate should be attached. Generic data structures, with covariates, for each kind of data are shown in Tables~\ref{tab:ERdetfun-detdata}, \ref{tab:ERdetfun-capdata} and \ref{tab:ERdetfun-meshdata}. 
+
+
+\begin{center}
+\begin{table}
+\caption{Generic detector data structure. ``Occ'' is Occasion; $x_{j1}$ and $x_{j2}$ are the spatial coordinates of the $j$th detector. There are $M_d$ covariates for each of $J_l$ detectors in stratum $l$ on each of $K$ occasions:
+\todo[inline]{are stratum and session equivalent?}$z_{jkm}$ is the value of the $m$th covariate on the $k$th occasion on the $j$th detector. When covariates are the same for all occasions, only one set of covariate columns is necessary. The effort associated with detector $j$ on occasion $k$ is denoted $T_{jk}$. When detectors are not used on an occasion, this is accommodated by setting the associated Effort to 0.}
+\label{tab:ERdetfun-detdata}
+\begin{tabular}{cccccccccccccccc} 
+\hline
+ &         & \multicolumn{2}{c}{Detector}         & & \multicolumn{7}{c}{Covariates} \\
+                    \cline{6-12}                     
+ &Detector & \multicolumn{2}{c}{Location}  & & \multicolumn{3}{c}{Covariate 1} & $\cdots$ & \multicolumn{3}{c}{Covariate $M_d$} & & \multicolumn{3}{c}{Effort}  \\
+                  \cline{3-4}        \cline{6-8} \cline{10-12} \cline{14-16}
+Session &   ID    &          $x_1$ & $x_2$           & & Occ 1 & $\cdots$  & Occ $K$ & $\cdots$ & Occ 1 & $\cdots$  & Occ $K$  & & Occ 1  & $\cdots$  & Occ $K$  \\
+\hline
+1 & detID1 &              $x_{11}$ & $x_{12}$            & & $z_{111}$ & $\cdots$  & $z_{1K1}$ & $\cdots$ & $z_{11M_d}$ & $\cdots$  & $z_{1KM_d}$  & & $T_{11}$  & $\cdots$  & $T_{1K}$  \\
+1 & detID2 &              $x_{21}$ & $x_{22}$            & & $z_{211}$ & $\cdots$  & $z_{2K1}$ & $\cdots$ & $z_{21M_d}$ & $\cdots$  & $z_{2KM_d}$  & & $T_{21}$  & $\cdots$  & $T_{2K}$  \\
+$\vdots$ & $\vdots$ &              $\vdots$ & $\vdots$            & & $\vdots$ & $\vdots$  & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$  & $\vdots$  & & $\vdots$  & $\vdots$ & $\vdots$  \\
+$L$ & detIDJ &              $x_{J1}$ & $x_{J2}$            & & $z_{J11}$ & $\cdots$  & $z_{JK1}$ & $\cdots$ & $z_{J1M_d}$ & $\cdots$  & $z_{JKM_d}$  & & $T_{J1}$  & $\cdots$  & $T_{JK}$  \\
+\hline
+\end{tabular}
+\end{table}
+\end{center}
+
+
+\begin{center}
+\begin{table}
+\caption{Generic capture history data structure with illustrative Detector IDs. ``Occ'' is Occasion. There are $M_c$ individual-level covariates for each of $n$ individuals, on each of $K$ occasions: $z_{ikm}$ is the value of the $m$th covariate on the $k$th occasion for the $i$th individual. (Commas in subscripts are used below only where necessary to avoid ambiguity.) Individuals that are detected at more than one detector and/or on more than one occasion, will appear in more than one row of this table.}
+\label{tab:ERdetfun-capdata}
+\begin{tabular}{cccccccc} 
+\hline
+        & Individual &     & Detector & & \multicolumn{3}{c}{Covariates} \\
+        \cline{6-8}
+Session &     ID     & Occ &    ID    & & Covariate 1 & $\cdots$ & Covariate $M_c$ \\
+\hline
+1       &     1      & 3   &  detID2 & & $z_{131}$ & $\cdots$ & $z_{13M_c}$ \\
+1       &     1      & 3   &  detID7 & & $z_{131}$ & $\cdots$ & $z_{13M_c}$ \\
+1       &     1      & 5   &  detID7 & & $z_{151}$ & $\cdots$ & $z_{15M_c}$ \\
+1       &     2      & 3   &  detID2 & & $z_{231}$ & $\cdots$ & $z_{23M_c}$ \\
+$\vdots$ &  $\vdots$  & $\vdots$  & $\vdots$ & & $\vdots$ & $\vdots$ & $\vdots$ \\
+$L$     &    51      & 8   & detID22 & & $z_{51,8,1}$ & $\cdots$ & $z_{51,8,M_c}$ \\
+$L$     &    51      & 3   & detID27 & & $z_{51,3,1}$ & $\cdots$ & $z_{51,3,M_c}$ \\
+\hline
+\end{tabular}
+\end{table}
+\end{center}
+
+
+
+\begin{center}
+\begin{table}
+\caption{Generic spatial covariate data structure. One such structure is required for each occasion if spatial covariates are different on different occasions. Here the continuous space for stratum $l$ is approximated by $C_l$ points $\bm{s}_{l1},\ldots,\bm{s}_{lC_l}$, where $\bm{s}_{lc}=(s_{lc1},s_{lc2})$ is the coordinates of the $c$th point in stratum $l$.}
+\label{tab:ERdetfun-meshdata}
+\begin{tabular}{ccccccc} 
+\hline
+        & \multicolumn{2}{c}{Location} & & \multicolumn{3}{c}{Covariates} \\
+        \cline{2-3} \cline{5-7}
+Session & $s_1$ & $s_2$ & & Covariate 1 & $\cdots$ & Covariate $M_s$ \\
+\hline
+1 & $s_{111}$ & $s_{112}$ & & $z_{111}$ & $\cdots$ & $z_{11M_s}$ \\
+1 & $s_{121}$ & $s_{122}$ & & $z_{121}$ & $\cdots$ & $z_{12M_s}$ \\
+1 & $s_{131}$ & $s_{132}$ & & $z_{131}$ & $\cdots$ & $z_{13M_s}$ \\
+$\vdots$ &  $\vdots$  & $\vdots$  & & $\vdots$ & $\vdots$ & $\vdots$ \\
+1 & $s_{1S_11}$ & $s_{1S_12}$ & & $z_{1S_11}$ & $\cdots$ & $z_{1S_1M_{s2}}$ \\
+2 & $s_{211}$ & $s_{212}$ & & $z_{211}$ & $\cdots$ & $z_{21M_{s2}}$ \\
+$\vdots$ &  $\vdots$  & $\vdots$  & & $\vdots$ & $\vdots$ & $\vdots$ \\
+L & $s_{LS_L1}$ & $s_{LS_L2}$ & & $z_{1S_L1}$ & $\cdots$ & $z_{1S_LM_{sL}}$ \\
+\hline
+\end{tabular}
+\end{table}
+\end{center}
+
+\todo[inline]{Here, mention (and demonstrate?) that in 'secr', covariates of detector locations and individuals are attributes of the capthist object, and may be read in with the data files or assigned afterwards, and that covariates of density are attached to the mask?}
+
+
