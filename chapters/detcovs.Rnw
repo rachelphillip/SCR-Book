@@ -1,26 +1,28 @@
 \chapter{Covariates in encounter rate and detection probability models}
 \label{ch:detcovs}
 
-\abstract{This chapter concerns the effect of covariates on encounter rates and detection probabilities. It shows how to model their dependence on survey duration and survey effort, and on covariates, which can be specific to sampling occasions, sessions, individuals, and locations, including both sampling locations and intervening habitat. It also deals with the interpretation of models fitted with these kinds of dependence.}
+\abstract{This chapter concerns the effect of covariates on encounter rates and detection probabilities. It shows how to model their dependence survey duration and survey effort, on detector, occasion and session, on individual-level covariates (behavioural response and sex, for example), and importantly, on spatial covariates. It also deals with the interpretation of models fitted with these kinds of dependence.}
 
 \todo[inline]{Needs proper introduction.
 
 Mention distance as an explanatory variable that is always used in SCR.}
 
+
 \section{Introduction}
 
-Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, among individuals, and posibly in response to detection. Modeling this heterogeneity adds complexity and requires larger samples than would otherwise be needed, but ignoring it can cause biased estimation and flawed inference. Unexplained heterogeneity in detection probabilities, especially among individuals, has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so the models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
-This chapter describes how other sources of heterogeneity can be modelled using covariates. SCR models accommodate covariates specific to detector locations, sampling occasions, sessions, and individuals. Indivdual heterogeneity can be modelled several ways, including using unobserved or partially-observed covariates. An important extension further allows modelling of the distance between activity centers and detectors as an effective distance that reflects variable costs of movement through different intervening habitats (wording?).
+Due to the inherent variability of natural systems, SCR model parameters describing the detection process are likely to vary in space, time, and among individuals. Modeling this heterogeneity adds complexity and usually requires larger samples, but ignoring it can cause biased estimation and flawed inference. Unexplained heterogeneity in detection probabilities, especially among individuals, has always been regarded as problematic in CR studies. With SCR, encounter rate or detection probability is alwasys a function of the distance between each individual's activity center and detectors, so SCR models explicitly account for one important source of heterogeneity among indivduals: spatially variable exposure to detectors. 
+This chapter describes how other sources of heterogeneity can be modelled using covariates. SCR models accommodate covariates specific to detector locations, sampling occasions, sessions, and individuals. Indivdual heterogeneity can be modelled several ways, including using unobserved or partially-observed covariates. An important extension further allows modelling of the distance between activity centers and detectors as an effective distance that reflects variable costs of movement through intervening habitats (wording?).
 
-An evaluation of detection heterogeneity begins with a set of candiate models with different sources and/or patterns of variation in detection parameters. MS criteria can then be used to evaluate support for specific covaraites and models.
-Estimation of population density is the goal of most SCR studies; parameters related to the detection process are often termed "nuisance" paramters". However, models of the detection process represent biological hypotheses, including regarding differences in home range size, which may also be of interest.  
+An evaluation of detection heterogeneity begins with a set of candiate models with different sources and/or patterns of variation in detection parameters. MS criteria can then be used to evaluate support for specific covaraites and models. Estimation of population density is the goal of most SCR studies. However, models of the detection process represent biological hypotheses, including regarding differences in home range size, which may also be of interest.  
 
-We begin by explaining how SCR parameters can be, and are, are expressed as functions of covariates (intercept/scale and link function). We then present and demonstrate methods for modelling increasingly complex covariate effects.
+We begin this chapter by explaining how SCR parameters may be expressed as functions of covariates. We then present and demonstrate methods for modelling increasingly complex covariate effects.
+
+
 
 \section{Link function formulation}
 
 \todo[inline]{hopefully the intro will remedy this; the different formulations are pretty deep water for the uninitiated, readers need a motiviation for why they are being taken through this.  Why not just a single formulation; is one better than the other?}
-\todo[inline]{Introduce "conventional" intercept; scale form first and emphasize it, note only as an aside that ling function; linear predictor is also possible?}
+
 The GLM \{link function; linear predictor\} form for modelling detection probability is commonplace in non-spatial capture-recapture literature. This formulation uses a limited number of ``link function'' forms to link a linear function of the parameters (the ``linear predictor'') to the expected value of the dependent variable \todo[inline]{Greg:
 sorry if I am being pedantic but doesn't ordinary GLM's link the linear predictor to a parameter of interest rather than the expected value (which is obviously equal to theparameter ion the Poisson case)? I'm thinking about logistic regression where the linear predictor is linked to p]}(expected encounter rate or detection probability in the SCR case). For example, expected encounter rate $\lambda(x)$, and detection probability $p(x)$, could be modelled as functions of a covariate $x$ using a linear predictor $\beta_0 + \beta_x x$ with a ``log link'' for expected encounter rate, and a ``complimentary log-log link'' for detection probability, thus:
 \be
@@ -29,14 +31,11 @@ p(x)&=&1-\exp\left\{-e^{\beta_0 + \beta_x x}\right\}.
 \label{eq:link-lp}
 \ee
 
-An alternative form is commonly used in the distance sampling literature. This is characterised by separately modelling an intercept term and the scale parameter of a distance-dependent function that has intercept equal to 1. For brevity, we will refer to this as the \{intercept; scale\} form. This form has been adopted by many SCR models, where the expected encounter rate is modelled using an intercept term $g_0$ or $\lambda_0$, and a distance-dependent ``key function'' or ``kernel'' with a scale parameter $\sigma$. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function or kernel is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$. 
-\todo[inline]{Could we specify here that these are the Gaussian or half-normal and hazard rate key functions, respectively, for clarity?. Also the text above these equations in Ch 2 uses "range parameter" rather than "scale parameter")}
-In both cases $d$ is distance from a detector to an activity centre. (The parameter $\sigma$ is a ``scale parameter'' because it ``scales'' $d$ by dividing it.)
+An alternative form is commonly used in the distance sampling literature. This is characterised by separately modelling an intercept term and the scale parameter of a distance-dependent function that has intercept equal to 1. For brevity, we will refer to this as the \{intercept; scale\} form. This form has been adopted by many SCR models, where the expected encounter rate is modelled using an intercept term $g_0$ or $\lambda_0$, and a distance-dependent ``key function'' or ``kernel'' with a scale parameter $\sigma$. In Eqn~\eqref{eq:ER+detfun.p.hn}, for example, the intercept is $g_0$ and the key function or kernel is $\exp\{-d^2/(2\sigma^2)\}$, while in Eqn~\eqref{eq:ERdetfun-hr}, the intercept is $\lambda_0$ and the key function is $[1-\exp\{-(d/\sigma)^b\}]$. In both cases $d$ is distance from a detector to an activity centre. (The parameter $\sigma$ is a ``scale parameter'' because it ``scales'' $d$ by dividing it.)
 
 Because SCR capture history likelihoods are just products of Poisson (in the case of count data) or Bernoulli (in the case of binary data) likelihoods, one might expect that the Poisson mean ($\lambda(d)$) and Bernoulli mean $(p(d)$) would be linked to the explanatory variable $d$ using the GLM inverse link functions for these two distributions (the inverse log link, and the inverse logit or cloglog link functions, respectively -- see Table~\ref{tab:ERdetfun-invlinks}). 
 
 This is the case for only some encounter rate and detection function forms that are commonly used in SCR models: some can be written in GLM \{link function; linear predictor\} form, but not all can be. 
-
 The Gaussian model for expected encounter rate (Eqn~\ref{eq:ER+detfun.lambda.hn}) is and example in which the mean encounter rate is readily formulated like this. It can be written using a log link function as
 \be
 \lambda(d)\;=\;\lambda_0\exp\left\{-\frac{d^2}{2\sigma^2}\right\}&=&\exp\{\beta_0\}\exp\{\beta_d d^2\} \nonumber \\
@@ -80,11 +79,11 @@ While there is no single correct way to model the dependence of encounter rate a
 \item by making the scale parameter ($\sigma$) of the encounter rate function or the detection function depend on covariates.
 \ei
 
-\todo[inline]{Or both! Furthermore, it's not an arbitrary choice. Some covariates might not be appropriate to both parameters, and different covariate models represent hypotheses. We might use camera trap model as a covariate for the intercept but it wouldn't make sense as a covariate for the scale .. Point this out here?}  
+\todo[inline]{Point out that some covariates might not be appropriate to both parameters, and different covariate models represent hypotheses? E.g. camera trap model as a covariate for the intercept but not the scale; factors that affect extent of movements (e.g. season) as covariate for sigma.}  
 
 These parameters are made to depend on covariates by expressing them as functions of the covariates. One might, for example, think of making the probability $g_0$ depend on a variable $z$ in this way: $g_0=\beta_0 + \beta_1 z$, where $\beta_0$ and $\beta_1$ are unknown parameters. But this would not be a good idea because there is nothing in this equation to stop $g_0$ going out of bounds (above 1 or below 0). Link functions are used to keep parameters within their bounds. In a similar way that a generalised linear model (GLM) link function relates a ``linear predictor'' (often denoted $\eta$, and equal to $\beta_0 + \beta_1 z$ in the example above) to the expected value of a response variable, link functions in SCR analyses link a linear predictor to a parameter of interest ($g_0$ in this example).
+
 In the case of $g_0$ we need a link function that keeps it between 0 and 1, while in the cases of $\lambda_0$ (a rate, and hence bounded below by zero but unbounded above) and $\sigma$ (also bounded below by zero but unbounded above) we need a link function that keeps them non-negative. Common choices are a logit link or complimentary log-log link (``cloglog'' link for short) for $g_0$, and log links for $\lambda_0$ and $\sigma$. 
-\todo[inline]{These two paragraphs should preceed most of the discussion of link functions, either by removing this paragraph there, or reversing the order of the sections.}
 
 By convention, link functions specify $\eta$ as a function of the parameter of interest ($g_0$, $\lambda_0$ or $\sigma$ here). But it is easier to interpret the inverse link functions, which express $g_0$, $\lambda_0$ or $\sigma$ as functions of the linear predictor $\eta$. Examples of the inverse link functions of a linear predictor $\eta=\beta_0+\beta_1 z$ are shown for positive and negative $\beta_1$ in Figure~\ref{fig:ERdetfun.linkfuns}. Notice that the shapes of the inverse logit and inverse cloglog functions are very similar, which makes the choice between the two relatively unimportant in SCR analyses.
 
@@ -121,14 +120,18 @@ Dependence on more covariates is modelled by adding terms to the linear predicto
 
 
 
-\section{Detector-, occasion- and stratum-specific effects}
+\section{Detector- occasion- and session-specific effects}
 \label{sec:ERdetfun-dos-effects}
 
-Incorporating detector-specific, occasion-specific and session-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; scale\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
-"Detector-specific" covariates are actually specific to the sampling locations. can remain the same at each detector for the survey duration, or vary with occasion and/or stratum (see Table~\ref{tab:ERdetfun-detdata}). In addition, encounter rate and detection function models can be made to depend on occasion and/or stratum in the same way for all detectors, by using occasion number or stratum name as covariates.
+\todo[inline]{Term "session" already introduced, so use in place of "strata"?}
 
-\todo[inline]{Is it acceptable to use sessions to subdivide the data among individuals e.g. sexes, or age/sex classes, if age/sex class is always observed for detected animals? People do. The same effect can be achieved using "groups" in 'secr'. This comes back to the question of how important it is that sessions are completely independent.
-If so, potential to model sex variation in one data set using: sessions, groups, conditional likelihood, unobserved covariates, partially observed covariates. Demonstrate that the first 3 methods yield the same estimates, different estimates with larger variance from the last 2.}
+Incorporating detector-specific, occasion-specific and stratum-specific covariates in expected encounter rate or detection function models is done by simply adding terms to the appropriate linear predictor (after importing data like that shown in Table~\ref{tab:ERdetfun-detdata}). If one uses the \{intercept; shape\} form, then the intercept and the scale parameters can separately be made to depend on covariates, using the intercept-specific and scale-specific \{link function; linear predictor\} forms shown in Table~\ref{tab:ERdetfun-invlinks}. An alternative is to add the covariates to a \{link function; linear predictor\} model for the encounter rate or detection function itself. This is much less common in the SCR literature.
+
+Detector-specific covariates are actually specific to the locations of detectors, and may include, for example, the habitat type or characteristics at the location, and any covariates specific to the detector itself (camera trap model).  They can remain the same at each location for the survey duration, or vary with occasion and/or stratum (see Table~\ref{tab:ERdetfun-detdata}). In addition, encounter rate and detection function models can be made to depend on occasion and/or session in the same way for all detectors, by using occasion number or session name as covariates.
+
+Occasion-specific covariates reference differences in time, increasing sigma with season, effects of variable weather conditions on DNA degredation.
+
+Sessions often represent different surveys separated in space and or time, but can also be used to model differences between subsets of the population (sexes or social classes). Refer to sections 2.6 and 4.4 here?
 
 \subsection{Example analyses}
 
@@ -145,31 +148,28 @@ sigma \url{~} z1 + z2 + $\cdots$ + zm
 }
 \end{svgraybox}
 }
-\todo[inline]{Not sure why this box appears here. Tildes and brackets missing? Specify "formula notation" in R, and note that z1 represents "base levels" of covariates?}
 \noindent
 The \texttt{secr} package automatically selects the log link for $\sigma$ and $\lambda_0$, and the logit link for $g_0$. Interaction terms and main effects with interactions can be added using ``\texttt{:}'' and ``\texttt{*}'', respectively, as with GLMs in \texttt{R}.
-\todo[inline]{I'm sure readers would be pleased to read this near the end of the section on link functions}
+
 
 \subsection{Effort effects}
 \label{sec:ERdetfund-effort}
 \todo[inline]{struggling to see how an ecologist will use this info}
-\todo[inline]{Eric: in response to the comment above, I've added some of what I think ecologists will want to know about modeling effort.}
 
-As we have seen, SCR models are parameterized in terms of the duration of samplnig at specific locations. Sampling effort at each location must therefore be accurately quantified for the models to yield accurate results. If the input data overestimate sampling effort, density estimates will be negatively biased, and vice versa.  
-Any time a detector is moved or fails to function, the sampling duration at the associated locations is less than the survey duration and must be specified in the model. SCR models allow us to specify, for each location where a detector operated: (1) the total duration of sampling, (2) whether or not it operated for the entirety of each occasion, or (3) the duration of sampling on each occasion, depending on the type of detector (see Ch 5) and the information available.   
+\todo[inline]{Eric: in response to the comment above, I've added some of what I think ecologists will want to know about modeling effort. It's probably too much especially re: censoring data.}
+
+As we have seen, SCR models are parameterized in terms of the duration of samplnig at specific locations. Sampling effort at each location must therefore be accurately quantified for the models to yield accurate results. If the input data overestimate sampling effort, density estimates will be negatively biased, and vice versa. Any time a detector is moved or fails to function, the sampling duration at the associated locations is less than the survey duration and must be specified in the model. SCR models allow us to specify, for each location where a detector operated: (1) the total duration of sampling, (2) whether or not it operated for the entirety of each occasion, or (3) the duration of sampling on each occasion, depending on the type of detector (see Ch 5) and the information available.   
 In the case of area searches we specify the specific areas searched and the number of times they were searched. More detail + transects to be added here.
 In some cases, accurately quantifying effort may requrie that some capture data are excluded from the analysis. Suppose that, upon arrival at a barbed wire corral that is typically capable of sampling multiple individuals during a single occasion, a researcher finds that the detector was rendered inoperable since the last visit to the site 1 week ago (a tree has fallen across the trap site, knocking the wire to the ground), but there are hair samples on the wire which can only have been snagged before the tree fell. We might still be able to quantify effort accurately (e.g., the tree certainly fell during the storm between 5 and 6 p.m. on Wednesday). However, if we cannot know how long the detector operated, it should be considered to have been inoperable for the entire occasion, and the samples excluded from the capture data. Similarly, if electronic detectors that record times of detection (camera traps or accoustic detectors) stop operating between visits by a researcher, using the last time of detection of the target species as the time at which the detector failed would likely underestimate effort. It might be possible to infer the approximate time of failure if the device frequently detected non-target species or background noise, otherwise data collected since the previous visit by a researcher might need to be censored, and the detector considered inoperable over that time. If a search of a defined area must be terminated before it can be searched completely (another storm), the area should be redifined as the area searched, or the partial search and any associated detections should be excluded from the data. 
 
-Sampling effort at each location is conveniently modeled as a detector-level covariate. \todo[inline]{Make sure it's clear that "detector-level" covariates are specific to locations, not e.g. sampling devices or observers, which would be covariates of the location}. 
-In 'secr', sampling effort at each location is defined as an attribute of the traps object, and therefore of the capture history object. \todo[inline]{Remove below with examples?}
-
+Sampling effort at each location is conveniently modeled as a detector-level covariate. 
 Under the assumption of independent detections of individuals, the relationship between effort ($T$) and expected number of encounters is obvious: if you double effort, you double the expected number of encounters; if you quarter the effort you quarter the expected encounter rate, and so on. 
 
 \todo[inline]{Greg:
 
 $T$ is already used for survey duration, is the idea here to initially think of effort ito duration rather than in a generic sense?. Also, isn't the proportionality premised on a constant hazard? Maybe this should be mentioned here and then generalised in the CT chapter.}
-\todo[inline]{
-More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)}
+
+More succinctly: $\lambda(d,T)=\lambda(d,1)T=\lambda(d)T$, where $\lambda(d)=\lambda(d,1)$ is the expected encounter rate per unit effort. This is true if effort is time, as we saw earlier in this chapter, but it is also true for any kind of effort in which each unit acts on encounter rate independently of other units. For example if you have a cluster of detectors, each detecting independently, then each individual detector can be viewed as one unit of effort. (Because we focus on effort in this section, we drop explicit dependence on distance when writing $\lambda$ and $p$ below.)
 
 Each additional unit of independent effort adds one ``expected encounter rate unit''. As a result, when effort comes in discrete units (like the individual detectors in an array) the total expected encounter rate of the array ($\lambda_{ijk}(C_{jk})$ for individual $i$ with the $j$th cluster $C_{jk}$ detectors on occasion $k$) is the sum of the individual encounter rates ($\lambda_{ijk}$ for detector $j$ in the cluster):
 \be
@@ -219,15 +219,17 @@ p_{ijk}(T_{jk})&=&1-\exp\left\{\frac{T_{jk}}{T_{jk}^*}\log(1-p_{ijk}^*)\right\}.
 
 \todo[inline]{David's initial thoughts on this: Show data structure and importing here; Note difference between continuous and binary effort. Workshop example shows spatial effect of ignoring effort, which is fine, but does mean we have to tell them about density models and how to specify these in secr - I had hoped we could delay that until after dealing with spatial models. Might be worth ignoring the spatial model in this example (at least in fitting) and comparing the AICcs and estimates with and without effort? That makes things simpler.(And we could give the problem with spatial model as an exercies/example in a later chapter?) Also, having mentioned effort entering as a log-linear effect rather than offset, I wonder if it is worth looking at this model in the example? (Depends on what results it gives!) 
 Alternatively, the wolverine data (see next Example box) might be useful here?}
-\todo[inline]{Eric: I agree that we should keep density constant here. I don't agree with using AICc to show that modelling effort provides a better fit. That's fine for other covariates, which are usually hypothesized effects, but shouldn't effort always be accurately quantified in the model? Regarless of what AICc says? Modelling effort doesn't add parameters does it?
-Also, the Tai chimp study is now in press. We could ask for permission to use those data. It could be useful for e.g. detection heterogeneity and sampling effort. There, cameras were frequently moved, some cameras were disabled or distroyed by wildlife. Only one detection per individual per location per day was included in the data, and the data were summarized into week-long occasions (number detections indiv loc ocn binomially-distributed with size=7). We only included data from cameras that operated for complete occaions, but we could also parameterize effort as days-within occasions.} 
+
+\todo[inline]
+{Eric: I agree that we should keep density constant here. I don't agree with using AICc to show that modelling effort provides a better fit. That's fine for other covariates, which are usually hypothesized effects, but shouldn't effort always be accurately quantified in the model? Regarless of what AICc says? Modelling effort doesn't add parameters does it? Also, the Tai chimp study is now in press. We could ask for permission to use those data.}
 
 \section{Individual effects (trap response and heterogeneity)}
 
 \todo[inline]{Insert text about bias from unmodelled heterogeneity.}
-If encounter rates or detection probabilities vary among the individuals in a population, CR and SCR models that assume common detection probabilities yield biased estimates. If the heterogeneity is induced by detection, such that previously-detected individuals have different encounter rates or detection probabilities than undetected individuals (often termed behavioural responses to detection, or trap responses), the direction of bias depends on the direction of the response. If encounter rates or detection probabilities increase after initial detection (positive, or "trap-happy" responses), and the effect is not modelled, abundance is underestimated. If they decrease (negative or "trap-shy" responses), abundance is overestimated. If the differences among individuals are inherent, with some members of the population always having higher encounter rates or detection probabilities than others, regardless of whether or not they are detected, assuming common detection probabilities always causes underestimation of abundance.  
 
-The difficulty with most covariates that are attached to individuals is that we don't know them for individuals we did not detect. It is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
+If encounter rates or detection probabilities vary among the individuals in a population, CR and SCR models that assume common detection probabilities yield biased estimates. If the heterogeneity is induced by detection, such that previously-detected individuals have different encounter rates or detection probabilities than undetected individuals (often termed behavioural responses to detection, or trap responses), the direction of bias depends on the direction of the response. If encounter rates or detection probabilities increase after initial detection (positive, or "trap-happy" responses), and the effect is not modelled, abundance is underestimated. If they decrease (negative or "trap-shy" responses), abundance is overestimated. If the differences among individuals are inherent, with some members of the population always having higher encounter rates or detection probabilities than others, regardless of whether or not they are detected, assuming common detection probabilities always causes underestimation of abundance.
+
+The difficulty with covariates like sex or age, that are attached to individuals, is that we don't know them for individuals we did not detect. There is, however, one individual-level covariate that we know for all individuals, and it is useful to classify the individual-level covariates according to which individuals have known and which have unknown covariates, as follows:
 \ben
 \item Covariates that are known for all individuals at all times,
 \item Covariates that are known for no individuals.
@@ -236,7 +238,8 @@ The difficulty with most covariates that are attached to individuals is that we 
 \een
 
 Except in the case of the first item above, the values of some individual-level covariates in the population of interest are unobserved, and are therefore latent variables. The way we deal with latent variables is by modelling their probability distribution. This adds complexity, so let's deal with the first item above first. What is this covariate that we know for individuals that we never detect?
-\todo[inline]{Not sure if this lead-in is still effective if we introduce trap responses above}
+\todo[inline]{Not sure if this nice lead-in is still effective if we introduce trap responses above}
+
 
 \subsection{Trap response}
 
@@ -255,12 +258,13 @@ Depending on the model, the link function in Eqn~\eqref{eq:ERdetfun-eta_b} might
 You can use $\bm{b}_i$ to model more complicated trap-response too. You might, for example, model the response as being transient - with the effect of capture on one occasion lasting only until the next capture occasion. This kind of model can be implemented by simply setting $b_{ik}=1$ only if the individual was captured on the previous occasion ($k-1$), and setting $b_{ik}=0$ otherwise. Various other more complex models are possible too, in which memory of capture fades with time since last capture. 
 
 You might also want behavioural response to depend on detector, i.e., consider models in which individuals have a learned response not to detectors in general, but only to the detectors at which they have been previously captured. To do this, we just construct a covariate $b_{ijk}$ that is 1 only if individual $i$ was captured at detector $j$ prior to occasion $k$ (for a permanent behavoural response), or is 1 only if the individual was captured there on occasion $k-1$.
-\todo[inline]{I think we should go with detector location, sample location, or location, rather than detector, throughout this chapter. This makes is sound as though the response could depend on the type of detector, but really it's the location.}
+
 
 \subsubsection{Example analyses}
 
 \todo[inline]{David's initial thoughts: Demonstrate models (in secr-speak): b, B, bk and Bk. (Not so sure about k and K, which seem a bit weird to me - can you think of situations in which they would be appropriate?). Andy's 2011 paper wolverine data are one example dataset that we could use (they used bk, I think). The data is in his scrbook package, available here: https://sites.google.com/site/spatialcapturerecapture/scrbook-r-package. I have the data from a previous version of the package and I have code that knocks it into secr-shape and fits some models, but I don't have a current version of the library, and it now only available as executable for Windows. I suspect the data has not changed.
-\todo[inline]{Eric: bk seems more biologically realistic then b when traps are baited with a food reward, as in many carnivore studies. Even when there's no food reward, if an animal is wary of evidence of human disturbance, but unconcerned by a camera trap, it might react differently to camera trap placements it has an has not investigated previously). I worry that shifting activity centers within the larger home range could lead to support for bk models though (animal moves into an area midway through the study and is detected at a location for the first time, then recaptured because it remains in the area, not because of any trap response).}
+
+\todo[inline]{Eric: bk seems realistic when traps are baited with a food reward, as in many carnivore studies. Or, even with no food reward, if an animal is wary of evidence of human disturbance, but unconcerned by a camera trap, it might react differently to camera trap placements it has and has not investigated previously).}
 
 The code is here: .../scrmlebook/inst/code/wolverine4secr.r and the data is here: .../scrmlebook/data/wch.prox.rda (formulated as binary proximity detectors) and here: .../scrmlebook/data/wch.count.rda (formulated as single-occasion count data),
 
@@ -268,16 +272,20 @@ I think it is quite a useful dataset, and it also has variable-effort.
 
 Reference: Royle, J. A., Magoun, A. J., Gardner, B., Valkenburg, P. and Lowell, R. E. (2011) Density estimation in a wolverine population using spatial capture reecapture models. Journal of Wildlife Management 75, 604-611.}
 
-\subsection{Indivdual heterogeneity}
-\todo[inline]{If we have a section called trap response, this should fall under one called Individual heterogeneity}
+\subsection{Individual heterogeneity}
 
-Differences in encounter rate or detection probability among individuals other than trap responses 
+\todo[inline]{We had a section called trap response, so I think we should have one called Individual heterogeneity, with subsubsections for different ways of modelling it}
 
-\subsubsection{Conditional likelihood} 
-\todo[inline]{Makes sense to cover this before introducing mixtures? Include continuous covariate e.g. weight where baited live-traps?}
+Differences in encounter rate or detection probability among individuals other than trap responses can be modelled several different ways, depending on whether covariates are categorical or continuous, and whether they are completely observed, unobserved, or parially observed.
 
+\subsubsection{Observed covariates}
+
+Can model categorical individual covariates using sessions or groups.
+Categorical or continuous individual covariates via conditional likelihood (can't model spatial variation in D within sessions).
+Quick example showing identical estimates (or redundant? Ben?)
 
 \subsubsection{Unobserved covariates}
+
 Covariates that affect encounter rate or detection probability but are not observed can be added to the linear predictors of these models just like covariates that are observed. The difficulty comes in evaluating the models. If we don't know what values these unobserved covariates take, what values should we use for them in the model? 
 
 The answer is that we assign the values according to some probability model for the covariate and then evaluate the encounter rate or detection function models for every possible value of the unobserved covariates. This is called ``marginalising'' over the unknown covariate. The cost in terms of parameters is that we need additional parameters for the covariate probability model. We also of course need to specify a suitable probability model. 
@@ -336,8 +344,6 @@ The complicated scenario is when detection probability on one occasion is relate
 ?? ... ??\todo{Look up and insert citations} have developed non-spatial CR models that accommodate this kind of temporal dependence in partially-observed latent covariate values, but no such methods have as yet been developed for SCR. Use of Hidden Markov models to model temporal dependence would seem to be a promising approach to pursue. 
 
 
-\todo[inline]{Need to mention pitfalls, especially with sparse data. Effects not detected --> biased but apparently precise. Detected--> wide confidence limits, possibly false minima and unrealistic estimates --> no reliable estimate.}
-With larger samples there is more information available both to detect, and to model, heterogeneity in detection parameters. If density is estimated from simple models becuse the data are insufficient to support greater complexity, there is potential for the estimates to be biased but apparently precise. If detectable, need sufficient data to inform estimation of the effect, variances and CIs can become too wide to be useful. Further increases in sample size --> more forms of het detected and must be modelled... but tapering effects, different models that include most important effects yield similar estimates. With very rich data different models yield the same accurate result (Tai chimp study). With sparse data simple models yield conservative estimates with less than nominal CI coverage.
 
 \section{Spatial effects}
 
@@ -347,13 +353,13 @@ The expected encounter rate and detection probability always depend on location:
 
 In many cases it would be reasonable to expect the encounter rate or detection probability to depend on spatially-referenced covariates as well as distance. For example, the individual shown in Figure~\ref{fig:ER+detfun_habitat} is more inclined to go to a location in green habitat than a location in brown/orange habitat -- something that is reflected in Figure~\ref{fig:ER+detfun_habitat_encrate}, where we see that the individual's expected encounter rate with detector 3 is higher than with detector 2, despite the fact that detector 2 is closer to its activity centre (see Figure~\ref{fig:ER+detfun_ENwithdists}).
 
-\subsubsection{Spatial effects at detectors}
+\subsection{Spatial effects at detectors}
 
 If a detector is at a location that has particularly attractive habitat for the target species, one might expect that the encounter rate or detection probability at this detector might be higher than at detectors in less attractive habitat. For example, detector 3 has a higher encounter rate than detector 2 in Figure~\ref{fig:ER+detfun_habitat_encrate} because it is located in better habitat (see Figure~\ref{fig:ER+detfun_habitat}). This spatial effect can be incorporated at the trap level - by associating the habitat covariate ($z(\bm{x}_k)$ at detector $k$) with the detector, as in Table~\ref{tab:ERdetfun-detdata}. In this case, if the linear predictor without the habitat covariate at the detector was $\eta_{ijk}$ for individual $i$ on occasion $j$ at detector $k$, the effect of the covariate could be modelled using the linear predictor $\eta_{ijk}^*=\eta_{ijk} + \beta_z z_k$.
 
 But this takes account only of $z$ at the detector location, not the location of the individual. When the individual's activity centre is at the detctor, both are equal to $z(\bm{x}_k)$, and considering an encounter rate or detection function model with an intercept that depends on $z(\bm{x}_k)$ is sensible. But even in this case, you might want to consider a model in which the intercept also depends on other values of $z$ in the vicinity of the activity centre. If animals are detected by moving past a detector, for example, more attractive $z$ values (e.g. better habitat for feeding) some distance away from their activity centres might result in them spending less time at the centre, and hence being less detectable at the centre than they might oterwise be. In the same way, attractive $z$ values at a distance from the activity centre would be inclined to make animals range farther and hence have greater $\sigma$. So you might want to consider models in which $z$ values at points in space other than the detector location, affect the intercept and/or the scale parameter of an encounter rate or detection function model. 
 
-\subsubsection{Spatial effects away from detectors}
+\subsection{Spatial effects away from detectors}
 
 To account for the location of the detector \textit{and} the location of an individual's activity centre ($\bm{s}_i$ for individual $i$), we might want our linear predictor(s) to include  the difference between the habitat covariate value at detector $k$ ($z(\bm{s}_k)$) and the habitat covariate value at the activity centre $i$ ($z_i$): $\Delta_{ik}=\Delta(\bm{s}_i,\bm{x}_k)=z(\bm{x}_k)-z(\bm{s}_i)$. Including this in a linear predictor, we have $\eta_{ijk}^*=\eta_{ijk} + \beta_c \Delta_{ik}$, where $\eta_{ijk}$ is whateer the linear predictor for before the inclusion of $\Delta_{ik}$. This could be a linear predictor for the intercept and/or scale parameter. As an example, if we had a scale parameter without habitat covariates that was $\sigma=\exp{\beta_0}$ and then used $\Delta_{ik}$ above, we would have
 \be
@@ -460,7 +466,6 @@ The idea of using spatial covariates to scale distance differently at different 
 
 (3) Candidate datasets: 
 (a) Belize jaguars, (b) Koustubh Sharma's snow leopards, (c) something with altitude as z, (d) one of Andy's or Chris' datasets, maybe with different cost rate function. Don't have permission to use any of these yet, but don't anticipate any problem gettng it. I have been doing some snow leopard SCR analyses with Koustubh Sharma: some cool plots from these analyses are shown below. Point estimates of abundance are 24 (16, 39) when use Euclidian distance, and 28 (17, 50) when you use non-Euclidian - so point estimates are consistent with hypothesis of negative bias that you get negative bias by using Euclidian distance in highly structured habitats (although numbers are very small and CIs big!).}
-
 
 
 \begin{figure}[ht]

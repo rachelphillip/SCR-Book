@@ -2,8 +2,10 @@
 \section{Multiple occasions}
 \label{sec:ER+detfun.occasions}
 
-A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background because occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can (1) collect count rather than binary data (even within occasions), and (2) get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
-\todo[inline]{Seemed incomplete unless we mention both of these additional sources of recaptures relative to CR? Mention methods (e.g. capwire) that incorporate all of these types of recaptures as total counts/individual but ignore spatial information?}
+A notable feature of the example above was that the word ``occasion'' was not used. This might be surprising to you if you have a capture-recapture (CR) background because occasions are absolutely central to conventional (non-spatial) CR. In non-spatial CR, recaptures occur on different occasions in time and you can't get recaptures unless you have occasions. This is not true of SCR, where you can get \textit{recaptures over space} rather than, or in addition to, recaptures over time.
+\todo[inline]{SCR allows for 2 additional sources of recaptures relative to CR. Suggest:}
+This is not true of SCR where you can get 1.recaptures at the same trap within occasions (if count rather than binary data are collected, and 2.\textit{recaptures over space} rather than, or in addition to, recaptures across occasions.
+
 
 Instead of detections (or not) on each of a number of occasions in \textit{time}, we had detections (or not) at each of a number detectors in \textit{space} in the example above. This allowed us to estimate the expected number of encounters (and hence detection probability, because detection is just at least one encounter) when we have only a single sampling occasion. But you can't do this if your detectors are traps that hold animals when they detect them. 
 
@@ -37,11 +39,22 @@ where
 
 \section{Mutiple surveys}
 \label{sec:ER+detfun.strata}
-\todo[inline]{Mention earlier in this section that sessions should only be considered independent if there are no recaptures between them. However, I'm confused about the case where they cannot be recognized as such. Where individuals are identified from DNA or images, recaptures at different times might not be recognizable (because slight differences in e.g. equipment calibration cause gynotypes from the same individual to differ between surveys, and natural marks may evolve). In these cases, we treat the surveys as indepdent, even if some of the same animals are detected, so why not do the same even if we can recognize some of these recaptures?  I also note that the longer the time between surveys, the fewer of the same individuals will be present. All of this applies only to surveys separated in time, not space. I've tried rewriting parts of the text below.}
-Suppose you do more than one SCR survey of the same population, on different study areas within the population's range and/or at different times. 
 
-If the the same individuals cannot be detected during the different surveys (because they are too widely separated in space or time), the capture histories are independent between surveys, and so the corresponding multi-session likelihood is the product of the likelihoods for each survey. Indexing surveys by $l=1,\ldots,L$, the corresponding count and binary likelihood functions are:
+Suppose you do more than one SCR survey of the same population, at different locations in the population's range and/or at different times.
+\todo[inline]{suggest using "study areas" rather than "locations", when referring to surveys separated in space, since "locations" often refers to e.g. activity centers and detectors.}
 
+If it is possible to get recaptures of the same individual at more than one location \textit{and to recognise the recaptures as such}, then you could analyse the surveys as a single survey, with detectors in clusters (each survey corresponding to a cluster). If the time between the survey is large enough that the population size or distribution may have changed between surveys, this adds complexity and you may need to consider open-population SCR methods (Chapter~\ref{ch:open}). 
+
+\todo[inline]{figure to make this clearer?}If it is not possible to get recaptures of the same individual on different surveys, or it is possible but it is not possible to recognise the recaptures as such, then you have the option to analyse the surveys as entirely separate surveys, or to link them in some way. The advantage of linking them is that the data from multiple surveys can be used to inform estimates of parameters that the surveys share. If the detection process is similar across surveys, for example, it may be sensible to model some of the encounter rate or detection function parameters as common. Similarly, if the density or distribution of individuals is expected to be the same, or similar, or at least determined by the same explanatory variables, it may be sensible to share density model parameters (see Chapter~\ref{ch:smod}) between surveys.
+
+In such cases the individual surveys might be thought of as survey strata (although this is usually used to refer to surveys at different spatial locations, not at different times). In \texttt{secr}-speak they are called ``sessions'' (when surveys are separated by time and when they are separated by space).
+\todo[inline]{I might have said that Program MARK and some CR literature use "groups", the DS literature often uses "strata", and Efford popularized the term "sessions", but in all cases, we analyze the data from all survey simultaneously, fit models with both common and different values of detection parameters across (some or all) sessions, and use model selection (or other?) criteria to determine the extent to which the data can be pooled across surveys to estimate common detection parameters. I think we could leave mention of sharing density model parameters until chapter 3 or later.}
+
+We will generally follow \texttt{secr} terminology and call them ``sessions'' in this book.. (\cite{Royle+al:14} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
+\todo[inline]{We should be sure to do so. "Strata" is used below.}
+
+
+Because there are no recaptures between the individual sessions, the capture histories are independent between them and the corresponding multi-session likelihood is the product of the likelihoods for each session. Indexing session by $l=1,\ldots,L$, the corresponding count and binary likelihood functions are:
 \begin{svgraybox}
 \bf{The capture history likelihood component for count data (multi-occasion, multi-session)}
 \be
@@ -62,24 +75,16 @@ where
 \begin{svgraybox}
 \bd
 \item[$n_{ijk}$] is the number of detections of individual $i$ at detector $j$ on occasion $k$,
-\item[$\delta_{ijkl}$] is 1 if individual $i$ in stratum $l$ was detected at detector $j$ on occasion $k$ during that survey,
-\item[$d_{ijkl}$] is the distance of the activity centre of individual $i$ in survey $l$ from detector $j$ on occasion $k$ in that survey. Note that this is a latent variable - we do not observe it.
-\item[$T_{kl}$] is the duration of the $k$th occasion in the $l$th survey.
-\item[$n_l$] is the number of individuals detected in survey $l$.
-\item[$J_{kl}$] is the number of detectors used on occasion $k$ in survey $l$.
-\item[$K_l$] is the number of sampling occasions in survey $l$.
+\item[$\delta_{ijkl}$] is 1 if individual $i$ in stratum $l$ was detected at detector $j$ on occasion $k$ in that straum,
+\item[$d_{ijkl}$] is the distance of the activity centre of individual $i$ in stratum $l$ from detector $j$ on occasion $k$ in that stratum. Note that this is a latent variable - we do not observe it.
+\item[$T_{kl}$] is the duration of the $k$th occasion in the $l$th stratum.
+\item[$n_l$] is the number of individuals detected in stratum $l$.
+\item[$J_{kl}$] is the number of detectors used on occasion $k$ in stratum $l$.
+\item[$K_l$] is the number of sampling occasions in stratum $l$.
 \ed
 \end{svgraybox}
-If it is possible to get recaptures of the same individual during more than one survey, then it is more appropriate to analyse the data as though it came from a single survey. The detectors within surveys of different areas can be treated as clusters of traps within a single, greater study area (ref study design chapter). If the time between temporally replicated surveys is long enough that the population size or distribution may have changed between surveys, this adds complexity and you may need to consider open-population SCR methods (Chapter~\ref{ch:open}). 
-\todo[inline]{figure to make this clearer?}
 
-In practice, it might be possible to get recaptures but impossible to recognize them as such. For example, slight differences in DNA profiling protocols or instrumentation could cause genotypes of the same individual to differ if analyzed at different times or facilities, and natural marks used to identify individuals in camera trap data can change over time.  
-
-If it is not possible to get recaptures of the same individual on different surveys, or it is possible but it is not possible to recognise the recaptures as such, then you have the option to analyse the surveys as entirely separate surveys, or to link them in some way. The advantage of linking them is that the data from multiple surveys can be used to inform estimates of parameters that the surveys share. Models with common values of parameters across surveys can be compared to models with survey-specific or covariate-dependent parameters using model selection criteria to determine whether pooling data to estimate the parameters describing the detection process more precisely is justified, and to test hypotheses about differences in density (see Chapter~\ref{ch:smod} also ref trends chapter?).
-\todo[inline]{How can it be OK to be unable to recognize recaptures beteween surveys, but not OK to ignore them if we can recognize them? Matching up individuals in different surveys could be costly or error-prone. After reading this, an ecologist who wanted to test for temporal trends might be tempted to say it was impossible or "impractical" to match individuals across surveys. Would they be violating an assumption that isn't violated when it's "impossible" to recognize the recaptures?}
-
-In such cases the different surveys might be thought of as "strata" or "groups" in a single survey, and the data analysed using a multi-group or stratified model. In \texttt{secr}-speak the different surveys, whether separated by space or time, are called ``sessions''. We will generally follow \texttt{secr} terminology and call them ``sessions'' in this book.. (\cite{Royle+al:14} use both ``session'' and ``occasion'' to refer to what we call ``occasion'' in this book.)
-\todo[inline]{I think Program MARK and some CR literature uses "groups", the DS literature uses "strata", and Murray popularized the term "sessions", but in all cases the data can be separated in space, time, or classes of animals (people use "groups" and "sessions" to model sex differences, and strata can represent different species in a distance sampling analysis). The appropriate degree of partitioning or aggregating of the data is another another model selection question, right?}
+\todo[inline]{Further to our discussion, the phrasing here seems to suggest both 1. that the surveys should be independent (so not possible to recapture animals across surveys?) to be modelled as sessions rather than as a single survey, and 2. that if there are no observed recaptures between surveys, they can be modelled as sessions.  To me, it doesn't make sense that it's OK to to be unable to recognize recaptures, but not OK to ignore them if we can recognize them. Matching up samples across surveys is likely to be time consuming and error prone, and there are advantages to modeling the different surveys as sessions, especially if they are separated in time. If I want to model my multiple surveys as sessions, must they be independent, or can I simply ignore the potential for recaptures across surveys (e.g. to avoid the need to use an open-population model, and despite some loss of information.)}
 
 
 \section{Covariate data}
@@ -171,7 +176,6 @@ L & $s_{LS_L1}$ & $s_{LS_L2}$ & & $z_{1S_L1}$ & $\cdots$ & $z_{1S_LM_{sL}}$ \\
 \end{table}
 \end{center}
 
-In 'secr', detector level as covariates of traps object, individual covariates, both within capthist object, and as covariates of mask object.
-
+\todo[inline]{Here, mention (and demonstrate?) that in 'secr', covariates of detector locations and individuals are attributes of the capthist object, and may be read in with the data files or assigned afterwards, and that covariates of density are attached to the mask?}
 
 

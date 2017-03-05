@@ -11,9 +11,12 @@ Encoding: UTF-8
 
 RnwWeave: knitr
 LaTeX: pdfLaTeX
+<<<<<<< HEAD
 
 BuildType: Package
 PackageUseDevtools: Yes
 PackagePath: scrmlebook
 PackageInstallArgs: --no-multiarch --with-keep.source
 PackageRoxygenize: rd,collate,namespace
+=======
+>>>>>>> 1147c9cf92dcd229029eec0bffc3f3e498294c70
