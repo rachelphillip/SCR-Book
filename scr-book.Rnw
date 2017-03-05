@@ -125,12 +125,12 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 %%\Sexpr{knit_child('chapters/part.Rnw')}
 
-%\Sexpr{knit_child('chapters/introduction.Rnw')} %DLB et al.
-%\Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
-%\Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
-%\Sexpr{knit_child('chapters/spmod.Rnw')} %DLB
+\Sexpr{knit_child('chapters/introduction.Rnw')} %DLB et al.
+\Sexpr{knit_child('chapters/ERdetfun.Rnw')} %DLB
+\Sexpr{knit_child('chapters/ERdetfun-part2.Rnw')} %DLB
+\Sexpr{knit_child('chapters/spmod.Rnw')} %DLB
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
-%\Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
+\Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
 \Sexpr{knit_child('chapters/det-types.Rnw')}  %Ben
 %\Sexpr{knit_child('chapters/CTSCR-part1.Rnw')}  %Ben
 %\Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
