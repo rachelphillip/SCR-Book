@@ -78,6 +78,141 @@ points(kruger.cams,pch="+",col="darkgray")
 dev.off()
 
 
+# Thinning plots:
+# ==============
+
+
+hrhn <- function(d, pars){
+  pars[1]*exp(-d^2/(2*pars[2]^2))
+}
+lambda0.1=0.5
+sigma.1=5450
+lambda0.2=2
+sigma.2=850
+pars1=c(lambda0.1,sigma.1)
+pars2=c(lambda0.2,sigma.2)
+#mask=mix.fit$mask ##
+ncams=dim(kruger.cams)[1]
+d=matrix(rep(NA,dim(kruger.mask)[1]*ncams),nrow=ncams)
+for(i in 1:ncams) {
+  d[i,]=sqrt((kruger.cams$x[i]-kruger.mask$x)^2 + (kruger.cams$y[i]-kruger.mask$y)^2)
+}
+h=hrhn(d,pars1)
+H=apply(h,2,sum)
+H[is.na(H)]=0
+
+# Thinning 
+# --------
+
+# thinning surfaces
+dethaz=data.frame(x=kruger.mask$x,y=kruger.mask$y,z=H)
+p=q=dethaz
+p$z=1-exp(-dethaz$z)
+q$z=exp(-dethaz$z)
+# Thinned density surfaces
+Dp=Dq=p
+Dp$z=p$z*covariates(Ds)$D.0
+Dq$z=q$z*covariates(Ds)$D.0
+# boundary polygon
+bound=attributes(Ds)$polygon
+
+xrange=range(kruger.mask$x);xrange
+yrange=range(kruger.mask$y);yrange
+window.x.range=c(xrange[1],xrange[1]+3*diff(xrange))
+window.y.range=c(yrange[1],yrange[1]+2*diff(yrange)*1.2)
+yadd1=diff(yrange)*1.3
+xadd1=diff(xrange)
+xadd3=2*diff(xrange)
+
+plot1=Ds
+plot1$x=plot1$x+xadd1
+plot1$y=plot1$y+yadd1
+cams1=kruger.cams
+cams1$x=cams1$x+xadd1
+cams1$y=cams1$y+yadd1
+bound1=bound
+bound1@polygons[[1]]@Polygons[[1]]@coords[,1]=bound1@polygons[[1]]@Polygons[[1]]@coords[,1]+xadd1
+bound1@polygons[[1]]@Polygons[[1]]@coords[,2]=bound1@polygons[[1]]@Polygons[[1]]@coords[,2]+yadd1
+
+
+plot3=Dq
+plot3$x=plot3$x+xadd3
+cams3=kruger.cams
+cams3$x=cams3$x+xadd3
+bound3=bound
+bound3@polygons[[1]]@Polygons[[1]]@coords[,1]=bound3@polygons[[1]]@Polygons[[1]]@coords[,1]+xadd3
+
+zlim=range(c(0,covariates(Ds)$D.0))
+
+quartz(h=8,w=7)
+#par(mar=c(4,2,2,8))
+# Density plot
+Dplot=plot(plot1,main=expression(D(s)),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1,addpoly=FALSE,
+           col=tim.colors(30),xlim=window.x.range,ylim=window.y.range,zlim=zlim,key=FALSE)
+plot(bound1,add=TRUE)
+points(cams1,pch="+",col="white")
+# Two thinned plots
+pest=prep4image(Dp,main=expression(D(bold(s))*p(bold(s))),xaxt="n",yaxt="n",bty="n",xlab=expression(D(bold(s))*p(bold(s))),ylab="",asp=1,
+                ,col=tim.colors(30),key=FALSE,add=TRUE,zlim=zlim)
+plot(bound,add=TRUE)
+points(kruger.cams,pch="+",col="white")
+
+pest=prep4image(plot3,main=expression(D(bold(s))*(1-p(bold(s)))),xaxt="n",yaxt="n",bty="n",xlab=expression(D(bold(s))*(1-p(bold(s)))),ylab="",asp=1,
+                ,col=tim.colors(30),key=FALSE,add=TRUE,zlim=zlim)
+plot(bound3,add=TRUE)
+points(cams3,pch="+",col="white")
+
+
+
+#pdf("krugerthinning.pdf",h=9,w=4)
+par(mar=c(2,2,2,2),mfrow=c(3,1))
+Dplot=plot(Ds,main=expression(D(s)),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1,addpoly=FALSE)
+points(kruger.cams,pch="+",col="white")
+
+
+pest=prep4image(p,main=expression(p(bold(s))),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1)
+points(kruger.cams,pch="+",col="white")
+
+pest=prep4image(q,main=expression(1-p(bold(s))),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1)
+points(kruger.cams,pch="+",col="white")
+
+zlim=range(Dp$z,Dq$z)
+pest=prep4image(Dp,main=expression(D(bold(s))*p(bold(s))),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1)
+points(kruger.cams,pch="+",col="white")
+
+pest=prep4image(Dq,main=expression(D(bold(s))*(1-p(bold(s)))),xaxt="n",yaxt="n",bty="n",xlab="",ylab="",asp=1)
+points(kruger.cams,pch="+",col="white")
+
+
+dev.off()
+
+
+# INVERSE Thinning
+# ----------------
+pdf("kruger0thinning.pdf",h=9,w=4)
+par(mar=c(2,2,2,2),mfrow=c(3,1))
+Dest=prep4image(Ddf,main=expression(D(x)),xaxt="n",yaxt="n",bty="n",xlab="",ylab="")
+plot(attributes(Dfit)$polygon,add=TRUE)
+plot(krugerCAMS,add=TRUE,detpar=list(col="white"))
+
+dethaz=data.frame(x=mask$x,y=mask$y,z=H)
+p0=dethaz
+p0$z=exp(-dethaz$z)
+p0est=prep4image(p0,main=expression(1-p(x)),xaxt="n",yaxt="n",bty="n",xlab="",ylab="")
+plot(attributes(Dfit)$polygon,add=TRUE)
+plot(krugerCAMS,add=TRUE,detpar=list(col="white"))
+
+Dp0=p0
+Dp0$z=Dp0$z*Ddf$z
+pest=prep4image(Dp0,main=expression(D(x)*(1-p(x))),xaxt="n",yaxt="n",bty="n",xlab="",ylab="")
+plot(attributes(Dfit)$polygon,add=TRUE)
+plot(krugerCAMS,add=TRUE,detpar=list(col="white"))
+
+dev.off()
+
+
+
+
 #===================== Stuff below here is old and as yet unused for book ======================
 
 

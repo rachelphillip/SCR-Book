@@ -101,7 +101,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 %%\printinunitsof{in}\prntlen{\textwidth}
 %%\printinunitsof{in}\prntlen{\textheight}
 
-\author{David Borchers, Eric Rexstad, Ben Stevenson, Eric Howe and Greg Distiller}
+\author{David Borchers, Ben Stevenson, Eric Howe and Greg Distiller}
 \title{Spatial Capture-Recapture by Maximum Likelihood, with R}
 %\subtitle{-- Monograph --}
 \maketitle
@@ -132,7 +132,7 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 % \Sexpr{knit_child('chapters/detprob-and-spatial.Rnw')}  %DLB
 \Sexpr{knit_child('chapters/detcovs.Rnw')} %DLB & EH
 \Sexpr{knit_child('chapters/det-types.Rnw')}  %Ben
-\Sexpr{knit_child('chapters/CTSCR-part1.Rnw')}  %Ben
+\Sexpr{knit_child('chapters/CTSCR-part1.Rnw')}  %Greg
 \Sexpr{knit_child('chapters/area-transect-detectors.Rnw')}  %Ben
 % \Sexpr{knit_child('chapters/non-euclidian.Rnw')}  %DLB
 % \Sexpr{knit_child('chapters/trend-models.Rnw')}  %EH
@@ -150,7 +150,8 @@ opts_chunk$set(dev = "pdf", fig.align = "center", #comment = "",
 
 
 % Bibliography %
-\bibliography{dlb,gregarticles, gregbooks}{}
+%\bibliography{dlb}
+\bibliography{dlb,gregarticles,gregbooks}{}
 \bibliographystyle{er-chicago}
 
 \backmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
